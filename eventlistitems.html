@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>EZ Digest List Items</title>
+    <style>
+      div {
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>EZ Digest List Items Creator</h1>
+    <script src="eventlistitems.js"></script>
+    <div>
+    Title: <input type="text" name="title"/>
+    <br>
+    Link: <input type="text" name="link"/>
+    <br>
+    Chair: <input type="text" name="chair"/>
+    <br>
+    Date: <input type="date" name="date"/>
+    <br>
+    Start time: <input type="time" name="start-time"/>
+    <br>
+    End time: <input type="time" name="end-time"/>
+    <br>
+    Description: <button onclick="gen()">Generate</button>
+    <br>
+    <textarea name="desc" rows="10" cols="40"></textarea>
+    </div>
+    <div>
+    <textarea name="output" rows="22" cols="80"></textarea>
+    </div>
+  </body>
+</html>
