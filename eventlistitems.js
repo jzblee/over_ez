@@ -13,10 +13,10 @@ function gen() {
     var dayOfWeekStr = weekdays[date.getUTCDay()];
     var monthStr = months[date.getUTCMonth()];
     var dayStr = date.getUTCDate().toString();
-    var st_hr = st[0];
+    var st_hr = parseInt(st[0]);
     var st_min = st[1];
     var st_mer = '';
-    var et_hr = et[0];
+    var et_hr = parseInt(et[0]);
     var et_min = et[1];
     var et_mer = '';
 
