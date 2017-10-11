@@ -16,7 +16,8 @@ input {
 }
 legend {
     border: 2px groove threedface;
-    padding: 2px 3px;
+    padding: 4px 5px;
+    font-size: 0.8em;
 }
 form {
     margin: 10px;
@@ -53,6 +54,8 @@ fieldset span, input, button {
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
+
+    font-family: Courier;
 }
 #outputSpacer {
     height: 1em;
