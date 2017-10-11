@@ -19,12 +19,17 @@ function init() {
   output.onmouseout = function() {
     this.style.borderColor = 'threedface'
   };
+  today();
+}
+
+function today() {
   var digestDate = document.getElementById('digestDate');
   digestDate.value = new Date(Date.now()).toISOString().slice(0, 10);
 }
 
 function nextSunday() {
   var digestDate = document.getElementById('digestDate');
+  if(!digestDate.value) today();
   var d = new Date(digestDate.value);
   while (d.getUTCDay() != 0) {
     d.setDate(d.getDate() + 1);
