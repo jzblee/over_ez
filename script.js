@@ -36,3 +36,8 @@ function nextSunday() {
   }
   digestDate.value = d.toISOString().slice(0, 10);
 }
+
+function render() {
+  var renderWindow = window.open();
+  renderWindow.document.write(document.getElementById('outputText').value);
+}
