@@ -42,7 +42,7 @@ function today() {
 
 function nextSunday() {
   var digestDate = document.getElementById('digestDate');
-  if(!digestDate.value) today();
+  today();
   var d = new Date(digestDate.value);
   while (d.getDay() != 0) {
     d.setDate(d.getDate() + 1);
