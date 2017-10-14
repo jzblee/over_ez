@@ -98,6 +98,7 @@ function genFooter() {
       '      <tr>\n'
     + '        <td id="footer">\n'
     + '          <p><em>The goal of the weekly EZ Digest is to provide a concise summary of recent and upcoming chapter activities.</em></p>\n'
+    + '          <p>Unlike eggs, digests are always better when they\'re <a href="https://github.com/jzblee/over_ez">Over EZ</a>.</p>\n'
     + '          <p>Feel free to reply to this message with any comments or suggestions!</p>\n'
     + '          <p>Alpha Phi Omega - Epsilon Zeta Chapter - Rensselaer Polytechnic Institute</p>\n'
     + '        </td>\n'
