@@ -14,10 +14,20 @@
       <form id="digestForm">
         <fieldset>
           <legend>MAIN DETAILS</legend>
-          <span>Date of publication:</span> <input type="date" name="digestDate" id="digestDate"/>
-          <button form="digestForm" type="button" onclick="today()">today</button>
-          <button form="digestForm" type="button" onclick="nextSunday()">next sunday</button>
-          <button form="digestForm" type="button" onclick="render()">RENDER</button>
+          <p>
+            <span>Publication date:</span> <input type="date" name="digestDate" class="hideInputOutlines" id="digestDate"/>
+            <button form="digestForm" type="button" onclick="today()">today</button>
+            <button form="digestForm" type="button" onclick="nextSunday()">next sunday</button>
+          </p>
+          <p>
+            <span>Sylesheet name:</span> <input type="text" name="digestCSS" class="hideInputOutlines" id="digestCSS" value="style-digest.css" />
+            <button form="digestForm" type="button" id="genButton" onclick="gen()">GENERATE</button>
+            <button form="digestForm" type="button" id="renderButton" onclick="render()" disabled>RENDER</button>
+          </p>
+        </fieldset>
+        <fieldset>
+          <legend>MESSAGE</legend>
+          
         </fieldset>
         <fieldset>
           <legend>SPECIAL EVENTS</legend>
@@ -41,13 +51,7 @@
         </fieldset>
       </form>
       <div id="output">
-        <textarea id="outputText">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</textarea>
-        <div id="outputSpacer"></div>
+        <textarea class="hideInputOutlines" id="outputText">Click "GENERATE" to populate this text field.</textarea>
       </div>
     </div>
     <script type="text/javascript" src="script.js"></script>

@@ -3,13 +3,12 @@ html, body {
     margin: 0;
     height: 100%
 }
-input {
-    font-family: Arial, serif;
+#digestCSS {
+    font-family: Courier, serif;
 }
 #headerDiv {
     background-color: #eee;
     padding: 5px;
-    height: 10%;
 }
 #headerText {
     margin: 0;
@@ -24,28 +23,35 @@ form {
     width: 50vw;
     display: inline-block;
 }
+form input {
+    font-size: 1em;
+    max-height: 1.5em;
+    background-color: #ddd;
+}
+#digestDate {
+    font-size: 1.25em;
+}
 fieldset {
     margin: 10px 0;
     padding: 5px;
 }
-fieldset span, input, button {
-    vertical-align: bottom;
+p {
+    margin: 5px 0;
+    vertical-align: text-bottom;
 }
 #digest {
     min-height: 88%;
     display: flex;
 }
 #output {
-    margin: 2em 0 1.25em 0;
+    margin: 32.5px 0 20px 0;
     padding: 1em;
     width: 40vw;
     display: inline-block;
     vertical-align: top;
     border: 2px groove threedface;
 }
-#outputText {
-    width: inherit;
-    height: 100%;
+.hideInputOutlines {
     border: none;
     overflow: auto;
     outline: none;
@@ -54,9 +60,10 @@ fieldset span, input, button {
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
+}
+#outputText {
+    width: inherit;
+    height: 100%;
 
     font-family: Courier;
-}
-#outputSpacer {
-    height: 1em;
 }
