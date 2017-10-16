@@ -44,10 +44,10 @@ function nextSunday() {
   var digestDate = document.getElementById('digestDate');
   today();
   var d = new Date(digestDate.value);
-  while (d.getDay() != 0) {
-    d.setDate(d.getDate() + 1);
+  while (d.getUTCDay() != 0) {
+    d.setDate(d.getUTCDate() + 1);
   }
-  digestDate.value = constructDateString(d, "-", false);
+  digestDate.value = constructDateString(d, "-", true);
 }
 
 function render() {
