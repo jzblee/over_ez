@@ -45,7 +45,7 @@ function nextSunday() {
   today();
   var d = new Date(digestDate.value);
   while (d.getUTCDay() != 0) {
-    d.setDate(d.getUTCDate() + 1);
+    d.setUTCDate(d.getUTCDate() + 1);
   }
   digestDate.value = constructDateString(d, "-", true);
 }
