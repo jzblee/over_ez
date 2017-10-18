@@ -60,8 +60,8 @@ function nextSunday() {
 }
 
 function render() {
-  document.getElementById('genButton').innerHTML = 'REGEN ADVISED';
-  document.getElementById('genButton').style.color = '#f00';
+  document.getElementById('renderButton').innerHTML = 'REGEN ADVISED';
+  document.getElementById('renderButton').style.color = '#f00';
   document.getElementById('output').style.backgroundColor = '#fdd';
   document.getElementById('outputText').style.backgroundColor = '#fdd';
   var renderWindow = window.open();
@@ -69,8 +69,8 @@ function render() {
 }
 
 function gen() {
-  document.getElementById('genButton').innerHTML = 'GENERATE';
-  document.getElementById('genButton').style.color = '#000';
+  document.getElementById('renderButton').innerHTML = 'RENDER';
+  document.getElementById('renderButton').style.color = '#000';
   document.getElementById('renderButton').disabled = false;
   document.getElementById('output').style.backgroundColor = '#fff';
   document.getElementById('outputText').style.backgroundColor = '#fff';
