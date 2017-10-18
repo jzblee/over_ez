@@ -15,12 +15,12 @@
         <fieldset>
           <legend>MAIN DETAILS</legend>
           <p>
-            <span>Publication date:</span> <input type="date" name="digestDate" class="hideInputOutlines" id="digestDate"/>
+            <label for="digestDate">Publication date:</label> <input type="date" name="digestDate" class="hideInputOutlines" id="digestDate" />
             <button form="digestForm" type="button" onclick="today()">today</button>
             <button form="digestForm" type="button" onclick="nextSunday()">next sunday</button>
           </p>
           <p>
-            <span>Sylesheet name:</span> <input type="text" name="digestCSS" class="hideInputOutlines" id="digestCSS" value="style-digest.css" />
+            <label for="digestCSS">Sylesheet name:</label> <input type="text" name="digestCSS" class="hideInputOutlines" id="digestCSS" value="style-digest.css" />
             <button form="digestForm" type="button" id="genButton" onclick="gen()">GENERATE</button>
             <button form="digestForm" type="button" id="renderButton" onclick="render()" disabled>RENDER</button>
           </p>
