@@ -32,6 +32,15 @@ function init() {
       this.style.backgroundColor = '#ddd'
     };
   }
+  var textAreas = document.getElementsByTagName('form')[0].getElementsByTagName('textarea');
+  for (var i = textAreas.length - 1; i >= 0; i--) {
+    textAreas[i].onmouseover = function() {
+      this.style.backgroundColor = '#eee'
+    };
+    textAreas[i].onmouseout = function() {
+      this.style.backgroundColor = '#ddd'
+    };
+  }
 }
 
 function today() {
@@ -67,6 +76,8 @@ function gen() {
   document.getElementById('outputText').style.backgroundColor = '#fff';
   var output = "";
   output += genHeader();
+  if (document.getElementById('enableMessage').checked)
+    output += genMessage();
   output += genFooter();
   document.getElementById('outputText').value = output;
 }
@@ -93,6 +104,24 @@ function genHeader() {
   return headerStr;
 }
 
+function genMessage() {
+  var messageBody = document.getElementById("messageBody").value;
+  var signoff1 = document.getElementById("signoff1").value;
+  var signoff2 = document.getElementById("signoff2").value;
+  var messageStr =
+      '      <tr>\n'
+    + '        <td id="message">\n'
+    + '          ' + messageBody.replace(/\r?\n/g, '<br />') + '\n'
+    + '        </td>\n'
+    + '      </tr>\n'
+    + '      <tr>\n'
+    + '        <td id="signoff">\n'
+    + '          <em>' + signoff1 + '<br/>' + signoff2 + '</em>\n'
+    + '        </td>\n'
+    + '      </tr>\n';
+  return messageStr;
+}
+
 function genFooter() {
   var footerStr =
       '      <tr>\n'
@@ -105,7 +134,7 @@ function genFooter() {
     + '      </tr>\n'
     + '    </table>\n'
     + '  </body>\n'
-    + '</html>\n'
+    + '</html>\n';
   return footerStr;
 }
 

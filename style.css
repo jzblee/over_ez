@@ -23,10 +23,16 @@ form {
     width: 50vw;
     display: inline-block;
 }
-form input {
+form input, form textarea {
     font-size: 1em;
     max-height: 1.5em;
     background-color: #ddd;
+}
+form textarea {
+    width: 95%;
+    resize: vertical;
+    min-height: 50px;
+    max-height: 200px;
 }
 #digestDate {
     font-size: 1.25em;
@@ -38,6 +44,11 @@ fieldset {
 p {
     margin: 5px 0;
     vertical-align: text-bottom;
+}
+.signoff {
+    width: 95%;
+    margin: 1px 0;
+    text-align: right;
 }
 #digest {
     min-height: 88%;
@@ -51,15 +62,15 @@ p {
     vertical-align: top;
     border: 2px groove threedface;
 }
-.hideInputOutlines {
-    border: none;
-    overflow: auto;
-    outline: none;
-    resize: none;
+input, textarea {
+   border: none;
+   overflow: auto;
+   outline: none;
+   resize: none;
 
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
+   -webkit-box-shadow: none;
+   -moz-box-shadow: none;
+   box-shadow: none; 
 }
 #outputText {
     width: inherit;

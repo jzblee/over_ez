@@ -27,7 +27,14 @@
         </fieldset>
         <fieldset>
           <legend>MESSAGE</legend>
-          
+          <p>
+            <input id="enableMessage" type="checkbox" /><label for="enableMessage">Include the below message in the digest</label>
+          </p>
+          <p>
+            <textarea class="hideInputOutlines" id="messageBody" placeholder="Your message goes here."></textarea>
+            <input name="signoff1" class="signoff" id="signoff1" value="In LFS," />
+            <input name="signoff2" class="signoff" id="signoff2" placeholder="Your Name" />
+          </p>
         </fieldset>
         <fieldset>
           <legend>SPECIAL EVENTS</legend>
