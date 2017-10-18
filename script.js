@@ -78,6 +78,7 @@ function gen() {
   output += genHeader();
   if (document.getElementById('enableMessage').checked)
     output += genMessage();
+  output += genContent();
   output += genFooter();
   document.getElementById('outputText').value = output;
 }
@@ -120,6 +121,60 @@ function genMessage() {
     + '        </td>\n'
     + '      </tr>\n';
   return messageStr;
+}
+
+function genContent() {
+  var svpName = document.getElementById('svpName').value;
+  var svpEmail = document.getElementById('svpEmail').value;
+  var fvpName = document.getElementById('fvpName').value;
+  var fvpEmail = document.getElementById('fvpEmail').value;
+  var meetingsGDriveLink = '';
+  var svpString = 'For further information on upcoming service events, contact the Service Vice President';
+  if (svpName) {
+    svpString += ', ' + svpName;
+  }
+  if (svpEmail) {
+    if (svpName) svpString += ','
+    svpString += ' at <a href="mailto:' + svpEmail + '">' + svpEmail + '</a>';
+  }
+  svpString += '.';
+  var fvpString = 'For further information on fellowship service events, contact the Fellowship Vice President';
+  if (fvpName) {
+    fvpString += ', ' + fvpName;
+  }
+  if (fvpEmail) {
+    if (fvpName) fvpString += ','
+    fvpString += ' at <a href="mailto:' + fvpEmail + '">' + fvpEmail + '</a>';
+  }
+  fvpString += '.';
+  var contentStr =
+      '      <tr>\n'
+    + '        <td id="content">\n'
+    + '          <h3>CHAPTER EVENTS</h3>\n'
+    + '          <p class="deemphasize">If an event has a signup sheet, you can click on the title to go to the sheet. For all events, meet in the office 15 minutes prior to the start time, unless noted otherwise.</p>\n'
+    + '          <ul class="eventlist special">\n'
+    + '            <li>Special events go here.</li>\n'
+    + '          </ul>\n'
+    + '          <h3>UPCOMING SERVICE</h3>\n'
+    + '          <ul class="eventlist">\n'
+    + '            <li>Upcoming service events go here.</li>\n'
+    + '          </ul>\n'
+    + '          <p class="deemphasize">' + svpString + '</p>\n'
+    + '          <h3>UPCOMING FELLOWSHIP</h3>\n'
+    + '          <ul class="eventlist">\n'
+    + '            <li>Upcoming fellowship events go here.</li>\n'
+    + '          </ul>\n'
+    + '          <p class="deemphasize">Notices for impromptu fellowship events will be posted on our Facebook group.</p>\n'
+    + '          <p class="deemphasize">' + fvpString + '</p>\n'
+    + '          <h3>MEETINGS AND MINUTES</h3>\n'
+    + '          <p>Meeting times and locations may change.</p>\n'
+    + '          <ul>\n'
+    + '            <li>Meeting locations and times go here.</li>\n'
+    + '          </ul>\n'
+    + '          <p>All minutes are available on <a target="_blank" href="' + meetingsGDriveLink + '">Google Drive</a>.</p>\n'
+    + '        </td>\n'
+    + '      </tr>\n';
+  return contentStr;
 }
 
 function genFooter() {
