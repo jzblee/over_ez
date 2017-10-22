@@ -31,7 +31,7 @@ form input {
     max-height: 1.5em;
 }
 form textarea {
-    width: 95%;
+    width: 99%;
     resize: vertical;
     min-height: 50px;
     max-height: 200px;
@@ -48,7 +48,7 @@ p {
     vertical-align: text-bottom;
 }
 .signoff {
-    width: 95%;
+    width: 99%;
     margin: 1px 0;
     text-align: right;
 }
