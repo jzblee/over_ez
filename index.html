@@ -15,12 +15,12 @@
         <fieldset>
           <legend>MAIN DETAILS</legend>
           <p>
-            <label for="digestDate">Publication date:</label> <input type="date" name="digestDate" class="hideInputOutlines" id="digestDate" />
+            <label for="digestDate">Publication date:</label> <input type="date" name="digestDate" id="digestDate" />
             <button form="digestForm" type="button" onclick="setDigestDateToday()">today</button>
             <button form="digestForm" type="button" onclick="setDigestDateNextSunday()">next sunday</button>
           </p>
           <p>
-            <label for="digestCSS">Sylesheet name:</label> <input type="text" name="digestCSS" class="hideInputOutlines" id="digestCSS" value="style-digest.css" />
+            <label for="digestCSS">Sylesheet name:</label> <input type="text" name="digestCSS" id="digestCSS" value="style-digest.css" />
             <button form="digestForm" type="button" id="genButton" onclick="gen()">GENERATE</button>
             <button form="digestForm" type="button" id="renderButton" onclick="render()" disabled>RENDER</button>
           </p>
@@ -31,7 +31,7 @@
             <input id="enableMessage" type="checkbox" /><label for="enableMessage">Include the below message in the digest</label>
           </p>
           <p>
-            <textarea class="hideInputOutlines" id="messageBody" placeholder="Your message goes here."></textarea>
+            <textarea id="messageBody" placeholder="Your message goes here."></textarea>
             <input name="signoff1" class="signoff" id="signoff1" value="In LFS," />
             <input name="signoff2" class="signoff" id="signoff2" placeholder="Your Name" />
           </p>
@@ -77,7 +77,7 @@
         </fieldset>
       </form>
       <div id="output">
-        <textarea class="hideInputOutlines" id="outputText">Click "GENERATE" to populate this text field.</textarea>
+        <textarea id="outputText">Click "GENERATE" to populate this text field.</textarea>
       </div>
     </div>
     <script type="text/javascript" src="script.js"></script>
