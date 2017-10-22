@@ -65,6 +65,11 @@ function setDigestDateNextSunday() {
   digestDate.value = constructDateString(nextDayOfWeekOcurrence(0), "-", true);
 }
 
+function setEventDateNextDOWOccurence(elem, day) {
+  var eventDate = elem.parentNode.getElementsByClassName('eventDate')[0];
+  eventDate.value = constructDateString(nextDayOfWeekOcurrence(day), "-", true);
+}
+
 function render() {
   document.getElementById('renderButton').innerHTML = 'REGEN ADVISED';
   document.getElementById('renderButton').style.color = '#f00';

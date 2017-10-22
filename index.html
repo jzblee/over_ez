@@ -38,7 +38,24 @@
         </fieldset>
         <fieldset>
           <legend>SPECIAL EVENTS</legend>
-          
+          <p class="eventEntry">
+            <label for="eventName">Event Name: </label><input class="eventDetails" name="eventName" id="eventName" placeholder="Type the event name here." />
+            <label for="eventChairs">Event Link: </label><input class="eventDetails" name="eventLink" id="eventLink" placeholder="Enter the event signup link here (optional)." />
+            <label for="eventChairs">Event Chairs: </label><input class="eventDetails" name="eventChairs" id="eventChairs" placeholder="List all of the event chairs here (optional)." />
+            <label for="eventDate">Event Date:</label> <input class="eventDate" type="date" name="eventDate" />
+            <span>Set to...</span>
+            <button form="digestForm" type="button" onclick="setEventDateNextDOWOccurence(this, 0)">U</button>
+            <button form="digestForm" type="button" onclick="setEventDateNextDOWOccurence(this, 1)">M</button>
+            <button form="digestForm" type="button" onclick="setEventDateNextDOWOccurence(this, 2)">T</button>
+            <button form="digestForm" type="button" onclick="setEventDateNextDOWOccurence(this, 3)">W</button>
+            <button form="digestForm" type="button" onclick="setEventDateNextDOWOccurence(this, 4)">T</button>
+            <button form="digestForm" type="button" onclick="setEventDateNextDOWOccurence(this, 5)">F</button>
+            <button form="digestForm" type="button" onclick="setEventDateNextDOWOccurence(this, 6)">S</button>
+            <label for="eventStartTime">Start Time:</label> <input class="eventTime" type="time" name="eventStartTime" />
+            <label for="eventEndTime">End Time:</label> <input class="eventTime" type="time" name="eventEndTime" />
+            <br/>
+            <label for="eventDesc">Event Description: </label><input class="eventDetails" name="eventDesc" id="eventDesc" placeholder="Enter the event description (optional)." />
+          </p>
         </fieldset>
         <fieldset>
           <legend>UPCOMING SERVICE</legend>

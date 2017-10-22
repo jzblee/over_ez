@@ -25,8 +25,10 @@ form {
 }
 form input, form textarea {
     font-size: 1em;
-    max-height: 1.5em;
     background-color: #ddd;
+}
+form input {
+    max-height: 1.5em;
 }
 form textarea {
     width: 95%;
@@ -77,4 +79,15 @@ input, textarea {
     height: 100%;
 
     font-family: Courier;
+}
+
+.eventEntry{
+    background-color: #e9e9e9;
+    padding: 3px 0;
+}
+.eventEntry input {
+    margin: 3px 0;
+}
+.eventEntry .eventDetails {
+    width: 99%;
 }
