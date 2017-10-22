@@ -1,4 +1,4 @@
-weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 init();
@@ -22,7 +22,7 @@ function init() {
   output.onmouseout = function() {
     this.style.borderColor = 'threedface'
   };
-  today();
+  setDigestDateToday();
   var formInputs = document.getElementsByTagName('form')[0].getElementsByTagName('input');
   for (var i = formInputs.length - 1; i >= 0; i--) {
     formInputs[i].onmouseover = function() {
@@ -44,19 +44,25 @@ function init() {
 }
 
 function today() {
-  var digestDate = document.getElementById('digestDate');
-  var todayDate = new Date(Date.now());
-  digestDate.value = constructDateString(todayDate, "-", false);
+  return new Date(Date.now());
 }
 
-function nextSunday() {
-  var digestDate = document.getElementById('digestDate');
-  today();
-  var d = new Date(digestDate.value);
-  while (d.getUTCDay() != 0) {
+function nextDayOfWeekOcurrence(dayOfWeek) {
+  var d = new Date(Date.now());
+  while (d.getUTCDay() != dayOfWeek) {
     d.setUTCDate(d.getUTCDate() + 1);
   }
-  digestDate.value = constructDateString(d, "-", true);
+  return d;
+}
+
+function setDigestDateToday() {
+  var digestDate = document.getElementById('digestDate');
+  digestDate.value = constructDateString(today(), "-", false);
+}
+
+function setDigestDateNextSunday() {
+  var digestDate = document.getElementById('digestDate');
+  digestDate.value = constructDateString(nextDayOfWeekOcurrence(0), "-", true);
 }
 
 function render() {
