@@ -3,6 +3,8 @@ months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'Augus
 
 init();
 
+var nonce = 0;
+
 function init() {
   var fieldsets = document.getElementsByTagName('fieldset');
   for (var i = fieldsets.length - 1; i >= 0; i--) {
@@ -220,5 +222,46 @@ function constructMDYString(date, utc) {
   return utc
     ? months[date.getUTCMonth()] + " " + date.getUTCDate() + ", " + date.getUTCFullYear()
     : months[date.getMonth()] + " "  + date.getDate() + ", " + date.getFullYear();
+
+}
+
+function spawnNewEvent(field) {
+
+  var newElement = '<p class="eventEntry">\n'
+                 + '  <label for="eventName_' + nonce + '">Event Name: </label><input class="eventDetails" name="eventName_' + nonce + '" id="eventName_' + nonce + '" placeholder="Type the event name here." />\n'
+                 + '  <label for="eventLink_' + nonce + '">Event Link: </label><input class="eventDetails" name="eventLink_' + nonce + '" id="eventLink_' + nonce + '" placeholder="Enter the event signup link here (optional)." />\n'
+                 + '  <label for="eventChairs_' + nonce + '">Event Chairs: </label><input class="eventDetails" name="eventChairs_' + nonce + '" id="eventChairs_' + nonce + '" placeholder="List all of the event chairs here (optional)." />\n'
+                 + '  <label for="eventDate_' + nonce + '">Event Date:</label> <input class="eventDate" type="date" name="eventDate_' + nonce + '" id="eventDate_' + nonce + '" />\n'
+                 + '  <span>Set to...</span>\n'
+                 + '  <button type="button" onclick="setEventDateNextDOWOccurence(this, 0)">U</button>\n'
+                 + '  <button type="button" onclick="setEventDateNextDOWOccurence(this, 1)">M</button>\n'
+                 + '  <button type="button" onclick="setEventDateNextDOWOccurence(this, 2)">T</button>\n'
+                 + '  <button type="button" onclick="setEventDateNextDOWOccurence(this, 3)">W</button>\n'
+                 + '  <button type="button" onclick="setEventDateNextDOWOccurence(this, 4)">T</button>\n'
+                 + '  <button type="button" onclick="setEventDateNextDOWOccurence(this, 5)">F</button>\n'
+                 + '  <button type="button" onclick="setEventDateNextDOWOccurence(this, 6)">S</button>\n'
+                 + '  <br/>\n'
+                 + '  <label for="eventStartTime_' + nonce + '">Start Time:</label> <input class="eventTime" type="time" name="eventStartTime_' + nonce + '" id="eventStartTime_' + nonce + '" />\n'
+                 + '  <label for="eventEndTime_' + nonce + '">End Time:</label> <input class="eventTime" type="time" name="eventEndTime_' + nonce + '" id="eventEndTime_' + nonce + '" />\n'
+                 + '  <br/>\n'
+                 + '  <label for="eventDesc">Event Description: </label><input class="eventDetails" name="eventDesc" id="eventDesc" placeholder="Enter the event description (optional)." />\n'
+                 + '</p>\n'
+
+  nonce++;
+  var newId = 'eventDetails_' + nonce;
+  var elem;
+  switch(field) {
+    case 0:
+      elem = document.getElementById('groupSpecialEvents');
+    break;
+    case 1:
+      elem = document.getElementById('groupServiceEvents');
+    break;
+    case 2:
+      elem = document.getElementById('groupFellowshipEvents');
+    break;
+    default:
+  }
+  elem.insertAdjacentHTML('beforeend', newElement);
 
 }

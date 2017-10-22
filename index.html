@@ -12,7 +12,7 @@
     </div>
     <div id="digest">
       <form id="digestForm">
-        <fieldset>
+        <fieldset id="fieldMainDetails">
           <legend>MAIN DETAILS</legend>
           <p>
             <label for="digestDate">Publication date:</label> <input type="date" name="digestDate" id="digestDate" />
@@ -25,7 +25,7 @@
             <button form="digestForm" type="button" id="renderButton" onclick="render()" disabled>RENDER</button>
           </p>
         </fieldset>
-        <fieldset>
+        <fieldset id="fieldMessage">
           <legend>MESSAGE</legend>
           <p>
             <input id="enableMessage" type="checkbox" /><label for="enableMessage">Include the below message in the digest</label>
@@ -38,40 +38,31 @@
         </fieldset>
         <fieldset>
           <legend>SPECIAL EVENTS</legend>
-          <p class="eventEntry">
-            <label for="eventName">Event Name: </label><input class="eventDetails" name="eventName" id="eventName" placeholder="Type the event name here." />
-            <label for="eventChairs">Event Link: </label><input class="eventDetails" name="eventLink" id="eventLink" placeholder="Enter the event signup link here (optional)." />
-            <label for="eventChairs">Event Chairs: </label><input class="eventDetails" name="eventChairs" id="eventChairs" placeholder="List all of the event chairs here (optional)." />
-            <label for="eventDate">Event Date:</label> <input class="eventDate" type="date" name="eventDate" />
-            <span>Set to...</span>
-            <button form="digestForm" type="button" onclick="setEventDateNextDOWOccurence(this, 0)">U</button>
-            <button form="digestForm" type="button" onclick="setEventDateNextDOWOccurence(this, 1)">M</button>
-            <button form="digestForm" type="button" onclick="setEventDateNextDOWOccurence(this, 2)">T</button>
-            <button form="digestForm" type="button" onclick="setEventDateNextDOWOccurence(this, 3)">W</button>
-            <button form="digestForm" type="button" onclick="setEventDateNextDOWOccurence(this, 4)">T</button>
-            <button form="digestForm" type="button" onclick="setEventDateNextDOWOccurence(this, 5)">F</button>
-            <button form="digestForm" type="button" onclick="setEventDateNextDOWOccurence(this, 6)">S</button>
-            <label for="eventStartTime">Start Time:</label> <input class="eventTime" type="time" name="eventStartTime" />
-            <label for="eventEndTime">End Time:</label> <input class="eventTime" type="time" name="eventEndTime" />
-            <br/>
-            <label for="eventDesc">Event Description: </label><input class="eventDetails" name="eventDesc" id="eventDesc" placeholder="Enter the event description (optional)." />
-          </p>
+          <div id="groupSpecialEvents">
+          </div>
+          <p><button type="button" onclick="spawnNewEvent(0)">Add new event</button></p>
         </fieldset>
         <fieldset>
           <legend>UPCOMING SERVICE</legend>
+          <div id="groupServiceEvents">
+          </div>
+          <p><button type="button" onclick="spawnNewEvent(1)">Add new event</button></p>
           <label for="svpName">SVP Name: </label><input name="svpName" id="svpName"  placeholder="Service Vice President" />
           <label for="svpEmail">SVP Email: </label><input name="svpEmail" id="svpEmail" placeholder="##svp##@rpi.edu" />
         </fieldset>
         <fieldset>
           <legend>UPCOMING FELLOWSHIP</legend>
+          <div id="groupFellowshipEvents">
+          </div>
+          <p><button type="button" onclick="spawnNewEvent(2)">Add new event</button></p>
           <label for="fvpName">FVP Name: </label><input name="fvpName" id="fvpName" placeholder="Fellowship Vice President" />
           <label for="fvpEmail">FVP Email: </label><input name="fvpEmail" id="fvpEmail" placeholder="##fvp##@rpi.edu" />
         </fieldset>
-        <fieldset>
+        <fieldset id="fieldMeetings">
           <legend>MEETINGS</legend>
           
         </fieldset>
-        <fieldset>
+        <fieldset id="fieldMinutes">
           <legend>MINUTES</legend>
 
         </fieldset>
