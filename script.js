@@ -190,15 +190,18 @@ function genContent() {
 
 function genEventGroup(groupElem, group) {
   var events = groupElem.getElementsByTagName('p');
-  var eventGroupStr = group
-    ? '<ul class="eventlist">\n'
-    : '<ul class="eventlist special">\n';
-  for (var i = 0; i < events.length; i++) {
-    eventGroupStr += 
-      '            ' + genEventEntry(events[i]) + '\n';
+  var eventGroupStr = '';
+  if (events.length) {
+    eventGroupStr += group
+      ? '<ul class="eventlist">\n'
+      : '<ul class="eventlist special">\n';
+    for (var i = 0; i < events.length; i++) {
+      eventGroupStr += 
+        '            ' + genEventEntry(events[i]) + '\n';
+    }
+    eventGroupStr +=
+        '          </ul>\n';
   }
-  eventGroupStr +=
-      '          </ul>\n';
   return eventGroupStr;
 }
 
