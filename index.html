@@ -15,12 +15,12 @@
         <fieldset>
           <legend>MAIN DETAILS</legend>
           <p>
-            <label for="digestDate">Publication date:</label> <input type="date" name="digestDate" id="digestDate" />
+            <label for="digestDate">Publication date:</label> <input type="date" id="digestDate" />
             <button form="digestForm" type="button" onclick="setDigestDateToday()">today</button>
             <button form="digestForm" type="button" onclick="setDigestDateNextSunday()">next sunday</button>
           </p>
           <p>
-            <label for="digestCSS">Sylesheet name:</label> <input type="text" name="digestCSS" id="digestCSS" value="style-digest.css" />
+            <label for="digestCSS">Sylesheet name:</label> <input type="text" id="digestCSS" value="style-digest.css" />
             <button form="digestForm" type="button" id="genButton" onclick="gen()">GENERATE</button>
             <button form="digestForm" type="button" id="renderButton" onclick="render()" disabled>RENDER</button>
           </p>
@@ -32,8 +32,8 @@
           </p>
           <p>
             <textarea id="messageBody" placeholder="Your message goes here."></textarea>
-            <input name="signoff1" class="signoff" id="signoff1" value="In LFS," />
-            <input name="signoff2" class="signoff" id="signoff2" placeholder="Your Name" />
+            <input class="signoff" id="signoff1" value="In LFS," />
+            <input class="signoff" id="signoff2" placeholder="Your Name" />
           </p>
         </fieldset>
         <fieldset>
@@ -47,16 +47,16 @@
           <div id="groupServiceEvents">
           </div>
           <p><button type="button" onclick="spawnNewEvent(1)">Add new event</button></p>
-          <label for="svpName">SVP Name: </label><input name="svpName" id="svpName"  placeholder="Service Vice President" />
-          <label for="svpEmail">SVP Email: </label><input name="svpEmail" id="svpEmail" placeholder="##svp##@rpi.edu" />
+          <label for="svpName">SVP Name: </label><input id="svpName"  placeholder="Service Vice President" />
+          <label for="svpEmail">SVP Email: </label><input id="svpEmail" placeholder="##svp##@rpi.edu" />
         </fieldset>
         <fieldset>
           <legend>UPCOMING FELLOWSHIP</legend>
           <div id="groupFellowshipEvents">
           </div>
           <p><button type="button" onclick="spawnNewEvent(2)">Add new event</button></p>
-          <label for="fvpName">FVP Name: </label><input name="fvpName" id="fvpName" placeholder="Fellowship Vice President" />
-          <label for="fvpEmail">FVP Email: </label><input name="fvpEmail" id="fvpEmail" placeholder="##fvp##@rpi.edu" />
+          <label for="fvpName">FVP Name: </label><input id="fvpName" placeholder="Fellowship Vice President" />
+          <label for="fvpEmail">FVP Email: </label><input id="fvpEmail" placeholder="##fvp##@rpi.edu" />
         </fieldset>
         <fieldset id="fieldMeetings">
           <legend>MEETINGS</legend>
