@@ -141,6 +141,10 @@ function genContent() {
   var svpEmail = document.getElementById('svpEmail').value;
   var fvpName = document.getElementById('fvpName').value;
   var fvpEmail = document.getElementById('fvpEmail').value;
+  var specialEvents = genEventGroup(document.getElementById('groupSpecialEvents'), 0);
+  var serviceEvents = genEventGroup(document.getElementById('groupServiceEvents'), 1);
+  var fellowshipEvents = genEventGroup(document.getElementById('groupFellowshipEvents'), 2);
+
   var meetingsGDriveLink = '';
   var svpString = 'For further information on upcoming service events, contact the Service Vice President';
   if (svpName) {
@@ -165,18 +169,12 @@ function genContent() {
     + '        <td id="content">\n'
     + '          <h3>CHAPTER EVENTS</h3>\n'
     + '          <p class="deemphasize">If an event has a signup sheet, you can click on the title to go to the sheet. For all events, meet in the office 15 minutes prior to the start time, unless noted otherwise.</p>\n'
-    + '          <ul class="eventlist special">\n'
-    + '            <li>Special events go here.</li>\n'
-    + '          </ul>\n'
+    + '          ' + specialEvents + '\n'
     + '          <h3>UPCOMING SERVICE</h3>\n'
-    + '          <ul class="eventlist">\n'
-    + '            <li>Upcoming service events go here.</li>\n'
-    + '          </ul>\n'
+    + '          ' + serviceEvents + '\n'
     + '          <p class="deemphasize">' + svpString + '</p>\n'
     + '          <h3>UPCOMING FELLOWSHIP</h3>\n'
-    + '          <ul class="eventlist">\n'
-    + '            <li>Upcoming fellowship events go here.</li>\n'
-    + '          </ul>\n'
+    + '          ' + fellowshipEvents + '\n'
     + '          <p class="deemphasize">Notices for impromptu fellowship events will be posted on our Facebook group.</p>\n'
     + '          <p class="deemphasize">' + fvpString + '</p>\n'
     + '          <h3>MEETINGS AND MINUTES</h3>\n'
@@ -188,6 +186,108 @@ function genContent() {
     + '        </td>\n'
     + '      </tr>\n';
   return contentStr;
+}
+
+function genEventGroup(groupElem, group) {
+  var events = groupElem.getElementsByTagName('p');
+  var eventGroupStr = group
+    ? '<ul class="eventlist">\n'
+    : '<ul class="eventlist special">\n';
+  for (var i = 0; i < events.length; i++) {
+    eventGroupStr += 
+      '            ' + genEventEntry(events[i]) + '\n';
+  }
+  eventGroupStr +=
+      '          </ul>\n';
+  return eventGroupStr;
+}
+
+function genEventEntry(event) {
+    var title = event.getElementsByClassName( 'eventName' )[0].value;
+    var link = event.getElementsByClassName( 'eventLink' )[0].value;
+    var chair = event.getElementsByClassName( 'eventChairs' )[0].value;
+    var desc = event.getElementsByClassName( 'eventDesc' )[0].value;
+
+    var date = new Date( event.getElementsByClassName( 'eventDate' )[0].value );
+    var st = event.getElementsByClassName( 'eventStartTime' )[0].value.split(':');
+    var et = event.getElementsByClassName( 'eventEndTime' )[0].value.split(':');
+    var dayOfWeekStr = daysOfWeek[date.getUTCDay()];
+    var monthStr = months[date.getUTCMonth()];
+    var dayStr = date.getUTCDate().toString();
+    var st_hr = parseInt(st[0]);
+    var st_min = st[1];
+    var st_mer = '';
+    var et_hr = parseInt(et[0]);
+    var et_min = et[1];
+    var et_mer = '';
+
+    if ( st_hr > 11 ) {
+        if ( st_hr > 12 ) st_hr -= 12;
+        st_mer = 'pm';
+    }
+    else {
+        if ( st_hr === '00' ) st_hr = 12;
+        st_mer = 'am';
+    }
+
+    if ( et_hr > 11 ) {
+        if ( et_hr > 12 ) et_hr -= 12;
+        et_mer = 'pm';
+    }
+    else {
+        if ( et_hr === '00' ) et_hr = 12;
+        et_mer = 'am';
+    }
+
+    var timeStr = '';
+
+    if ( st[0] !== '' ) {
+        if ( st_min === '00' ) timeStr += st_hr + ' ' + st_mer;
+        else timeStr += st_hr + ':' + st_min + ' ' + st_mer;
+        if ( et[0] !== '' ) {
+            timeStr += ' - ';
+            if ( et_min === '00'  ) timeStr += et_hr + ' ' + et_mer;
+            else timeStr += et_hr + ':' + et_min + ' ' + et_mer;
+        }
+    }
+    else {
+        timeStr = 'time TBD';
+    }
+
+    var dateStr = '';
+    if ( date.toString() !== 'Invalid Date' )
+        dateStr = dayOfWeekStr + ', ' + monthStr + ' ' + dayStr + ', ' + timeStr;
+    else
+        dateStr = 'date and time TBD';
+
+    var output = '<li><strong>';
+    if ( link !== '' ) {
+        output += '<a target="_blank" href="' + link + '">';
+    }
+    if ( title !== '' ) {
+        output += title;
+    }
+    else {
+        output += 'No event title';
+    }
+    if ( link !== '' ) {
+        output += '</a>';
+    }
+    output += '</strong>';
+    if ( chair !== '' ) {
+        output += ' (' + chair + ')';
+    }
+    output += '<br/>';
+    output += dateStr;
+    if ( desc !== '' ) {
+      output += '<br/><em>'
+      output += desc;
+      output += '</em>';
+    }
+    output += '</li>';
+
+    return output;
+    
 }
 
 function genFooter() {
@@ -225,32 +325,31 @@ function constructMDYString(date, utc) {
 
 }
 
-function spawnNewEvent(field) {
+function spawnNewEvent(group) {
+  nonce++;
 
   var newElement = '<p class="eventEntry">\n'
-                 + '  <label for="eventName_' + nonce + '">Event Name: </label><input class="eventDetails" name="eventName_' + nonce + '" id="eventName_' + nonce + '" placeholder="Type the event name here." />\n'
-                 + '  <label for="eventLink_' + nonce + '">Event Link: </label><input class="eventDetails" name="eventLink_' + nonce + '" id="eventLink_' + nonce + '" placeholder="Enter the event signup link here (optional)." />\n'
-                 + '  <label for="eventChairs_' + nonce + '">Event Chairs: </label><input class="eventDetails" name="eventChairs_' + nonce + '" id="eventChairs_' + nonce + '" placeholder="List all of the event chairs here (optional)." />\n'
-                 + '  <label for="eventDate_' + nonce + '">Event Date:</label> <input class="eventDate" type="date" name="eventDate_' + nonce + '" id="eventDate_' + nonce + '" />\n'
+                 + '  <label for="eventName_' + nonce + '">Event Name: </label><input class="eventDetails eventName" id="eventName_' + nonce + '" placeholder="Type the event name here." />\n'
+                 + '  <label for="eventLink_' + nonce + '">Event Link: </label><input class="eventDetails eventLink" id="eventLink_' + nonce + '" placeholder="Enter the event signup link here (optional)." />\n'
+                 + '  <label for="eventChairs_' + nonce + '">Event Chairs: </label><input class="eventDetails eventChairs" id="eventChairs_' + nonce + '" placeholder="List all of the event chairs here (optional)." />\n'
+                 + '  <label for="eventDate_' + nonce + '">Event Date:</label> <input class="eventDate" type="date" id="eventDate_' + nonce + '" />\n'
                  + '  <span>Set to...</span>\n'
                  + '  <button type="button" onclick="setEventDateNextDOWOccurence(this, 0)">U</button>\n'
                  + '  <button type="button" onclick="setEventDateNextDOWOccurence(this, 1)">M</button>\n'
                  + '  <button type="button" onclick="setEventDateNextDOWOccurence(this, 2)">T</button>\n'
                  + '  <button type="button" onclick="setEventDateNextDOWOccurence(this, 3)">W</button>\n'
-                 + '  <button type="button" onclick="setEventDateNextDOWOccurence(this, 4)">T</button>\n'
+                 + '  <button type="button" onclick="setEventDateNextDOWOccurence(this, 4)">R</button>\n'
                  + '  <button type="button" onclick="setEventDateNextDOWOccurence(this, 5)">F</button>\n'
                  + '  <button type="button" onclick="setEventDateNextDOWOccurence(this, 6)">S</button>\n'
                  + '  <br/>\n'
-                 + '  <label for="eventStartTime_' + nonce + '">Start Time:</label> <input class="eventTime" type="time" name="eventStartTime_' + nonce + '" id="eventStartTime_' + nonce + '" />\n'
-                 + '  <label for="eventEndTime_' + nonce + '">End Time:</label> <input class="eventTime" type="time" name="eventEndTime_' + nonce + '" id="eventEndTime_' + nonce + '" />\n'
+                 + '  <label for="eventStartTime_' + nonce + '">Start Time:</label> <input class="eventTime eventStartTime" type="time" id="eventStartTime_' + nonce + '" />\n'
+                 + '  <label for="eventEndTime_' + nonce + '">End Time:</label> <input class="eventTime eventEndTime" type="time" id="eventEndTime_' + nonce + '" />\n'
                  + '  <br/>\n'
-                 + '  <label for="eventDesc">Event Description: </label><input class="eventDetails" name="eventDesc" id="eventDesc" placeholder="Enter the event description (optional)." />\n'
+                 + '  <label for="eventDesc_' + nonce + '">Event Description: </label><input class="eventDetails eventDesc" id="eventDesc_' + nonce + '" placeholder="Enter the event description (optional)." />\n'
                  + '</p>\n'
 
-  nonce++;
-  var newId = 'eventDetails_' + nonce;
   var elem;
-  switch(field) {
+  switch(group) {
     case 0:
       elem = document.getElementById('groupSpecialEvents');
     break;
@@ -263,5 +362,4 @@ function spawnNewEvent(field) {
     default:
   }
   elem.insertAdjacentHTML('beforeend', newElement);
-
 }
