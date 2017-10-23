@@ -59,17 +59,17 @@ function nextDayOfWeekOcurrence(dayOfWeek) {
 
 function setDigestDateToday() {
   var digestDate = document.getElementById('digestDate');
-  digestDate.value = constructDateString(today(), "-", false);
+  digestDate.value = constructDateString(today(), '-', false);
 }
 
 function setDigestDateNextSunday() {
   var digestDate = document.getElementById('digestDate');
-  digestDate.value = constructDateString(nextDayOfWeekOcurrence(0), "-", true);
+  digestDate.value = constructDateString(nextDayOfWeekOcurrence(0), '-', true);
 }
 
 function setEventDateNextDOWOccurence(elem, day) {
   var eventDate = elem.parentNode.getElementsByClassName('eventDate')[0];
-  eventDate.value = constructDateString(nextDayOfWeekOcurrence(day), "-", true);
+  eventDate.value = constructDateString(nextDayOfWeekOcurrence(day), '-', true);
 }
 
 function render() {
@@ -98,8 +98,8 @@ function gen() {
 
 function genHeader() {
   var digestDate = new Date(document.getElementById('digestDate').value);
-  var dateString = constructDateString(digestDate, ".", true);
-  var digestCSS = document.getElementById("digestCSS").value;
+  var dateString = constructDateString(digestDate, '.', true);
+  var digestCSS = document.getElementById('digestCSS').value;
   var mdyString = constructMDYString(digestDate, true);
   var headerStr =
       '<!doctype HTML>\n'
@@ -119,9 +119,9 @@ function genHeader() {
 }
 
 function genMessage() {
-  var messageBody = document.getElementById("messageBody").value;
-  var signoff1 = document.getElementById("signoff1").value;
-  var signoff2 = document.getElementById("signoff2").value;
+  var messageBody = document.getElementById('messageBody').value;
+  var signoff1 = document.getElementById('signoff1').value;
+  var signoff2 = document.getElementById('signoff2').value;
   var messageStr =
       '      <tr>\n'
     + '        <td id="message">\n'
@@ -307,8 +307,8 @@ function genFooter() {
 }
 
 function pad(num, size) {
-    var s = num+"";
-    while (s.length < size) s = "0" + s;
+    var s = num + '';
+    while (s.length < size) s = '0' + s;
     return s;
 }
 
@@ -320,8 +320,8 @@ function constructDateString(date, separator, utc) {
 
 function constructMDYString(date, utc) {
   return utc
-    ? months[date.getUTCMonth()] + " " + date.getUTCDate() + ", " + date.getUTCFullYear()
-    : months[date.getMonth()] + " "  + date.getDate() + ", " + date.getFullYear();
+    ? months[date.getUTCMonth()] + ' ' + date.getUTCDate() + ', ' + date.getUTCFullYear()
+    : months[date.getMonth()] + ' '  + date.getDate() + ', ' + date.getFullYear();
 
 }
 
