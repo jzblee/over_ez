@@ -332,6 +332,7 @@ function spawnNewEvent(group) {
   nonce++;
 
   var newElement = '<p class="eventEntry">\n'
+                 + '  <button type="button" class="removePrompt" onclick="removeEventPrompt(this)">Remove this event</button>\n'
                  + '  <label for="eventName_' + nonce + '">Event Name: </label><input class="eventDetails eventName" id="eventName_' + nonce + '" placeholder="Type the event name here." />\n'
                  + '  <label for="eventLink_' + nonce + '">Event Link: </label><input class="eventDetails eventLink" id="eventLink_' + nonce + '" placeholder="Enter the event signup link here (optional)." />\n'
                  + '  <label for="eventChairs_' + nonce + '">Event Chairs: </label><input class="eventDetails eventChairs" id="eventChairs_' + nonce + '" placeholder="List all of the event chairs here (optional)." />\n'
@@ -365,4 +366,18 @@ function spawnNewEvent(group) {
     default:
   }
   elem.insertAdjacentHTML('beforeend', newElement);
+}
+
+function removeEventPrompt(elem) {
+  // var eventEntry = elem.parentNode;
+  elem.insertAdjacentHTML('afterend', '<span class="removePrompt"><span class="removePromptQ">Are you sure?</span> | <span class="removePromptA" onclick="removeEventCancel(this)">no, cancel</span> | <span class="removePromptA" onclick="removeEvent(this)">yes, remove</span></span>');
+  elem.remove();
+}
+
+function removeEventCancel(elem) {
+  elem.parentNode.insertAdjacentHTML('afterend', '<button type="button" class="removePrompt" onclick="removeEventPrompt(this)">Remove this event</button>');
+  elem.parentNode.remove();
+}
+function removeEvent(elem) {
+  elem.parentNode.parentNode.remove();
 }

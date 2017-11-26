@@ -46,6 +46,7 @@ fieldset {
 p {
     margin: 5px 0;
     vertical-align: text-bottom;
+    padding: 3px;
 }
 .signoff {
     width: 99%;
@@ -83,11 +84,27 @@ input, textarea {
 
 .eventEntry{
     background-color: #e9e9e9;
-    padding: 3px 0;
 }
 .eventEntry input {
     margin: 3px 0;
 }
 .eventEntry .eventDetails {
     width: 99%;
+}
+
+.removePrompt {
+    display: block;
+    margin: 0 0 5px 0;
+}
+.removePromptQ {
+    color: #c00;
+}
+.removePromptA {
+    text-decoration: underline;
+}
+.removePromptA:hover {
+    cursor: pointer;
+}
+.removePromptA:active {
+    color: #f00;
 }
