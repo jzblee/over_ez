@@ -145,6 +145,8 @@ function genContent() {
   var serviceEvents = genEventGroup(document.getElementById('groupServiceEvents'), 1);
   var fellowshipEvents = genEventGroup(document.getElementById('groupFellowshipEvents'), 2);
 
+  var meetings = genMeetingListings();
+
   var meetingsGDriveLink = '';
   var svpString = 'For further information on upcoming service events, contact the Service Vice President';
   if (svpName) {
@@ -180,7 +182,7 @@ function genContent() {
     + '          <h3>MEETINGS AND MINUTES</h3>\n'
     + '          <p>Meeting times and locations may change.</p>\n'
     + '          <ul>\n'
-    + '            <li>Meeting locations and times go here.</li>\n'
+    + '            ' + meetings + '\n'
     + '          </ul>\n'
     + '          <p>All minutes are available on <a target="_blank" href="' + meetingsGDriveLink + '">Google Drive</a>.</p>\n'
     + '        </td>\n'
@@ -293,6 +295,21 @@ function genEventEntry(event) {
     
 }
 
+function genMeetingListings() {
+  var meetings = document.getElementById('groupMeetings').getElementsByTagName('p');
+  var meetingsStr = '';
+  if (meetings.length) {
+    for (var i = 0; i < meetings.length; i++) {
+      var name = meetings[i].getElementsByClassName( 'committeeName' )[0].value;
+      var time = meetings[i].getElementsByClassName( 'committeeTime' )[0].value;
+      var loc = meetings[i].getElementsByClassName( 'committeeLoc' )[0].value;
+      meetingsStr += 
+        '            <li><strong>' + name + '</strong> meets on <em>' + time + ' in ' + loc + '</em>.</li>\n';
+    }
+  }
+  return meetingsStr;
+}
+
 function genFooter() {
   var footerStr =
       '      <tr>\n'
@@ -350,7 +367,7 @@ function spawnNewEvent(group) {
                  + '  <label for="eventEndTime_' + nonce + '">End Time:</label> <input class="eventTime eventEndTime" type="time" id="eventEndTime_' + nonce + '" />\n'
                  + '  <br/>\n'
                  + '  <label for="eventDesc_' + nonce + '">Event Description: </label><input class="eventDetails eventDesc" id="eventDesc_' + nonce + '" placeholder="Enter the event description (optional)." />\n'
-                 + '</p>\n'
+                 + '</p>\n';
 
   var elem;
   switch(group) {
@@ -368,8 +385,23 @@ function spawnNewEvent(group) {
   elem.insertAdjacentHTML('beforeend', newElement);
 }
 
+function spawnNewMeetingListing() {
+  spawnNewMeetingListingFull('', '', '');
+}
+
+function spawnNewMeetingListingFull(name, time, loc) {
+  nonce++;
+
+  var newElement = '<p class="eventEntry">\n'
+                 + '  <button type="button" class="removePrompt" onclick="removeEventPrompt(this)">Remove this listing</button>\n'
+                 + '  <label for="committeeName_' + nonce + '">Group/Committee Name: </label><input class="eventDetails committeeName" id="committeeName_' + nonce + '" placeholder="Type the group/committee name here." value="' + name + '" />\n'
+                 + '  <label for="committeeTime_' + nonce + '">Meeting Date:</label> <input class="eventDetails committeeTime" id="committeeTime_' + nonce + '" placeholder="Enter the day of week and time when this committee meets." value="' + time + '" />\n'
+                 + '  <label for="committeeLoc_' + nonce + '">Meeting Location: </label><input class="eventDetails committeeLoc" id="committeeLoc_' + nonce + '" placeholder="Enter the building and room where this committee meets." value="' + loc + '" />\n'
+                 + '</p>\n';
+  document.getElementById('groupMeetings').insertAdjacentHTML('beforeend', newElement);
+}
+
 function removeEventPrompt(elem) {
-  // var eventEntry = elem.parentNode;
   elem.insertAdjacentHTML('afterend', '<span class="removePrompt"><span class="removePromptQ">Are you sure?</span> | <span class="removePromptA" onclick="removeEventCancel(this)">no, cancel</span> | <span class="removePromptA" onclick="removeEvent(this)">yes, remove</span></span>');
   elem.remove();
 }
