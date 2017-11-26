@@ -43,6 +43,37 @@ function init() {
       this.style.backgroundColor = '#ddd'
     };
   }
+  loadConfig();
+}
+
+function loadConfig() {
+  var request = new XMLHttpRequest();
+  request.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        var config_json = JSON.parse(request.responseText);
+        document.getElementById('signoff2').value =
+          config_json.maintainer.first + ' "'
+        + config_json.maintainer.nickname + '" '
+        + config_json.maintainer.last;
+        document.getElementById('svpName').value =
+          config_json.svp.first + ' '
+        + config_json.svp.last;
+        document.getElementById('svpEmail').value =
+          config_json.svp.email;
+        document.getElementById('fvpName').value =
+          config_json.fvp.first + ' '
+        + config_json.fvp.last;
+        document.getElementById('fvpEmail').value =
+          config_json.fvp.email;
+        for (var i = 0; i < config_json.committees.length; i++) {
+          spawnNewMeetingListingFull(config_json.committees[i].name,
+                                     config_json.committees[i].time,
+                                     config_json.committees[i].location);
+        }
+      }
+  };
+  request.open("GET", "config.json", true);
+  request.send();
 }
 
 function today() {
@@ -181,8 +212,7 @@ function genContent() {
     + '          <p class="deemphasize">' + fvpString + '</p>\n'
     + '          <h3>MEETINGS AND MINUTES</h3>\n'
     + '          <p>Meeting times and locations may change.</p>\n'
-    + '          <ul>\n'
-    + '            ' + meetings + '\n'
+    + '          <ul>\n' + meetings + '\n'
     + '          </ul>\n'
     + '          <p>All minutes are available on <a target="_blank" href="' + meetingsGDriveLink + '">Google Drive</a>.</p>\n'
     + '        </td>\n'

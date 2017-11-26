@@ -1,0 +1,33 @@
+{
+    "maintainer" : {
+        "first" : "Peter",
+        "last" : "Gundlefinger",
+        "nickname" : "Unknown",
+        "email" : "xxxxx##@rpi.edu"
+    },
+    "svp" : {
+        "first" : "Walter",
+        "last" : "Locher",
+        "nickname" : "Unknown",
+        "email" : "xxxxx##@rpi.edu"
+    },
+    "fvp" : {
+        "first" : "Also Walter",
+        "last" : "Locher",
+        "nickname" : "Unknown",
+        "email" : "xxxxx##@rpi.edu"
+    },
+    "committees" : [
+        {
+            "name" : "The Brotherhood",
+            "time" : "Sundays at 7 pm",
+            "location" : "Union 1000"
+        },
+        {
+            "name" : "ECOM",
+            "time" : "Sundays at 6 pm",
+            "location" : "Union 1000"
+        }
+    ],
+    "meetingsURL" : "https://drive.google.com/"
+}
