@@ -56,13 +56,11 @@ function loadConfig() {
         + config_json.maintainer.nickname + '" '
         + config_json.maintainer.last;
         document.getElementById('svpName').value =
-          config_json.svp.first + ' '
-        + config_json.svp.last;
+          config_json.svp.first;
         document.getElementById('svpEmail').value =
           config_json.svp.email;
         document.getElementById('fvpName').value =
-          config_json.fvp.first + ' '
-        + config_json.fvp.last;
+          config_json.fvp.first;
         document.getElementById('fvpEmail').value =
           config_json.fvp.email;
         for (var i = 0; i < config_json.committees.length; i++) {
@@ -179,36 +177,45 @@ function genContent() {
   var meetings = genMeetingListings();
 
   var meetingsGDriveLink = '';
-  var svpString = 'For further information on upcoming service events, contact the Service Vice President';
+  var svpString = 'For more on upcoming service, contact ';
   if (svpName) {
-    svpString += ', ' + svpName;
+    if (svpEmail) svpString += '<a href="mailto:' + svpEmail + '">';
+    svpString += svpName;
+    if (svpEmail) svpString += '</a>';
+    svpString += ', the SVP';
   }
-  if (svpEmail) {
-    if (svpName) svpString += ','
-    svpString += ' at <a href="mailto:' + svpEmail + '">' + svpEmail + '</a>';
+  else {
+    svpString += 'the '
+    if (svpEmail) svpString += '<a href="mailto:' + svpEmail + '">';
+    svpString += 'SVP';
+    if (svpEmail) svpString += '</a>';
   }
   svpString += '.';
-  var fvpString = 'For further information on fellowship service events, contact the Fellowship Vice President';
+  var fvpString = 'For more on upcoming fellowship, contact ';
   if (fvpName) {
-    fvpString += ', ' + fvpName;
+    if (fvpEmail) fvpString += '<a href="mailto:' + fvpEmail + '">';
+    fvpString += fvpName;
+    if (fvpEmail) fvpString += '</a>';
+    fvpString += ', the FVP';
   }
-  if (fvpEmail) {
-    if (fvpName) fvpString += ','
-    fvpString += ' at <a href="mailto:' + fvpEmail + '">' + fvpEmail + '</a>';
+  else {
+    fvpString += 'the '
+    if (fvpEmail) fvpString += '<a href="mailto:' + fvpEmail + '">';
+    fvpString += 'FVP';
+    if (fvpEmail) fvpString += '</a>';
   }
   fvpString += '.';
   var contentStr =
       '      <tr>\n'
     + '        <td id="content">\n'
     + '          <h3>CHAPTER EVENTS</h3>\n'
-    + '          <p class="deemphasize">If an event has a signup sheet, you can click on the title to go to the sheet. For all events, meet in the office 15 minutes prior to the start time, unless noted otherwise.</p>\n'
+    + '          <p class="deemphasize">Event signup sheets are linked where available. Unless noted otherwise, meet in the office 15 minutes prior to the start time.</p>\n'
     + '          ' + specialEvents + '\n'
     + '          <h3>UPCOMING SERVICE</h3>\n'
     + '          ' + serviceEvents + '\n'
     + '          <p class="deemphasize">' + svpString + '</p>\n'
     + '          <h3>UPCOMING FELLOWSHIP</h3>\n'
     + '          ' + fellowshipEvents + '\n'
-    + '          <p class="deemphasize">Notices for impromptu fellowship events will be posted on our Facebook group.</p>\n'
     + '          <p class="deemphasize">' + fvpString + '</p>\n'
     + '          <h3>MEETINGS AND MINUTES</h3>\n'
     + '          <p>Meeting times and locations may change.</p>\n'
@@ -345,8 +352,7 @@ function genFooter() {
       '      <tr>\n'
     + '        <td id="footer">\n'
     + '          <p><em>The goal of the weekly EZ Digest is to provide a concise summary of recent and upcoming chapter activities.</em></p>\n'
-    + '          <p>Generated with <a href="https://github.com/jzblee/over_ez">Over EZ</a>.</p>\n'
-    + '          <p>Feel free to reply to this message with any comments or suggestions!</p>\n'
+    + '          <p>Generated with <a href="https://github.com/jzblee/over_ez">Over EZ</a>. Please reply with any feedback.</p>\n'
     + '          <p>Alpha Phi Omega - Epsilon Zeta Chapter - Rensselaer Polytechnic Institute</p>\n'
     + '        </td>\n'
     + '      </tr>\n'
