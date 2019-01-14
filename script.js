@@ -68,6 +68,8 @@ function loadConfig() {
                                      config_json.committees[i].time,
                                      config_json.committees[i].location);
         }
+        document.getElementById('meetingsURL').value = 
+          config_json.meetingsURL;
       }
   };
   request.open("GET", "config.json", true);
@@ -176,7 +178,7 @@ function genContent() {
 
   var meetings = genMeetingListings();
 
-  var meetingsGDriveLink = '';
+  var meetingsGDriveLink = document.getElementById('meetingsURL').value;
   var svpString = 'For more on upcoming service, contact ';
   if (svpName) {
     if (svpEmail) svpString += '<a href="mailto:' + svpEmail + '">';
@@ -351,8 +353,8 @@ function genFooter() {
   var footerStr =
       '      <tr>\n'
     + '        <td id="footer">\n'
-    + '          <p><em>The goal of the weekly EZ Digest is to provide a concise summary of recent and upcoming chapter activities.</em></p>\n'
-    + '          <p>Generated with <a href="https://github.com/jzblee/over_ez">Over EZ</a>. Please reply with any feedback.</p>\n'
+    + '          <p><em>The weekly EZ Digest provides to the members of the APO chapter at RPI a concise summary of upcoming activities.</em></p>\n'
+    + '          <p>Generated with <a target="_blank" href="https://github.com/jzblee/over_ez">Over EZ</a>. Please reply with any feedback.</p>\n'
     + '          <p>Alpha Phi Omega - Epsilon Zeta Chapter - Rensselaer Polytechnic Institute</p>\n'
     + '        </td>\n'
     + '      </tr>\n'
