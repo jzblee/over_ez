@@ -43,7 +43,13 @@ function init() {
       this.style.backgroundColor = '#ddd'
     };
   }
-  loadConfig();
+  var config_cookie_text = localStorage.getItem('config');
+  if (!config_cookie_text) {
+    loadConfig();
+  }
+  else {
+    loadCookie();
+  }
 }
 
 function loadConfig() {
@@ -74,6 +80,28 @@ function loadConfig() {
   };
   request.open("GET", "config.json", true);
   request.send();
+}
+
+function loadCookie() {
+  var config_cookie_text = localStorage.getItem('config');
+  var config_cookie = JSON.parse(config_cookie_text);
+  document.getElementById('signoff2').value =
+    config_cookie.maintainer;
+  document.getElementById('svpName').value =
+    config_cookie.svp.name;
+  document.getElementById('svpEmail').value =
+    config_cookie.svp.email;
+  document.getElementById('fvpName').value =
+    config_cookie.fvp.name;
+  document.getElementById('fvpEmail').value =
+    config_cookie.fvp.email;
+  for (var i = 0; i < config_cookie.committees.length; i++) {
+    spawnNewMeetingListingFull(config_cookie.committees[i].name,
+                               config_cookie.committees[i].time,
+                               config_cookie.committees[i].location);
+  }
+  document.getElementById('meetingsURL').value = 
+    config_cookie.meetingsURL;
 }
 
 function today() {
@@ -125,6 +153,35 @@ function gen() {
   output += genContent();
   output += genFooter();
   document.getElementById('outputText').value = output;
+  var config_cookie = {
+    "maintainer" : document.getElementById('signoff2').value,
+    "svp" : {
+        "name" : document.getElementById('svpName').value,
+        "email" : document.getElementById('svpEmail').value
+    },
+    "fvp" : {
+        "name" : document.getElementById('fvpName').value,
+        "email" : document.getElementById('fvpEmail').value
+    },
+    "committees" : [],
+    "meetingsURL" : document.getElementById('meetingsURL').value
+  }
+
+  var meetings = document.getElementById('groupMeetings').getElementsByTagName('p');
+  if (meetings.length) {
+    for (var i = 0; i < meetings.length; i++) {
+      var name = meetings[i].getElementsByClassName( 'committeeName' )[0].value;
+      var time = meetings[i].getElementsByClassName( 'committeeTime' )[0].value;
+      var loc = meetings[i].getElementsByClassName( 'committeeLoc' )[0].value;
+      config_cookie.committees.push({
+        "name" : name,
+        "time" : time,
+        "location" : loc
+      });
+    }
+  }
+
+  localStorage.setItem('config', JSON.stringify(config_cookie));
 }
 
 function genHeader() {
