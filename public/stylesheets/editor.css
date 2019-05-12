@@ -1,0 +1,122 @@
+html, body {
+    font-family: Arial, serif;
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+}
+.navbar {
+    position: absolute;
+    width: 100%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.7);
+}
+#editor #digestCSS {
+    font-family: Courier, serif;
+}
+#editor legend {
+    border: 2px groove threedface;
+    padding: 4px 5px;
+    font-size: 0.8em;
+}
+#editor {
+    width: 50vw;
+    display: inline-block;
+    height: 100vh;
+    overflow-y: scroll;
+}
+#digestForm {
+    margin: 80px 10px 10px 10px;
+}
+#editor input, textarea {
+    border: none;
+    overflow: auto;
+    outline: none;
+    resize: none;
+
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none; 
+    font-size: 1em;
+    background-color: #ddd;
+}
+#editor input:hover, textarea:hover {
+    background-color: #eee;
+}
+#editor input {
+    max-height: 1.5em;
+}
+#editor textarea {
+    width: 99%;
+    resize: vertical;
+    min-height: 50px;
+    max-height: 200px;
+}
+#editor #digestDate {
+    font-size: 1.25em;
+}
+#editor .form-group {
+    margin: 10px 0;
+    padding: 5px;
+}
+#editor .form-group:hover {
+    /*border-color: threedhighlight;*/
+}
+#editor .form-group:hover legend {
+    /*border-color: threedhighlight;*/
+}
+#editor p {
+    margin: 5px 0;
+    vertical-align: text-bottom;
+    padding: 3px;
+}
+#editor .signoff {
+    width: 99%;
+    margin: 1px 0;
+    text-align: right;
+}
+#output {
+    padding: 0;
+    width: 40vw;
+    display: inline-block;
+    vertical-align: top;
+    height: 100vh;
+    overflow-y: scroll;
+}
+
+#digest {
+    margin: 80px 0 10px 0;
+}
+#outputText {
+    width: inherit;
+    height: 100%;
+    font-family: Courier;
+}
+
+#editor .eventEntry{
+    background-color: #e9e9e9;
+}
+#editor .eventEntry:hover{
+    background-color: #f5f5f5;
+}
+#editor .eventEntry input {
+    margin: 3px 0;
+}
+#editor .eventEntry .eventDetails {
+    width: 99%;
+}
+
+#editor .removePrompt {
+    display: block;
+    margin: 0 0 5px 0;
+}
+#editor .removePromptQ {
+    color: #c00;
+}
+#editor .removePromptA {
+    text-decoration: underline;
+}
+#editor .removePromptA:hover {
+    cursor: pointer;
+}
+#editor .removePromptA:active {
+    color: #f00;
+}

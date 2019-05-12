@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <title>Over EZ Digest Creator</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="stylesheets/editor.css">
+  <link rel="stylesheet" type="text/css" href="stylesheets/digest.css">
+  </head>
+  <body ng-app="over_ez" ng-controller="DigestController" id="content" ng-cloak>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <span class="navbar-brand mb-0 h1"><strong>Over EZ</strong></span>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">Edit</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" ng-click="saveDigestLocally()" href="#">Save</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">Publish</a>
+          </li>
+          <!-- <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
+              Import and export
+            </a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="#" ng-click="saveDigestLocally()">Save to browser storage</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item disabled" href="#">Import from JSON file</a>
+              <a class="dropdown-item disabled" href="#">Export to JSON file</a>
+            </div>
+          </li> -->
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">Archives</a>
+          </li>
+        </ul>
+        <span class="my-2 my-lg-0">
+          <strong><em>Create EZ Digests easily</em></strong>
+        </span>
+      </div>
+    </nav>
+    <div id="wrap">
+      <div id="editor">
+        <form id="digestForm">
+          <div class="form-group">
+            <h6 class="form-group-title">MAIN DETAILS</h6>
+            <p>
+              <label for="digestDate">Publication date:</label> <input type="date" ng-model="digest.date" id="digestDate" placeholder="yyyy-mm-dd" />
+            </p>
+            <p>
+              <label for="digestCSS">Sylesheet name:</label> <input type="text" ng-model="digest.cssFile" id="digestCSS" />
+            </p>
+          </div>
+          <div class="form-group">
+            <h6 class="form-group-title">MESSAGE</h6>
+            <p>
+              <input id="enableMessage" type="checkbox" ng-model="digest.message.enable" /><label for="enableMessage">Show a message in the digest</label>
+            </p>
+            <p>
+              <textarea id="messageBody" ng-model="digest.message.body" placeholder="Your message goes here."></textarea>
+              <input class="signoff" ng-model="digest.message.signoff1" id="signoff1" />
+              <input class="signoff" ng-model="digest.message.signoff2" id="signoff2" placeholder="Your Name" />
+            </p>
+          </div>
+          <div class="form-group">
+            <h6 class="form-group-title">SPECIAL EVENTS</h6>
+            <div id="groupSpecialEvents">
+              <p class="eventEntry" ng-repeat="entity in digest.events.special track by $index">
+                <button type="button" class="removePrompt" ng-click="removeItemPrompt(ENTITY_EVENT_SPECIAL, $index, true)" ng-if="!entity._toRemove">Remove this event</button>
+                <span class="removePrompt" ng-if="entity._toRemove"><span class="removePromptQ">Are you sure?</span> | <span class="removePromptA" ng-click="removeItemPrompt(ENTITY_EVENT_SPECIAL, $index, false)">no, cancel</span> | <span class="removePromptA" ng-click="removeItem(ENTITY_EVENT_SPECIAL, $index)">yes, remove</span></span>
+                <label>Event Name: <input class="eventDetails eventName" placeholder="Type the event name here." ng-model="entity.name" /></label>
+                <label>Event Link: <input class="eventDetails eventLink" placeholder="Enter the event signup link here (optional)." ng-model="entity.link" /></label>
+                <label>Event Chairs: <input class="eventDetails eventChairs" placeholder="List all of the event chairs here (optional)." ng-model="entity.chairs" /></label>
+                <label>Start Date: <input class="eventDate eventStartDate" type="date" placeholder="yyyy-mm-dd" ng-model="entity.date_start" /></label>
+                <label>End Date: <input class="eventDate eventEndDate" type="date" placeholder="yyyy-mm-dd" ng-model="entity.date_end" /></label>
+                <!-- <span>Set to...</span>
+                <button type="button" onclick="setEventDateNextDOWOccurence(this, 0)">U</button>
+                <button type="button" onclick="setEventDateNextDOWOccurence(this, 1)">M</button>
+                <button type="button" onclick="setEventDateNextDOWOccurence(this, 2)">T</button>
+                <button type="button" onclick="setEventDateNextDOWOccurence(this, 3)">W</button>
+                <button type="button" onclick="setEventDateNextDOWOccurence(this, 4)">R</button>
+                <button type="button" onclick="setEventDateNextDOWOccurence(this, 5)">F</button>
+                <button type="button" onclick="setEventDateNextDOWOccurence(this, 6)">S</button> -->
+                <br/>
+                <label>Start Time: <input class="eventTime eventStartTime" type="time" placeholder="HH:MM (24 hour format)" ng-model="entity.time_start" /></label>
+                <label>End Time: <input class="eventTime eventEndTime" type="time" placeholder="HH:MM (24 hour format)" ng-model="entity.time_end" /></label>
+                <br/>
+                <label>Event Description: <input class="eventDetails eventDesc" placeholder="Enter the event description (optional)." ng-model="entity.description" /></label>
+              </p>
+            </div>
+            <p><button type="button" ng-click="addItem(ENTITY_EVENT_SPECIAL)">Add new event</button></p>
+          </div>
+          <div class="form-group">
+            <h6 class="form-group-title">UPCOMING SERVICE</h6>
+            <div id="groupServiceEvents">
+              <p class="eventEntry" ng-repeat="entity in digest.events.service track by $index">
+                <button type="button" class="removePrompt" ng-click="removeItemPrompt(ENTITY_EVENT_SERVICE, $index, true)" ng-if="!entity._toRemove">Remove this event</button>
+                <span class="removePrompt" ng-if="entity._toRemove"><span class="removePromptQ">Are you sure?</span> | <span class="removePromptA" ng-click="removeItemPrompt(ENTITY_EVENT_SERVICE, $index, false)">no, cancel</span> | <span class="removePromptA" ng-click="removeItem(ENTITY_EVENT_SERVICE, $index)">yes, remove</span></span>
+                <label>Event Name: <input class="eventDetails eventName" placeholder="Type the event name here." ng-model="entity.name" /></label>
+                <label>Event Link: <input class="eventDetails eventLink" placeholder="Enter the event signup link here (optional)." ng-model="entity.link" /></label>
+                <label>Event Chairs: <input class="eventDetails eventChairs" placeholder="List all of the event chairs here (optional)." ng-model="entity.chairs" /></label>
+                <label>Start Date: <input class="eventDate eventStartDate" type="date" placeholder="yyyy-mm-dd" ng-model="entity.date_start" /></label>
+                <label>End Date: <input class="eventDate eventEndDate" type="date" placeholder="yyyy-mm-dd" ng-model="entity.date_end" /></label>
+                <!-- <span>Set to...</span>
+                <button type="button" onclick="setEventDateNextDOWOccurence(this, 0)">U</button>
+                <button type="button" onclick="setEventDateNextDOWOccurence(this, 1)">M</button>
+                <button type="button" onclick="setEventDateNextDOWOccurence(this, 2)">T</button>
+                <button type="button" onclick="setEventDateNextDOWOccurence(this, 3)">W</button>
+                <button type="button" onclick="setEventDateNextDOWOccurence(this, 4)">R</button>
+                <button type="button" onclick="setEventDateNextDOWOccurence(this, 5)">F</button>
+                <button type="button" onclick="setEventDateNextDOWOccurence(this, 6)">S</button> -->
+                <br/>
+                <label>Start Time: <input class="eventTime eventStartTime" type="time" placeholder="HH:MM (24 hour format)" ng-model="entity.time_start" /></label>
+                <label>End Time: <input class="eventTime eventEndTime" type="time" placeholder="HH:MM (24 hour format)" ng-model="entity.time_end" /></label>
+                <br/>
+                <label>Event Description: <input class="eventDetails eventDesc" placeholder="Enter the event description (optional)." ng-model="entity.description" /></label>
+              </p>
+            </div>
+            <p><button type="button" ng-click="addItem(ENTITY_EVENT_SERVICE)">Add new event</button></p>
+            <label for="svpName">SVP Name: </label><input ng-model="digest.svp.name" id="svpName" placeholder="Service Vice President" />
+            <label for="svpEmail">SVP Email: </label><input ng-model="digest.svp.email" id="svpEmail" placeholder="##svp##@rpi.edu" />
+          </div>
+          <div class="form-group">
+            <h6 class="form-group-title">UPCOMING FELLOWSHIP</h6>
+            <div id="groupFellowshipEvents">
+              <p class="eventEntry" ng-repeat="entity in digest.events.fellowship track by $index">
+                <button type="button" class="removePrompt" ng-click="removeItemPrompt(ENTITY_EVENT_FELLOWSHIP, $index, true)" ng-if="!entity._toRemove">Remove this event</button>
+                <span class="removePrompt" ng-if="entity._toRemove"><span class="removePromptQ">Are you sure?</span> | <span class="removePromptA" ng-click="removeItemPrompt(ENTITY_EVENT_FELLOWSHIP, $index, false)">no, cancel</span> | <span class="removePromptA" ng-click="removeItem(ENTITY_EVENT_FELLOWSHIP, $index)">yes, remove</span></span>
+                <label>Event Name: <input class="eventDetails eventName" placeholder="Type the event name here." ng-model="entity.name" /></label>
+                <label>Event Link: <input class="eventDetails eventLink" placeholder="Enter the event signup link here (optional)." ng-model="entity.link" /></label>
+                <label>Event Chairs: <input class="eventDetails eventChairs" placeholder="List all of the event chairs here (optional)." ng-model="entity.chairs" /></label>
+                <label>Start Date: <input class="eventDate eventStartDate" type="date" placeholder="yyyy-mm-dd" ng-model="entity.date_start" /></label>
+                <label>End Date: <input class="eventDate eventEndDate" type="date" placeholder="yyyy-mm-dd" ng-model="entity.date_end" /></label>
+                <!-- <span>Set to...</span>
+                <button type="button" onclick="setEventDateNextDOWOccurence(this, 0)">U</button>
+                <button type="button" onclick="setEventDateNextDOWOccurence(this, 1)">M</button>
+                <button type="button" onclick="setEventDateNextDOWOccurence(this, 2)">T</button>
+                <button type="button" onclick="setEventDateNextDOWOccurence(this, 3)">W</button>
+                <button type="button" onclick="setEventDateNextDOWOccurence(this, 4)">R</button>
+                <button type="button" onclick="setEventDateNextDOWOccurence(this, 5)">F</button>
+                <button type="button" onclick="setEventDateNextDOWOccurence(this, 6)">S</button> -->
+                <br/>
+                <label>Start Time: <input class="eventTime eventStartTime" type="time" placeholder="HH:MM (24 hour format)" ng-model="entity.time_start" /></label>
+                <label>End Time: <input class="eventTime eventEndTime" type="time" placeholder="HH:MM (24 hour format)" ng-model="entity.time_end" /></label>
+                <br/>
+                <label>Event Description: <input class="eventDetails eventDesc" placeholder="Enter the event description (optional)." ng-model="entity.description" /></label>
+              </p>
+            </div>
+            <p><button type="button" ng-click="addItem(ENTITY_EVENT_FELLOWSHIP)">Add new event</button></p>
+            <label for="fvpName">FVP Name: </label><input  ng-model="digest.fvp.name" id="fvpName" placeholder="Fellowship Vice President" />
+            <label for="fvpEmail">FVP Email: </label><input  ng-model="digest.fvp.email" id="fvpEmail" placeholder="##fvp##@rpi.edu" />
+          </div>
+          <div class="form-group" id="fieldMeetings">
+            <h6 class="form-group-title">MEETINGS</h6>
+            <div id="groupMeetings">
+              <p class="eventEntry" ng-repeat="entity in digest.committees track by $index">
+                <button type="button" class="removePrompt" ng-click="removeItemPrompt(ENTITY_COMMITTEE, $index, true)" ng-if="!entity._toRemove">Remove this listing</button>
+                <span class="removePrompt" ng-if="entity._toRemove"><span class="removePromptQ">Are you sure?</span> | <span class="removePromptA" ng-click="removeItemPrompt(ENTITY_COMMITTEE, $index, false)">no, cancel</span> | <span class="removePromptA" ng-click="removeItem(ENTITY_COMMITTEE, $index)">yes, remove</span></span>
+                <label>Group/Committee Name: <input class="eventDetails committeeName" placeholder="Type the group/committee name here." ng-model="entity.name" /></label>
+                <label>Meeting Date: <input class="eventDetails committeeTime" placeholder="Enter the day of week and time when this committee meets." ng-model="entity.time" /></label>
+                <label>Meeting Location: <input class="eventDetails committeeLoc" placeholder="Enter the building and room where this committee meets." ng-model="entity.location" /></label>
+              </p>
+            </div>
+            <p><button type="button" ng-click="addItem(ENTITY_COMMITTEE)">Add new group/committee</button></p>
+          </div>
+          <div class="form-group" id="fieldMinutes">
+            <h6 class="form-group-title">MINUTES</h6>
+            <label for="meetingsURL">Meetings Folder URL: </label><input ng-model="digest.meetingsUrl" id="meetingsURL" placeholder="HTTP link to GDrive folder" />
+          </div>
+        </form>
+      </div>
+      <div id="output">
+        <div id="digest">
+          <table id="wrapper">
+            <tr>
+              <td id="header">
+                EZ Digest - {{ digest.date | date:'MMMM dd, yyyy' }}
+              </td>
+            </tr>
+            <tr ng-if="digest.message.enable">
+              <td id="message">{{ digest.message.body }}</td>
+            </tr>
+            <tr ng-if="digest.message.enable">
+              <td id="signoff">
+                <em>{{ digest.message.signoff1 }}<br/>{{ digest.message.signoff2 }}</em>
+              </td>
+            </tr>
+            <tr>
+              <td id="content">
+                <h3>CHAPTER EVENTS</h3>
+                <p class="deemphasize">Event signup sheets are linked when available. Unless noted otherwise, meet in the office 15 minutes prior to the start time.</p>
+                <ul ng-if="digest.events.special.length" class="eventlist special">
+                  <li ng-repeat="entity in digest.events.special"><strong><span ng-if="entity.link"><a target="_blank" href="{{ entity.link }}">{{ entity.name }}</a></span><span ng-if="!entity.link">{{ entity.name }}</span></strong><span ng-if="entity.chairs"> ({{ entity.chairs }})</span><br/><span>{{ entity.date_start | date: 'EEEE, MMMM d' }}</span><span ng-if="entity.date_start && entity.time_start">, {{ entity.time_start | date: 'h:mm a' }}</span> <span ng-if="entity.date_start && (entity.time_start && entity.time_end) || entity.date_end"> -<span ng-if="entity.date_end"> {{ entity.date_end | date: 'EEEE, MMMM d' }}<span ng-if="entity.time_end">,</span></span> {{ entity.time_end | date: 'h:mm a' }}</span><br/><em>{{ entity.description }}</em></li>
+                </ul>
+                <h3>UPCOMING SERVICE</h3>
+                <ul ng-if="digest.events.service.length" class="eventlist">
+                  <li ng-repeat="entity in digest.events.service"><strong><span ng-if="entity.link"><a target="_blank" href="{{ entity.link }}">{{ entity.name }}</a></span><span ng-if="!entity.link">{{ entity.name }}</span></strong><span ng-if="entity.chairs"> ({{ entity.chairs }})</span><br/><span>{{ entity.date_start | date: 'EEEE, MMMM d' }}</span><span ng-if="entity.date_start && entity.time_start">, {{ entity.time_start | date: 'h:mm a' }}</span> <span ng-if="entity.date_start && entity.time_start && entity.time_end"> -<span ng-if="entity.date_end"> {{ entity.date_end | date: 'EEEE, MMMM d' }},</span> {{ entity.time_end | date: 'h:mm a' }}</span><br/><em>{{ entity.description }}</em></li>
+                </ul>
+                <p class="deemphasize">For more information on service events, contact <span ng-if="digest.svp.name && !digest.svp.email">{{ digest.svp.name }}, </span><span ng-if="digest.svp.name && digest.svp.email"><a href="mailto:{{digest.svp.email}}">{{ digest.svp.name }}</a>, </span>the SVP.</p>
+                <h3>UPCOMING FELLOWSHIP</h3>
+                <ul ng-if="digest.events.fellowship.length" class="eventlist">
+                  <li ng-repeat="entity in digest.events.fellowship"><strong><span ng-if="entity.link"><a target="_blank" href="{{ entity.link }}">{{ entity.name }}</a></span><span ng-if="!entity.link">{{ entity.name }}</span></strong><span ng-if="entity.chairs"> ({{ entity.chairs }})</span><br/><span>{{ entity.date_start | date: 'EEEE, MMMM d' }}</span><span ng-if="entity.date_start && entity.time_start">, {{ entity.time_start | date: 'h:mm a' }}</span> <span ng-if="entity.date_start && entity.time_start && entity.time_end"> -<span ng-if="entity.date_end"> {{ entity.date_end | date: 'EEEE, MMMM d' }},</span> {{ entity.time_end | date: 'h:mm a' }}</span><br/><em>{{ entity.description }}</em></li>
+                </ul>
+                <p class="deemphasize">For more information on fellowship events, contact <span ng-if="digest.fvp.name && !digest.fvp.email">{{ digest.fvp.name }}, </span><span ng-if="digest.fvp.name && digest.fvp.email"><a href="mailto:{{digest.fvp.email}}">{{ digest.fvp.name }}</a>, </span>the FVP.</p>
+                <h3>MEETINGS AND MINUTES</h3>
+                <p>Meeting times and locations may change.</p>
+                <ul ng-if="digest.committees.length">
+                  <li ng-repeat="entity in digest.committees"><strong>{{ entity.name }}</strong> meets on <em>{{ entity.time }} in {{ entity.location }}</em>.</li>
+                </ul>
+                <p ng-if="digest.meetingsUrl">All minutes are available on <a target="_blank" href="{{ digest.meetingsUrl }}">Google Drive</a>.</p>
+              </td>
+            </tr>
+            <tr>
+              <td id="footer">
+                <p><em>The weekly EZ Digest provides to the members of the APO chapter at RPI a concise summary of upcoming activities.</em></p>
+                <p>Generated with <a target="_blank" href="https://github.com/jzblee/over_ez">Over EZ</a>. Please reply with any feedback.</p>
+                <p>Alpha Phi Omega - Epsilon Zeta Chapter - Rensselaer Polytechnic Institute</p>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.5/angular.min.js"></script>
+    <script type="text/javascript" src="javascripts/app.js"></script>
+  </body>
+</html>
