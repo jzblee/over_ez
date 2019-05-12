@@ -4,6 +4,7 @@
 }
 #digest a {
   color: #4169E1;
+  text-decoration: underline;
 }
 #digest table {
   border: 1px solid #000000;
