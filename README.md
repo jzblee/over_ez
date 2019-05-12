@@ -13,7 +13,7 @@ The EZ Digest is a weekly email sent to brothers of the Epsilon Zeta chapter of 
   - [MongoDB](https://www.mongodb.org/)
 3. Navigate into the directory of the application:
 ```
-> cd tally
+> cd over_ez
 ```
 4. Install all dependencies (Bower is needed for some front-end ones):
 ```

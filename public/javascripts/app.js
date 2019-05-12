@@ -41,6 +41,8 @@ app.controller("DigestController", function($scope) {
 
     var config_text = localStorage.getItem("config");
 
+    // If digest information exists in LocalStorage (i.e. the user
+    // clicked "Save" before and has not cleared cookies), load it
     if (config_text) {
         $scope.digest = JSON.parse(config_text);
         $scope.digest.date = $scope.digest.date ? new Date($scope.digest.date) : null;
@@ -56,6 +58,12 @@ app.controller("DigestController", function($scope) {
         }
     }
 
+    /*
+     * Add a blank item to the model.
+     *
+     * type: an integer value specifying the type of event
+     *       that the new entry should be listed as
+     */
     $scope.addItem = function (type) {
         switch (type) {
             case $scope.ENTITY_EVENT_SPECIAL:
@@ -75,6 +83,14 @@ app.controller("DigestController", function($scope) {
         }
     } 
 
+    /*
+     * Shows or hides a prompt to delete some item from the model.
+     *
+     * type:          an integer value specifying the type of the targeted item
+     * index:         the index of the target item within the array that corresponds
+     *                to the the given type
+     * displayPrompt: a boolean variable; show the prompt if true, hide if false
+     */
     $scope.removeItemPrompt = function (type, index, displayPrompt) {
         var entityArr = null;
         switch (type) {
@@ -96,6 +112,13 @@ app.controller("DigestController", function($scope) {
         entityArr[index]._toRemove = displayPrompt;
     }
 
+    /*
+     * Deletes an item from the model (if the user confirms the delete prompt)
+     *
+     * type:          an integer value specifying the type of the targeted item
+     * index:         the index of the target item within the array that corresponds
+     *                to the the given type
+     */
     $scope.removeItem = function (type, index) {
         var entityArr = null;
 
@@ -118,6 +141,9 @@ app.controller("DigestController", function($scope) {
         entityArr.splice(index, 1);
     }
 
+    /*
+     * Saves all digest details to an entry in browser LocalStorage (cookie)
+     */
     $scope.saveDigestLocally = function () {
         localStorage.setItem("config", JSON.stringify($scope.digest));
     }
