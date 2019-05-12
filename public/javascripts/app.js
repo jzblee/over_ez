@@ -59,7 +59,7 @@ app.controller("DigestController", function($scope) {
     }
 
     /*
-     * Add a blank item to the model.
+     * Adds a blank item to the model.
      *
      * type: an integer value specifying the type of event
      *       that the new entry should be listed as
@@ -147,4 +147,11 @@ app.controller("DigestController", function($scope) {
     $scope.saveDigestLocally = function () {
         localStorage.setItem("config", JSON.stringify($scope.digest));
     }
+})
+.directive("outputEvent", function() {
+    return {
+        templateUrl: function(elem, attr) {
+            return 'templates/output-event.html';
+        }
+    };
 });

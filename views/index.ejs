@@ -195,16 +195,16 @@
                 <h3>CHAPTER EVENTS</h3>
                 <p class="deemphasize">Event signup sheets are linked when available. Unless noted otherwise, meet in the office 15 minutes prior to the start time.</p>
                 <ul ng-if="digest.events.special.length" class="eventlist special">
-                  <li ng-repeat="entity in digest.events.special"><strong><span ng-if="entity.link"><a target="_blank" href="{{ entity.link }}">{{ entity.name }}</a></span><span ng-if="!entity.link">{{ entity.name }}</span></strong><span ng-if="entity.chairs"> ({{ entity.chairs }})</span><br/><span>{{ entity.date_start | date: 'EEEE, MMMM d' }}</span><span ng-if="entity.date_start && entity.time_start">, {{ entity.time_start | date: 'h:mm a' }}</span> <span ng-if="entity.date_start && (entity.time_start && entity.time_end) || entity.date_end"> -<span ng-if="entity.date_end"> {{ entity.date_end | date: 'EEEE, MMMM d' }}<span ng-if="entity.time_end">,</span></span> {{ entity.time_end | date: 'h:mm a' }}</span><br/><em>{{ entity.description }}</em></li>
+                  <li ng-repeat="entity in digest.events.special"><span output-event></span></li>
                 </ul>
                 <h3>UPCOMING SERVICE</h3>
                 <ul ng-if="digest.events.service.length" class="eventlist">
-                  <li ng-repeat="entity in digest.events.service"><strong><span ng-if="entity.link"><a target="_blank" href="{{ entity.link }}">{{ entity.name }}</a></span><span ng-if="!entity.link">{{ entity.name }}</span></strong><span ng-if="entity.chairs"> ({{ entity.chairs }})</span><br/><span>{{ entity.date_start | date: 'EEEE, MMMM d' }}</span><span ng-if="entity.date_start && entity.time_start">, {{ entity.time_start | date: 'h:mm a' }}</span> <span ng-if="entity.date_start && entity.time_start && entity.time_end"> -<span ng-if="entity.date_end"> {{ entity.date_end | date: 'EEEE, MMMM d' }},</span> {{ entity.time_end | date: 'h:mm a' }}</span><br/><em>{{ entity.description }}</em></li>
+                  <li ng-repeat="entity in digest.events.service"><span output-event></span></li>
                 </ul>
                 <p class="deemphasize">For more information on service events, contact <span ng-if="digest.svp.name && !digest.svp.email">{{ digest.svp.name }}, </span><span ng-if="digest.svp.name && digest.svp.email"><a href="mailto:{{digest.svp.email}}">{{ digest.svp.name }}</a>, </span>the SVP.</p>
                 <h3>UPCOMING FELLOWSHIP</h3>
                 <ul ng-if="digest.events.fellowship.length" class="eventlist">
-                  <li ng-repeat="entity in digest.events.fellowship"><strong><span ng-if="entity.link"><a target="_blank" href="{{ entity.link }}">{{ entity.name }}</a></span><span ng-if="!entity.link">{{ entity.name }}</span></strong><span ng-if="entity.chairs"> ({{ entity.chairs }})</span><br/><span>{{ entity.date_start | date: 'EEEE, MMMM d' }}</span><span ng-if="entity.date_start && entity.time_start">, {{ entity.time_start | date: 'h:mm a' }}</span> <span ng-if="entity.date_start && entity.time_start && entity.time_end"> -<span ng-if="entity.date_end"> {{ entity.date_end | date: 'EEEE, MMMM d' }},</span> {{ entity.time_end | date: 'h:mm a' }}</span><br/><em>{{ entity.description }}</em></li>
+                  <li ng-repeat="entity in digest.events.fellowship"><span output-event></span></li>
                 </ul>
                 <p class="deemphasize">For more information on fellowship events, contact <span ng-if="digest.fvp.name && !digest.fvp.email">{{ digest.fvp.name }}, </span><span ng-if="digest.fvp.name && digest.fvp.email"><a href="mailto:{{digest.fvp.email}}">{{ digest.fvp.name }}</a>, </span>the FVP.</p>
                 <h3>MEETINGS AND MINUTES</h3>
