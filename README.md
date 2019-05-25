@@ -20,7 +20,7 @@ The EZ Digest is a weekly email sent to brothers of the Epsilon Zeta chapter of 
 > npm install
 ```
 5. Make a copy of `config.example.json` and save it as `config.json`, and fill in the information. This file contains information that usually remains the same over the course of a semester, such as officer and meeting details.
-6. Start the server:
+6. Start the server (ensure the Mongo database has been started by running `mongod` in another shell/window):
 ```
 > npm start
 ```

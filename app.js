@@ -7,6 +7,8 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 
+var db = require('./schema');
+
 var app = express();
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
