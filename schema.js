@@ -8,7 +8,7 @@ mongoose.connection.on('error', function(err) {
 });
 
 var messageSchema = mongoose.Schema( {
-    enable: { type: Boolean, required: true }
+    enable: { type: Boolean, default: false }
   , body: { type: String }
   , signoff1: { type: String }
   , signoff2: { type: String }

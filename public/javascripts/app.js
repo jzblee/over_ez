@@ -39,12 +39,12 @@ app.controller("DigestController", function($scope) {
         "meetingsUrl" : ""
     }
 
-    var config_text = localStorage.getItem("config");
+    var temp_text = localStorage.getItem("over_ez_temp");
 
     // If digest information exists in LocalStorage (i.e. the user
     // clicked "Save" before and has not cleared cookies), load it
-    if (config_text) {
-        $scope.digest = JSON.parse(config_text);
+    if (temp_text) {
+        $scope.digest = JSON.parse(temp_text);
         $scope.digest.date = $scope.digest.date ? new Date($scope.digest.date) : null;
         var digestEventGroupKeys = Object.keys($scope.digest.events);
         for (var i = 0; i < digestEventGroupKeys.length; i++) {
@@ -145,7 +145,7 @@ app.controller("DigestController", function($scope) {
      * Saves all digest details to an entry in browser LocalStorage (cookie)
      */
     $scope.saveDigestLocally = function () {
-        localStorage.setItem("config", JSON.stringify($scope.digest));
+        localStorage.setItem("over_ez_temp", JSON.stringify($scope.digest));
     }
 })
 .directive("outputEvent", function() {

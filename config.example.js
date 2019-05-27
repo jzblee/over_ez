@@ -1,4 +1,4 @@
-{
+module.exports = {
     "date" : "1947-05-11",
     "cssFile" : "digest.css",
     "message" : {
