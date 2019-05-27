@@ -21,12 +21,7 @@ var personSchema = mongoose.Schema( {
 });
 
 var eventSchema = mongoose.Schema( {
-    type: {
-        type: String
-      , required: true
-      , enum: ['special', 'service', 'fellowship']
-    }
-  , name : { type: String, required: true }
+    name : { type: String, required: true }
   , link : { type: String }
   , chairs : { type: String }
   , date_start : { type: Date, required: true}
@@ -36,9 +31,15 @@ var eventSchema = mongoose.Schema( {
   , description : { type: String }
 });
 
+var eventGroupSchema = mongoose.Schema( {
+    special : [eventSchema]
+  , service : [eventSchema]
+  , fellowship : [eventSchema]
+});
+
 var committeeSchema = mongoose.Schema( {
     name: { type: String }
-  , time: { type: Date }
+  , time: { type: String }
   , location: { type: String }
 });
 
@@ -53,9 +54,7 @@ var digestSchema = mongoose.Schema( {
       , required: true
     }
   , message : messageSchema
-  , events_special : [eventSchema]
-  , events_service : [eventSchema]
-  , events_fellowship : [eventSchema]
+  , events : [eventGroupSchema]
   , maintainer : personSchema
   , svp : personSchema
   , fvp : personSchema
@@ -74,6 +73,7 @@ module.exports = {
     Message: mongoose.model('Message', messageSchema)
   , Person: mongoose.model('Person', personSchema)
   , Event: mongoose.model('Event', eventSchema)
+  , EventGroup: mongoose.model('EventGroup', eventGroupSchema)
   , Committee: mongoose.model('Committee', committeeSchema)
   , Digest: mongoose.model('Digest', digestSchema)
 };

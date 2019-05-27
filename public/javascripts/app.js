@@ -1,62 +1,84 @@
 var app = angular.module("over_ez", []); 
-app.controller("DigestController", function($scope) {
+app.controller("DigestController", function($scope, $http) {
     $scope.ENTITY_EVENT_SPECIAL = 3420;
     $scope.ENTITY_EVENT_SERVICE = 3421;
     $scope.ENTITY_EVENT_FELLOWSHIP = 3422;
     $scope.ENTITY_COMMITTEE = 3423;
 
-    $scope.digest = {
-        "date" : null,
-        "cssFile" : "digest.css",
-        "message" : {
-            "enable" : false,
-            "body" : "",
-            "signoff1" : "In LFS,",
-            "signoff2" : ""
-        },
-        "events" : {
-            "special" : [],
-            "service" : [],
-            "fellowship" : []
-        },
-        "maintainer" : {
-            "name" : "",
-            "nickname" : "",
-            "email" : ""
-        },
-        "svp" : {
-            "name" : "",
-            "nickname" : "",
-            "email" : ""
-        },
-        "fvp" : {
-            "name" : "",
-            "nickname" : "",
-            "email" : ""
-        },
-        "committees" : [],
-        "meetingMinutes" : [],
-        "meetingsUrl" : ""
+    $scope.getDefault = function() {
+        $http.get("/get")
+        .then(
+            function(response){ // success
+                $scope.digest = response.data;
+            }, 
+            function(response){ // failure
+                $scope.digest = {
+                    "date" : null,
+                    "cssFile" : "digest.css",
+                    "message" : {
+                        "enable" : false,
+                        "body" : "",
+                        "signoff1" : "In LFS,",
+                        "signoff2" : ""
+                    },
+                    "events" : {
+                        "special" : [],
+                        "service" : [],
+                        "fellowship" : []
+                    },
+                    "maintainer" : {
+                        "name" : "",
+                        "nickname" : "",
+                        "email" : ""
+                    },
+                    "svp" : {
+                        "name" : "",
+                        "nickname" : "",
+                        "email" : ""
+                    },
+                    "fvp" : {
+                        "name" : "",
+                        "nickname" : "",
+                        "email" : ""
+                    },
+                    "committees" : [],
+                    "meetingMinutes" : [],
+                    "meetingsUrl" : ""
+                }
+            }
+        );
     }
 
-    var temp_text = localStorage.getItem("over_ez_temp");
+    $scope.restoreLocal = function() {
+        var temp_text = localStorage.getItem("over_ez_temp");
 
-    // If digest information exists in LocalStorage (i.e. the user
-    // clicked "Save" before and has not cleared cookies), load it
-    if (temp_text) {
-        $scope.digest = JSON.parse(temp_text);
-        $scope.digest.date = $scope.digest.date ? new Date($scope.digest.date) : null;
-        var digestEventGroupKeys = Object.keys($scope.digest.events);
-        for (var i = 0; i < digestEventGroupKeys.length; i++) {
-            var eventGroup = $scope.digest.events[digestEventGroupKeys[i]];
-            for (var j = 0; j < eventGroup.length; j++) {
-                eventGroup[j].date_start = eventGroup[j].date_start ? new Date(eventGroup[j].date_start) : null;
-                eventGroup[j].date_end = eventGroup[j].date_end ? new Date(eventGroup[j].date_end) : null;
-                eventGroup[j].time_start = eventGroup[j].time_start ? new Date(eventGroup[j].time_start) : null;
-                eventGroup[j].time_end = eventGroup[j].time_end ? new Date(eventGroup[j].time_end) : null;
+        // If digest information exists in LocalStorage (i.e. the user
+        // clicked "Save" before and has not cleared cookies), load it
+        if (temp_text) {
+            try {
+                let temp_digest = JSON.parse(temp_text);
+                temp_digest.date = temp_digest.date ? new Date(temp_digest.date) : null;
+                var digestEventGroupKeys = Object.keys(temp_digest.events);
+                for (var i = 0; i < digestEventGroupKeys.length; i++) {
+                    var eventGroup = temp_digest.events[digestEventGroupKeys[i]];
+                    for (var j = 0; j < eventGroup.length; j++) {
+                        eventGroup[j].date_start = eventGroup[j].date_start ? new Date(eventGroup[j].date_start) : null;
+                        eventGroup[j].date_end = eventGroup[j].date_end ? new Date(eventGroup[j].date_end) : null;
+                        eventGroup[j].time_start = eventGroup[j].time_start ? new Date(eventGroup[j].time_start) : null;
+                        eventGroup[j].time_end = eventGroup[j].time_end ? new Date(eventGroup[j].time_end) : null;
+                    }
+                }
+                $scope.digest = temp_digest;
+                console.log($scope.digest);
+            }
+            catch (err) {
+                console.log(err);
             }
         }
     }
+
+    // $scope.getDefault();
+    $scope.restoreLocal();
 
     /*
      * Adds a blank item to the model.
