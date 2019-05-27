@@ -5,6 +5,20 @@ app.controller("DigestController", function($scope, $http) {
     $scope.ENTITY_EVENT_FELLOWSHIP = 3422;
     $scope.ENTITY_COMMITTEE = 3423;
 
+    $scope.getList = function() {
+        $http.get("/list")
+        .then(
+            function(response){ // success
+                $scope.server_digest_list = response.data;
+            }, 
+            function(response){ // failure
+                console.log("couldn't get saved digests from server");
+            }
+        );
+    }
+
+    $scope.getList();
+
     $scope.getDefault = function() {
         $http.get("/get")
         .then(
@@ -49,7 +63,41 @@ app.controller("DigestController", function($scope, $http) {
         );
     }
 
-    $scope.restoreLocal = function() {
+    $scope.loadDigestDates = function(obj) {
+        console.log(obj);
+        var userTimezoneOffset = new Date().getTimezoneOffset() * 60000;
+        obj.date = obj.date ? new Date(new Date(obj.date).getTime() + userTimezoneOffset) : null;
+        var digestEventGroupKeys = Object.keys(obj.events);
+        for (var i = 0; i < digestEventGroupKeys.length; i++) {
+            var eventGroup = obj.events[digestEventGroupKeys[i]];
+            for (var j = 0; j < eventGroup.length; j++) {
+                eventGroup[j].date_start = eventGroup[j].date_start ? new Date(new Date(eventGroup[j].date_start).getTime() + userTimezoneOffset) : null;
+                eventGroup[j].date_end = eventGroup[j].date_end ? new Date(new Date(eventGroup[j].date_end).getTime() + userTimezoneOffset) : null;
+                eventGroup[j].time_start = eventGroup[j].time_start ? new Date(new Date(eventGroup[j].time_start).getTime() + userTimezoneOffset) : null;
+                eventGroup[j].time_end = eventGroup[j].time_end ? new Date(new Date(eventGroup[j].time_end).getTime() + userTimezoneOffset) : null;
+            }
+        }
+        return obj;
+    }
+
+    $scope.saveDigestDates = function(obj) {
+        let temp = JSON.parse(JSON.stringify(obj));
+        var userTimezoneOffset = new Date().getTimezoneOffset() * 60000;
+        temp.date = temp.date ? new Date(new Date(temp.date) - userTimezoneOffset) : null;
+        var digestEventGroupKeys = Object.keys(temp.events);
+        for (var i = 0; i < digestEventGroupKeys.length; i++) {
+            var eventGroup = temp.events[digestEventGroupKeys[i]];
+            for (var j = 0; j < eventGroup.length; j++) {
+                eventGroup[j].date_start = eventGroup[j].date_start ? new Date(new Date(eventGroup[j].date_start) - userTimezoneOffset) : null;
+                eventGroup[j].date_end = eventGroup[j].date_end ? new Date(new Date(eventGroup[j].date_end) - userTimezoneOffset) : null;
+                eventGroup[j].time_start = eventGroup[j].time_start ? new Date(new Date(eventGroup[j].time_start) - userTimezoneOffset) : null;
+                eventGroup[j].time_end = eventGroup[j].time_end ? new Date(new Date(eventGroup[j].time_end) - userTimezoneOffset) : null;
+            }
+        }
+        return temp;
+    }
+
+    $scope.loadDigestLocally = function() {
         var temp_text = localStorage.getItem("over_ez_temp");
 
         // If digest information exists in LocalStorage (i.e. the user
@@ -57,28 +105,58 @@ app.controller("DigestController", function($scope, $http) {
         if (temp_text) {
             try {
                 let temp_digest = JSON.parse(temp_text);
-                temp_digest.date = temp_digest.date ? new Date(temp_digest.date) : null;
-                var digestEventGroupKeys = Object.keys(temp_digest.events);
-                for (var i = 0; i < digestEventGroupKeys.length; i++) {
-                    var eventGroup = temp_digest.events[digestEventGroupKeys[i]];
-                    for (var j = 0; j < eventGroup.length; j++) {
-                        eventGroup[j].date_start = eventGroup[j].date_start ? new Date(eventGroup[j].date_start) : null;
-                        eventGroup[j].date_end = eventGroup[j].date_end ? new Date(eventGroup[j].date_end) : null;
-                        eventGroup[j].time_start = eventGroup[j].time_start ? new Date(eventGroup[j].time_start) : null;
-                        eventGroup[j].time_end = eventGroup[j].time_end ? new Date(eventGroup[j].time_end) : null;
-                    }
-                }
-                $scope.digest = temp_digest;
-                console.log($scope.digest);
+                $scope.digest = $scope.loadDigestDates(temp_digest);
             }
             catch (err) {
-                console.log(err);
+                console.error(err);
             }
+        }
+        else {
+            $scope.getDefault();
         }
     }
 
-    // $scope.getDefault();
-    $scope.restoreLocal();
+    $scope.loadDigestLocally();
+
+    $scope.loadDigestRemotely = function(dateStr) {
+        $http.get("/get/" + dateStr)
+        .then(
+            function(response){ // success
+                $scope.digest = $scope.loadDigestDates(response.data);
+            }, 
+            function(response){ // failure
+                console.log("couldn't load saved digests from server - " + dateStr);
+            }
+        );
+    }
+
+    /*
+     * Saves all digest details to an entry in browser LocalStorage (cookie)
+     */
+    $scope.saveDigestLocally = function () {
+        try {
+            localStorage.setItem("over_ez_temp", JSON.stringify($scope.saveDigestDates($scope.digest)));
+        }
+        catch(err) {
+            console.error(err);
+            localStorage.removeItem("over_ez_temp");
+        }
+    }
+
+    $scope.saveDigestRemotely = function () {
+        $http.post("/save", $scope.saveDigestDates($scope.digest))
+            .then(
+                function(response){ // success
+                    console.log("successfully saved digest to server");
+                    localStorage.removeItem("over_ez_temp");
+                    $scope.getList();
+
+                }, 
+                function(response){ // failure
+                    console.log("couldn't save digest to server");
+                }
+            );
+    }
 
     /*
      * Adds a blank item to the model.
@@ -161,13 +239,6 @@ app.controller("DigestController", function($scope, $http) {
                 break;
         }
         entityArr.splice(index, 1);
-    }
-
-    /*
-     * Saves all digest details to an entry in browser LocalStorage (cookie)
-     */
-    $scope.saveDigestLocally = function () {
-        localStorage.setItem("over_ez_temp", JSON.stringify($scope.digest));
     }
 })
 .directive("outputEvent", function() {

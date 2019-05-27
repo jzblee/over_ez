@@ -54,7 +54,7 @@ var digestSchema = mongoose.Schema( {
       , required: true
     }
   , message : messageSchema
-  , events : [eventGroupSchema]
+  , events : eventGroupSchema
   , maintainer : personSchema
   , svp : personSchema
   , fvp : personSchema

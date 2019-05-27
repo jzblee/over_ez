@@ -18,36 +18,32 @@
           <li class="nav-item">
             <a class="nav-link" href="#" ng-click="getDefault()">New</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">Open</a>
-            <!-- TODO: dropdown to load past digests -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
+              Open
+            </a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="#" ng-repeat="date in server_digest_list" ng-click="loadDigestRemotely(date)">{{date}}</a>
+            </div>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
               Save
             </a>
             <div class="dropdown-menu">
+              <a class="dropdown-item disabled" href="#">Date: {{digest.date | date:'yyyy-MM-dd'}}</a>
+              <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="#" ng-click="saveDigestLocally()">Save to my computer</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item disabled" href="#">Save to server</a>
+              <!-- TODO: DISABLE remote save button if no publication date is set yet-->
+              <!-- TODO: replace previous digest on server that shares the same date-->
+              <a class="dropdown-item" href="#" ng-click="saveDigestRemotely()">Save to server</a>
               <a class="dropdown-item disabled" href="#">Save to server and PUBLISH</a>
             </div>
           </li>
           <li class="nav-item">
             <a class="nav-link disabled" href="#">Publish</a>
-            <!-- TODO: disable button if opened digest is archived -->
           </li>
-          <!-- <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
-              Import and export
-            </a>
-            <div class="dropdown-menu">
-              <a class="dropdown-item" href="#" ng-click="saveDigestLocally()">Save to browser storage</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item disabled" href="#">Import from JSON file</a>
-              <a class="dropdown-item disabled" href="#">Export to JSON file</a>
-            </div>
-          </li> -->
           <li class="nav-item">
             <a class="nav-link disabled" href="#">Archives</a>
           </li>
