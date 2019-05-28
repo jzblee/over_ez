@@ -12,13 +12,13 @@ var messageSchema = mongoose.Schema( {
   , body: { type: String }
   , signoff1: { type: String }
   , signoff2: { type: String }
-});
+}, { _id: false });
 
 var personSchema = mongoose.Schema( {
     name: { type: String }
   , nickname: { type: String }
   , email: { type: String }
-});
+}, { _id: false });
 
 var eventSchema = mongoose.Schema( {
     name : { type: String, required: true }
@@ -29,19 +29,19 @@ var eventSchema = mongoose.Schema( {
   , time_start : { type: Date }
   , time_end : { type: Date }
   , description : { type: String }
-});
+}, { _id: false });
 
 var eventGroupSchema = mongoose.Schema( {
     special : [eventSchema]
   , service : [eventSchema]
   , fellowship : [eventSchema]
-});
+}, { _id: false });
 
 var committeeSchema = mongoose.Schema( {
     name: { type: String }
   , time: { type: String }
   , location: { type: String }
-});
+}, { _id: false });
 
 /* digests */
 var digestSchema = mongoose.Schema( {
@@ -64,7 +64,7 @@ var digestSchema = mongoose.Schema( {
 
 
 /*
-The server should be restarted after dropping a collection to regenerate the index.
+The server should be restarted after dropping the collection to regenerate the index.
 Alternatively, you can run db.<coll>.remove({}), which will not delete the index.
 */
 digestSchema.index({'date': -1}, {unique: true});

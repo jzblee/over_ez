@@ -63,13 +63,18 @@ router.post('/save', function(req, res, next) {
     function(callback) {
       /*
       Since the digest data that is being transmitted is a repurposed
-      Mongoose schema, the request body will contain _id keys that may
+      Mongoose schema, the request body will contain an _id key that may
       not change if the user is saving a new digest from a previous copy.
-      As a result, just remove the top level _id key for now to ignore
-      collisions.
+      So, just remove the _id key to avoid those kinds of collisions.
 
-      TODO: scrub all _id information from transmitted request body before
-            sending to server
+      NOTE: An _id field is required for the top level document (in this
+            case, the Digest document) to be saved to the database, but
+            we can just 1) declare an _id field in the top level schema
+            and 2) delete the existing_id value when submitting and a
+            new one will be generated for our object.
+
+      See /schema.js
+      Reference: https://mongoosejs.com/docs/guide.html#_id
       */
       delete req.body._id;
       let newDigest = new req.db.Digest(req.body);
