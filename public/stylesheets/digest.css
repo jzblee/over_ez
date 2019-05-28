@@ -10,6 +10,7 @@
   border: 1px solid #000000;
   border-collapse: collapse;
   border-spacing: 1px;
+  line-height: normal;
 }
 #digest td {
   padding: 10px;
@@ -17,9 +18,17 @@
   word-break: break-all;
   word-break: break-word;
 }
+
+#digest td p {
+  margin-top: 10px;
+}
+
 #digest h3 {
   font-family: Futura, Arial, serif;
   margin: 0;
+
+  font-size: 1.17em;
+  font-weight: bold;
 }
 #digest ul {
   padding-left: 20px;
