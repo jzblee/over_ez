@@ -25,6 +25,23 @@ router.get('/get', function(req, res, next) {
   res.send(newDigest);
 });
 
+router.get('/digest/:date', function(req, res, next) {
+    req.db.Digest.find({ date: req.params.date },
+      function(err, result) {
+        if (err) {
+          res.status(500).send(err);
+        } else {
+          // unique index enforces one digest per date, so always send the 0th result
+          res.render('digest', { title: 'Digest window', standalone: true, date: req.params.date });
+        }
+      }
+    );
+});
+
+router.get('/digest', function(req, res, next) {
+  res.render('digest', { title: 'Digest window', standalone: false });
+});
+
 router.get('/list', function(req, res, next) {
   req.db.Digest.aggregate() // TODO: add archived flag to filter out old digests
     .project({ date: { $dateToString: { format: "%Y-%m-%d", date: "$date" } } })

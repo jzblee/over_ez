@@ -63,6 +63,15 @@ app.controller("DigestController", function($scope, $http) {
         );
     }
 
+    /*
+     * HTML date and time fields attempt to convert the entered date or
+     * time into the local time zone. As the dates and times that are
+     * entered will always be in Eastern Time (for RPI's campus), it's
+     * not necessary to support multiple time zones. By adding the
+     * current local time offset to UTC when loading digest information
+     * and subtracting it when saving digest information, we ensure that
+     * users sees dates and times in Eastern Time wherever they are.
+     */
     $scope.loadDigestDates = function(obj) {
         console.log(obj);
         var userTimezoneOffset = new Date().getTimezoneOffset() * 60000;
@@ -244,7 +253,7 @@ app.controller("DigestController", function($scope, $http) {
 .directive("outputEvent", function() {
     return {
         templateUrl: function(elem, attr) {
-            return 'templates/output-event.html';
+            return '/templates/output-event.html';
         }
     };
 });
