@@ -8,13 +8,12 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/get/:date', function(req, res, next) {
-    req.db.Digest.find({ date: req.params.date },
+    req.db.Digest.findOne({ date: req.params.date },
       function(err, result) {
         if (err) {
           res.status(500).send(err);
         } else {
-          // unique index enforces one digest per date, so always send the 0th result
-          res.send(result[0]);
+          res.send(result);
         }
       }
     );
@@ -26,7 +25,7 @@ router.get('/get', function(req, res, next) {
 });
 
 router.get('/digest/:date', function(req, res, next) {
-    req.db.Digest.find({ date: req.params.date },
+    req.db.Digest.findOne({ date: req.params.date },
       function(err, result) {
         if (err) {
           res.status(500).send(err);
@@ -60,6 +59,17 @@ router.get('/list', function(req, res, next) {
 
 router.post('/save', function(req, res, next) {
   async.waterfall([
+    function(callback) {
+      req.db.Digest.deleteOne({ date: req.body.date },
+        function(err, result) {
+          if (err) {
+            callback([500, "Failed to overwrite existing digest: " + err.message]);
+          } else {
+            callback(null);
+          }
+        }
+      );
+    },
     function(callback) {
       /*
       Since the digest data that is being transmitted is a repurposed

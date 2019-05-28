@@ -134,13 +134,13 @@ app.controller("DigestController", function($scope, $http) {
                 $scope.digest = $scope.loadDigestDates(response.data);
             }, 
             function(response){ // failure
-                console.log("couldn't load saved digests from server - " + dateStr);
+                console.log("couldn't load saved digest from server - " + dateStr);
             }
         );
     }
 
     /*
-     * Saves all digest details to an entry in browser LocalStorage (cookie)
+     * Saves all digest details to an entry in browser LocalStorage
      */
     $scope.saveDigestLocally = function () {
         try {
@@ -152,6 +152,11 @@ app.controller("DigestController", function($scope, $http) {
         }
     }
 
+    /*
+     * Saves all digest details to the server (the way the POST request
+     * is defined, the server will overwrite a database entry if it has
+     * a matching date)
+     */
     $scope.saveDigestRemotely = function () {
         $http.post("/save", $scope.saveDigestDates($scope.digest))
             .then(

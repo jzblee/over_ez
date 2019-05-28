@@ -65,7 +65,7 @@ var digestSchema = mongoose.Schema( {
 
 /*
 The server should be restarted after dropping the collection to regenerate the index.
-Alternatively, you can run db.<coll>.remove({}), which will not delete the index.
+Alternatively, you can run db.<coll>.deleteMany({}), which will not delete the index.
 */
 digestSchema.index({'date': -1}, {unique: true});
 
