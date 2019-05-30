@@ -22,7 +22,7 @@ router.get('/signin', ensureLoggedOut('/'), function(req,res) {
     res.render('signin', { error: req.flash('error')[0] });
 });
 router.post('/signin',
-passport.authenticate('local', { successReturnToOrRedirect: '/',
+passport.authenticate('local', { successRedirect: '/',
                                  failureRedirect: '/signin',
                                  failureFlash: "invalid details, try again" })
 );
