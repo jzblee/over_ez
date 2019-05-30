@@ -15,7 +15,7 @@ module.exports = {
                 "chairs": "",
                 "date_start": "1947-05-11",
                 "date_end": null,
-                "time_start": "2:30 pm",
+                "time_start": "1970-01-01T14:30:00Z",
                 "time_end": null,
                 "description": "This is not a real ritual."
             }

@@ -23,7 +23,7 @@ app.controller("DigestController", function($scope, $http) {
         $http.get("/get")
         .then(
             function(response){ // success
-                $scope.digest = response.data;
+                $scope.digest = $scope.loadDigestDates(response.data);
             }, 
             function(response){ // failure
                 $scope.digest = {
