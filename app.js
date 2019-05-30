@@ -1,16 +1,13 @@
-var createError = require('http-errors');
-var express = require('express');
-var favicon = require('serve-favicon');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const favicon = require('serve-favicon');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var indexRouter = require('./routes/index');
+const indexRouter = require('./routes/index');
 
-var config = require('./config');
-var db = require('./schema');
-
-var app = express();
+const app = express();
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 // view engine setup
@@ -22,12 +19,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.use(function(req, res, next) {
-    req.config = config;
-    req.db = db;
-    next();
-});
 
 app.use('/', indexRouter);
 

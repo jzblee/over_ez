@@ -111,7 +111,7 @@ app.controller("DigestController", function($scope, $http) {
 
         // If digest information exists in LocalStorage (i.e. the user
         // clicked "Save" before and has not cleared cookies), load it
-        if (temp_text) {
+        if (temp_text && temp_text != "ignore") {
             try {
                 let temp_digest = JSON.parse(temp_text);
                 $scope.digest = $scope.loadDigestDates(temp_digest);
@@ -120,7 +120,7 @@ app.controller("DigestController", function($scope, $http) {
                 console.error(err);
             }
         }
-        else {
+        else if (!temp_text) {
             $scope.getDefault();
         }
     }
@@ -132,6 +132,10 @@ app.controller("DigestController", function($scope, $http) {
         .then(
             function(response){ // success
                 $scope.digest = $scope.loadDigestDates(response.data);
+                var event = new Event('DigestLoaded');
+
+                // Dispatch the event.
+                document.dispatchEvent(event);
             }, 
             function(response){ // failure
                 console.log("couldn't load saved digest from server - " + dateStr);

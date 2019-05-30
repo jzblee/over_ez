@@ -60,5 +60,7 @@
 <script type="text/javascript">
   if(typeof app === 'undefined'){
     document.location.href="/";
+  } else if (app == null) {
+    localStorage.setItem("over_ez_temp", "ignore");
   }
 </script>
