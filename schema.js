@@ -21,10 +21,10 @@ var personSchema = mongoose.Schema( {
 }, { _id: false });
 
 var eventSchema = mongoose.Schema( {
-    name : { type: String, required: true }
+    name : { type: String }
   , link : { type: String }
   , chairs : { type: String }
-  , date_start : { type: Date, required: true}
+  , date_start : { type: Date }
   , date_end : { type: Date }
   , time_start : { type: Date }
   , time_end : { type: Date }
@@ -45,14 +45,8 @@ var committeeSchema = mongoose.Schema( {
 
 /* digests */
 var digestSchema = mongoose.Schema( {
-    date : {
-        type: Date
-      , required: true 
-    }
-  , cssFile : {
-        type: String
-      , required: true
-    }
+    date : { type: Date, required: true }
+  , cssFile : { type: String }
   , message : messageSchema
   , events : eventGroupSchema
   , maintainer : personSchema
