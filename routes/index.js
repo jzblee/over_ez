@@ -3,18 +3,35 @@ const async = require('async');
 const router = express.Router();
 const request = require('request');
 
+const ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn;
+const ensureLoggedOut = require('connect-ensure-login').ensureLoggedOut;
+const passport = require('passport');
+
 const config = require('../config');
 const db = require('../schema');
 
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Over EZ' });
+// /* GET home page. */
+// router.get('/', function(req, res, next) {
+//   res.render('index', { title: 'Over EZ' });
+// });
+
+router.get('/signin', ensureLoggedOut('/'), function(req,res) {
+    res.render('signin', { error: req.flash('error')[0] });
+});
+router.post('/signin',
+passport.authenticate('local', { successReturnToOrRedirect: '/',
+                                 failureRedirect: '/signin',
+                                 failureFlash: "invalid details, try again" })
+);
+router.get('/signout', function(req,res) {
+  req.logout();
+  res.redirect('/');
 });
 
-router.get('/get/:date', function(req, res, next) {
+router.get('/get/:date', ensureLoggedIn('/'), function(req, res, next) {
     db.Digest.findOne({ date: req.params.date },
       function(err, result) {
         if (err) {
@@ -26,12 +43,12 @@ router.get('/get/:date', function(req, res, next) {
     );
 });
 
-router.get('/get', function(req, res, next) {
+router.get('/get', ensureLoggedIn('/'), function(req, res, next) {
   let newDigest = new db.Digest(config);
   res.send(newDigest);
 });
 
-router.get('/digest/:date', function(req, res, next) {
+router.get('/digest/:date', ensureLoggedIn('/'), function(req, res, next) {
     db.Digest.findOne({ date: req.params.date },
       function(err, result) {
         if (err) {
@@ -44,11 +61,11 @@ router.get('/digest/:date', function(req, res, next) {
     );
 });
 
-router.get('/digest', function(req, res, next) {
+router.get('/digest', ensureLoggedIn('/'), function(req, res, next) {
   res.render('digest', { title: 'Digest window', standalone: false });
 });
 
-router.get('/render/:date', function(req, res, next) {
+router.get('/render/:date', ensureLoggedIn('/'), function(req, res, next) {
   let url_ = 'http://' + req.headers.host + '/digest/' + req.params.date;
   request(url_, function (error, response, body) {
     const render = new JSDOM('<script type="text/javascript">app = null;</script>' + body, { url: url_, runScripts: "dangerously", resources: "usable" });
@@ -64,7 +81,7 @@ router.get('/render/:date', function(req, res, next) {
   });
 });
 
-router.get('/list', function(req, res, next) {
+router.get('/list', ensureLoggedIn('/'), function(req, res, next) {
   db.Digest.aggregate() // TODO: add archived flag to filter out old digests
     .project({ date: { $dateToString: { format: "%Y-%m-%d", date: "$date" } } })
     .sort({ date: -1 })
@@ -80,7 +97,7 @@ router.get('/list', function(req, res, next) {
     });
 });
 
-router.post('/save', function(req, res, next) {
+router.post('/save', ensureLoggedIn('/'), function(req, res, next) {
   async.waterfall([
     function(callback) {
       db.Digest.deleteOne({ date: req.body.date },
@@ -128,6 +145,10 @@ router.post('/save', function(req, res, next) {
       res.sendStatus(200);
     }
   });
+});
+
+router.get('/*', ensureLoggedIn('/signin'), function(req, res) {
+  res.render('index');
 });
 
 module.exports = router;

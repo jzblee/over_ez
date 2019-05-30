@@ -62,6 +62,11 @@ var digestSchema = mongoose.Schema( {
   , meetingsUrl : { type: String }
 });
 
+var userSchema = mongoose.Schema( {
+    username: { type: String }
+  , password: { type: String }
+});
+
 
 /*
 The server should be restarted after dropping the collection to regenerate the index.
@@ -76,5 +81,6 @@ module.exports = {
   , EventGroup: mongoose.model('EventGroup', eventGroupSchema)
   , Committee: mongoose.model('Committee', committeeSchema)
   , Digest: mongoose.model('Digest', digestSchema)
+  , User: mongoose.model('User', userSchema)
 };
 

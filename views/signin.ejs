@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Over EZ - Sign in</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel='stylesheet' href='/stylesheets/signin.css' />
+  </head>
+  <body>
+    <div class="vertical-center signin-backdrop">
+      <form class="form-signin" action="/signin" method="post">
+        <img class="signin-logo" src="/images/over_ez_logo.svg" height="100">
+        <input type="text" id="inputUsername" name="username" autocorrect="off" autocapitalize="none" autofocus class="form-control form-text-top" placeholder="Username">
+        <input type="password" id="inputPassword" name="password" class="form-control form-text-bot" placeholder="Password">
+        <button type="submit" class="btn btn-block btn-submit">
+          <% if (error) { %>
+          <span class="signin-error"><%= error %></span>
+          <% } else { %>
+          Sign in
+          <% } %>
+        </button>
+      </form>
+    </div>
+  </body>
+</html>
