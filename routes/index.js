@@ -9,6 +9,7 @@ const passport = require('passport');
 
 const config = require('../config');
 const db = require('../schema');
+const render = require('../render');
 
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
@@ -49,16 +50,16 @@ router.get('/get', ensureLoggedIn('/'), function(req, res, next) {
 });
 
 router.get('/digest/:date', ensureLoggedIn('/'), function(req, res, next) {
-    db.Digest.findOne({ date: req.params.date },
-      function(err, result) {
-        if (err) {
-          res.status(500).send(err);
-        } else {
-          // unique index enforces one digest per date, so always send the 0th result
-          res.render('digest', { title: 'Digest window', standalone: true, date: req.params.date });
-        }
+  db.Digest.findOne({ date: req.params.date },
+    function(err, result) {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        // unique index enforces one digest per date, so always send the 0th result
+        res.render('digest', { title: 'Digest window', standalone: true, date: req.params.date });
       }
-    );
+    }
+  );
 });
 
 router.get('/digest', ensureLoggedIn('/'), function(req, res, next) {
@@ -66,17 +67,29 @@ router.get('/digest', ensureLoggedIn('/'), function(req, res, next) {
 });
 
 router.get('/render/:date', ensureLoggedIn('/'), function(req, res, next) {
-  let url_ = 'http://' + req.headers.host + '/digest/' + req.params.date;
-  request(url_, function (error, response, body) {
-    const render = new JSDOM('<script type="text/javascript">app = null;</script>' + body, { url: url_, runScripts: "dangerously", resources: "usable" });
-    var timeout = setTimeout(function() {
-      res.status(504).send('Render request timed out');
-    }, 10000);
-    render.window.document.addEventListener('DigestLoaded', function() {
-      clearTimeout(timeout);
-      setTimeout(function() {
-        res.send('<head><link rel="stylesheet" type="text/css" href="/stylesheets/digest.css"></head><body><div id="digest">' + render.window.document.getElementById('digest').innerHTML + "</div></body>");
-      }, 100);
+  let base_url_ = 'http://' + req.headers.host;
+  var j = request.jar();
+  request.post({url: base_url_ + '/signin/', form:{username:render.username, password: render.password}, jar: j}, function(postErr, postRes, postResBody) {
+    if (postErr) {
+      return console.error('local login failed:', postErr);
+    }
+    let url_ = base_url_ + '/digest/' + req.params.date;
+    request({url: url_, jar: j}, function (error, response, body) {
+      var failure = false;
+      const cookieJar = new jsdom.CookieJar(j._jar.store);
+      const render = new JSDOM('<script type="text/javascript">app = null;</script>' + body, { cookieJar, url: url_, runScripts: "dangerously", resources: "usable" });
+      var timeout = setTimeout(function() {
+        failure = true;
+        res.status(504).send('Render request timed out');
+      }, 10000);
+      render.window.document.addEventListener('DigestLoaded', function() {
+        if (!failure) {
+          clearTimeout(timeout);
+          setTimeout(function() {
+            res.send('<head><link rel="stylesheet" type="text/css" href="/stylesheets/digest.css"></head><body><div id="digest">' + render.window.document.getElementById('digest').innerHTML + "</div></body>");
+          }, 100);
+        }
+      });
     });
   });
 });

@@ -73,7 +73,6 @@ app.controller("DigestController", function($scope, $http) {
      * users sees dates and times in Eastern Time wherever they are.
      */
     $scope.loadDigestDates = function(obj) {
-        console.log(obj);
         var userTimezoneOffset = new Date().getTimezoneOffset() * 60000;
         obj.date = obj.date ? new Date(new Date(obj.date).getTime() + userTimezoneOffset) : null;
         var digestEventGroupKeys = Object.keys(obj.events);
@@ -138,7 +137,7 @@ app.controller("DigestController", function($scope, $http) {
                 document.dispatchEvent(event);
             }, 
             function(response){ // failure
-                console.log("couldn't load saved digest from server - " + dateStr);
+                console.error("couldn't load saved digest from server - " + dateStr);
             }
         );
     }
