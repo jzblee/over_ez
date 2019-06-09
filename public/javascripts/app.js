@@ -12,6 +12,7 @@ app.controller("DigestController", function($scope, $http) {
                 $scope.server_digest_list = response.data;
             }, 
             function(response){ // failure
+                $scope.showFailure(response.data);
                 console.log("couldn't get saved digests from server");
             }
         );
@@ -26,6 +27,8 @@ app.controller("DigestController", function($scope, $http) {
                 $scope.digest = $scope.loadDigestDates(response.data);
             }, 
             function(response){ // failure
+                $scope.showFailure(response.data);
+                console.error("couldn't get default digest information from server, using local hardcoded defaults")
                 $scope.digest = {
                     "date" : null,
                     "cssFile" : "digest.css",
@@ -119,7 +122,8 @@ app.controller("DigestController", function($scope, $http) {
                 $scope.digest = $scope.loadDigestDates(temp_digest);
             }
             catch (err) {
-                console.error(err);
+                $scope.showFailure(err);
+                console.error("couldn't load saved digest from LocalStorage");
             }
         }
         else if (!temp_text) {
@@ -140,6 +144,7 @@ app.controller("DigestController", function($scope, $http) {
                 document.dispatchEvent(event);
             }, 
             function(response){ // failure
+                $scope.showFailure(response.data);
                 console.error("couldn't load saved digest from server - " + dateStr);
             }
         );
@@ -150,10 +155,11 @@ app.controller("DigestController", function($scope, $http) {
      */
     $scope.saveDigestLocally = function () {
         try {
+            $scope.showSuccess();
             localStorage.setItem("over_ez_temp", JSON.stringify($scope.saveDigestDates($scope.digest)));
         }
         catch(err) {
-            console.error(err);
+            $scope.showFailure(err);
             localStorage.removeItem("over_ez_temp");
         }
     }
@@ -168,16 +174,20 @@ app.controller("DigestController", function($scope, $http) {
         $http.post("/save", digest)
             .then(
                 function(response){ // success
-                    console.log("successfully saved digest to server");
                     localStorage.removeItem("over_ez_temp");
                     $scope.getList();
                     if (callback) {
                         callback(digest.date.toISOString().substr(0,10));
                     }
+                    else {
+                        console.log("successfully saved digest to server");
+                        $scope.showSuccess();
+                    }
 
                 }, 
                 function(response){ // failure
-                    console.log("couldn't save digest to server");
+                    console.error("couldn't save digest to server");
+                    $scope.showFailure(response.data);
                 }
             );
     }
@@ -187,10 +197,12 @@ app.controller("DigestController", function($scope, $http) {
             .then(
                 function(response){ // success
                     console.log("successfully published digest");
+                    $scope.showSuccess();
 
                 }, 
                 function(response){ // failure
-                    console.log("couldn't publish digest");
+                    console.error("couldn't publish digest");
+                    $scope.showFailure(response.data);
                 }
             );
     }
@@ -276,6 +288,21 @@ app.controller("DigestController", function($scope, $http) {
                 break;
         }
         entityArr.splice(index, 1);
+    }
+
+    $scope.showSuccess = function() {
+        $("#successModal").modal("show");
+        setTimeout(function() {
+          $("#successModal").modal("hide");
+        }, 3000);
+    }
+
+    $scope.showFailure = function(err) {
+        $("#failureModal").modal("show");
+        setTimeout(function() {
+          $("#failureModal").modal("hide");
+        }, 3000);
+        console.error(err);
     }
 })
 .directive("outputEvent", function() {

@@ -120,3 +120,25 @@ html, body {
 #editor .removePromptA:active {
     color: #f00;
 }
+
+.modal-open .modal {
+    height: 0;
+    overflow: visible;
+}
+
+.modal-dialog {
+    margin: 2vh auto;
+}
+
+.modal-header {
+    border-bottom: none;
+    border-radius: .3rem;
+}
+
+#successModal .modal-header {
+    background-color: rgb(180,255,180);
+}
+
+#failureModal .modal-header {
+    background-color: rgb(255,180,180);
+}
