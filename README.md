@@ -1,24 +1,41 @@
 # Over EZ
-This repository contains a suite of tools to aid brothers in creating editions of the EZ Digest.
+This repository contains a MEAN stack application which aids brothers in creating editions of the EZ Digest.
 ## EZ Digest
-The EZ Digest is a weekly email sent to brothers of the Epsilon Zeta chapter of Alpha Phi Omega at Rensselaer Polytechnic Institute. Created with HTML and CSS, it provides details and sign-up links to upcoming chapter events, and includes minutes for recent brotherhood and committee meetings.
+The EZ Digest is a weekly email sent to brothers of the Epsilon Zeta chapter of Alpha Phi Omega at Rensselaer Polytechnic Institute. This HTML publication provides details and sign-up links to upcoming chapter events, and includes minutes for recent brotherhood and committee meetings.
 ## Installation and Deployment
 1. To get the files, you can either:
-    * Clone this git repository by running the following command in a Git-enabled terminal:
-        * `> git clone https://github.com/jzblee/over_ez.git`
-    * Or, click the green button on the top right of the GitHub code page to download the files.
-2. Open the `index.html` file in your browser. Autofilling will not work unless the file is hosted on a server.
+    - Clone this git repository by running the following command in a Git-enabled terminal:
+        - `> git clone https://github.com/jzblee/over_ez.git`
+    - Or, click the green button on the top right of the GitHub code page to download the files.
+2. Install the following tools to proceed:
+    - [Node.js](nodejs.org)
+    - [MongoDB](https://www.mongodb.org/)
+3. Navigate into the directory of the application:
+```
+> cd over_ez
+```
+4. Install all dependencies (Bower is needed for some front-end ones):
+```
+> npm install -g bower
+> npm install
+```
+5. Make a copy of `config.example.js` and save it as `config.js`, and fill in the information. This file contains information that usually remains the same over the course of a semester, such as officer and meeting details.
+6. Make a copy of `render.example.js` and save it as `render.js`, and fill in the username and password for some account on the website to use for serverside rendering. In addition, specify the SMTP account information for outgoing mail. A dedicated SMTP service such as SendGrid works best. `TODO: account creation is not currently possible directly through the frontend.`
+7. Start the server (ensure the Mongo database has been started by running `mongod` in another shell/window):
+```
+> npm start
+```
+
 ## Usage
-1. Enter the digest publication date on the top left. Preferably, the digest should be created in time for publishing on the next Sunday, so there is a button to help set the date to that.
-2. The stylesheet name used is the default, style-digest.css. Unless you have custom/multiple style sheets, the default should be all you need.
+1. Enter the digest publication date on the top left.
+2. The stylesheet, `digest.css`, contains the default color scheme for the digest as well as other layout information. Change this value to swap between the default and any other style sheets you may make.
 3. Fill out the information for each event. You can use the sign-up sheets and calendars to populate these sections. The "SPECIAL EVENTS" section is for notable occasions such as the Pledge Ceremony, Overnighter, and Initiations.
 4. Add committees and their meeting locations, and links to minutes, in the final two sections.
-5. Once you're done, click the "GENERATE" button in the "MAIN DETAILS" section to generate the HTML code for the digest. The code will show up on the right side of the screen.
-6. Click "RENDER" to open a new tab with the rendered digest. This is, barring any changes by you, what people will see in the email.
-7. If you do need to make any changes to the content, close the rendered window. Then, you can do one of two things:
-    * Make the edits in the panes on the left, and press the "GENERATE" and "RENDER" buttons again; or
-    * If you're feeling adventurous, modify the code in the text box on the right. Clicking the "GENERATE" button here will replace any custom changes you made with a fresh copy of all the content on the left, so make sure not to click that when trying to render.
-8. If you're happy with the results, have the rendered tab open and click "Select All" in the Edit menu. Copy the entire page, and paste it into an email client (Apple Mail works very well for sending messages with HTML code).
-9. Send the digest out to the brotherhood!
-## Demo
-[http://digest.jzblee.com](http://digest.jzblee.com)
+5. As you're adding information in the panel on the left, the preview on the right will automatically update. If you can't send the digest out just yet, click "Save" at the top of the page to open a menu with three options: saving the digest information to your browser's internal storage, to be restored the next time you load the page, and saving the digest information to the server, in which case you may later recall it with the Open menu. Only one digest may be saved for each date.
+6. Once you're done entering all the details, click "Save" at the top of the page, and choose the option to "Save to server and PUBLISH". This will save the digest information, and then send an email message using the settings in `render.js`.
+
+## Future Work
+- Reinstate digest CSS linking
+- Improve digest editor usage
+    - Add quick day-of-week selectors
+    - Simplify digest CSS selection

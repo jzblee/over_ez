@@ -1,0 +1,66 @@
+<link rel="stylesheet" type="text/css" href="/stylesheets/digest.css">
+<%if (standalone) { %>
+<div id="digest" ng-app="over_ez" ng-controller="DigestController" data-ng-init="loadDigestRemotely('<%= date %>')">
+<% } else { %>
+<div id="digest">
+<% } %>
+  <table id="wrapper">
+    <tr>
+      <td id="header">
+        EZ Digest - {{ digest.date | date:'MMMM dd, yyyy' }}
+      </td>
+    </tr>
+    <tr ng-if="digest.message.enable">
+      <td id="message">{{ digest.message.body }}</td>
+    </tr>
+    <tr ng-if="digest.message.enable">
+      <td id="signoff">
+        <em>{{ digest.message.signoff1 }}<br/>{{ digest.message.signoff2 }}</em>
+      </td>
+    </tr>
+    <tr>
+      <td id="content">
+        <h3>CHAPTER EVENTS</h3>
+        <p class="deemphasize">Event signup sheets are linked when available. Unless noted otherwise, meet in the office 15 minutes prior to the start time.</p>
+        <ul ng-if="digest.events.special.length" class="eventlist special">
+          <li ng-repeat="entity in digest.events.special"><span output-event></span></li>
+        </ul>
+        <h3>UPCOMING SERVICE</h3>
+        <ul ng-if="digest.events.service.length" class="eventlist">
+          <li ng-repeat="entity in digest.events.service"><span output-event></span></li>
+        </ul>
+        <p class="deemphasize">For more information on service events, contact <span ng-if="digest.svp.name && !digest.svp.email">{{ digest.svp.name }}, </span><span ng-if="digest.svp.name && digest.svp.email"><a href="mailto:{{digest.svp.email}}">{{ digest.svp.name }}</a>, </span>the SVP.</p>
+        <h3>UPCOMING FELLOWSHIP</h3>
+        <ul ng-if="digest.events.fellowship.length" class="eventlist">
+          <li ng-repeat="entity in digest.events.fellowship"><span output-event></span></li>
+        </ul>
+        <p class="deemphasize">For more information on fellowship events, contact <span ng-if="digest.fvp.name && !digest.fvp.email">{{ digest.fvp.name }}, </span><span ng-if="digest.fvp.name && digest.fvp.email"><a href="mailto:{{digest.fvp.email}}">{{ digest.fvp.name }}</a>, </span>the FVP.</p>
+        <h3>MEETINGS AND MINUTES</h3>
+        <p>Meeting times and locations may change.</p>
+        <ul ng-if="digest.committees.length">
+          <li ng-repeat="entity in digest.committees"><strong>{{ entity.name }}</strong> meets on <em>{{ entity.time }} in {{ entity.location }}</em>.</li>
+        </ul>
+        <p ng-if="digest.meetingsUrl">All minutes are available on <a target="_blank" href="{{ digest.meetingsUrl }}">Google Drive</a>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td id="footer">
+        <p><em>The weekly EZ Digest provides to the members of the APO chapter at RPI a concise summary of upcoming activities.</em></p>
+        <p>Generated with <a target="_blank" href="https://github.com/jzblee/over_ez">Over EZ</a>. Please reply with any feedback.</p>
+        <p>Alpha Phi Omega - Epsilon Zeta Chapter - Rensselaer Polytechnic Institute</p>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<%if (standalone) { %>
+<script src="/components/angular/angular.min.js"></script>
+<script type="text/javascript" src="/javascripts/app.js"></script>
+<% } %>
+<script type="text/javascript">
+  if(typeof app === 'undefined'){
+    document.location.href="/";
+  } else if (app == null) {
+    localStorage.setItem("over_ez_temp", "ignore");
+  }
+</script>

@@ -1,2 +1,4 @@
 .DS_Store
-config.json
+config.js
+render.js
+node_modules
