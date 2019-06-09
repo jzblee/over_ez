@@ -16,11 +16,14 @@ const render = require('../render');
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 
-// from nodemailer example
-
 const nodemailer = require("nodemailer");
 
-// async..await is not allowed in global scope, must use a wrapper
+/*
+ * Wrapper function for sending digest messages.
+ * 
+ * date: formatted date string (yyyy-MM-dd)
+ * html: full message HTML
+ */
 async function send(date, html){
 
   let transporter = nodemailer.createTransport({
@@ -31,22 +34,15 @@ async function send(date, html){
     }
   });
 
-  // send mail with defined transport object
   let info = await transporter.sendMail({
-    from: render.emailFrom, // sender address
-    to: render.emailTo, // list of receivers
-    subject: "EZ Digest - " + date, // Subject line
-    // text: "Hello world?", // plain text body
-    html: html // "<b>Hello world?</b>" // html body
+    from: render.emailFrom,
+    to: render.emailTo,
+    subject: "EZ Digest - " + date,
+    html: html
   });
 
   console.log("Message sent: %s", info.messageId);
 }
-
-// /* GET home page. */
-// router.get('/', function(req, res, next) {
-//   res.render('index', { title: 'Over EZ' });
-// });
 
 router.get('/signin', ensureLoggedOut('/'), function(req,res) {
     res.render('signin', { error: req.flash('error')[0] });
@@ -97,6 +93,9 @@ router.get('/digest', ensureLoggedIn('/'), function(req, res, next) {
 
 router.post('/render/:date', ensureLoggedIn('/'), function(req, res, next) {
   let base_url_ = 'http://' + req.headers.host;
+  // Use a custom request jar here to store the session cookie.
+  // This way, it can be passed to jsdom to make sure all further
+  // requests remain authenticated.
   var j = request.jar();
   request.post({url: base_url_ + '/signin/', form:{username:render.username, password: render.password}, jar: j}, function(postErr, postRes, postResBody) {
     if (postErr) {
@@ -105,6 +104,7 @@ router.post('/render/:date', ensureLoggedIn('/'), function(req, res, next) {
     let url_ = base_url_ + '/digest/' + req.params.date;
     request({url: url_, jar: j}, function (error, response, body) {
       var failure = false;
+      // Convert request library jar to jsdom CookieJar
       const cookieJar = new jsdom.CookieJar(j._jar.store);
       const render = new JSDOM('<script type="text/javascript">app = null;</script>' + body, { cookieJar, url: url_, runScripts: "dangerously", resources: "usable" });
       var timeout = setTimeout(function() {
@@ -114,6 +114,7 @@ router.post('/render/:date', ensureLoggedIn('/'), function(req, res, next) {
       if (!failure) {
         render.window.document.addEventListener('DigestLoaded', function() {
           // TODO: customizable stylesheet
+          // Add the digest CSS file to the rendered HTML, inline
           var mainCss = fs.readFileSync(path.normalize(__dirname + "/../public/stylesheets/digest.css"), 'utf8');
           var head = render.window.document.createElement('newHead');
               style = render.window.document.createElement("style");
@@ -122,6 +123,7 @@ router.post('/render/:date', ensureLoggedIn('/'), function(req, res, next) {
               head.appendChild(style);
           clearTimeout(timeout);
           setTimeout(function() {
+            // setTimeout gives a bit of time for the DOM to update
             var html = '<head>' + head.innerHTML + '</head><body><div id="digest">' + render.window.document.getElementById('digest').innerHTML + '</div></body>';
             send(req.params.date, html);
             res.status(200).send('OK');

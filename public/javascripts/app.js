@@ -5,6 +5,9 @@ app.controller("DigestController", function($scope, $http) {
     $scope.ENTITY_EVENT_FELLOWSHIP = 3422;
     $scope.ENTITY_COMMITTEE = 3423;
 
+    /*
+     * Get a list of digests saved to the server.
+     */
     $scope.getList = function() {
         $http.get("/list")
         .then(
@@ -20,6 +23,9 @@ app.controller("DigestController", function($scope, $http) {
 
     $scope.getList();
 
+    /*
+     * Get the default digest configuration from the server.
+     */
     $scope.getDefault = function() {
         $http.get("/get")
         .then(
@@ -74,6 +80,8 @@ app.controller("DigestController", function($scope, $http) {
      * current local time offset to UTC when loading digest information
      * and subtracting it when saving digest information, we ensure that
      * users sees dates and times in Eastern Time wherever they are.
+     *
+     * obj: digest object to convert the dates of
      */
     $scope.loadDigestDates = function(obj) {
         var userTimezoneOffset = new Date().getTimezoneOffset() * 60000;
@@ -91,6 +99,11 @@ app.controller("DigestController", function($scope, $http) {
         return obj;
     }
 
+    /*
+     * Similar to loadDigestDates, but clones the object
+     *
+     * obj: digest object to convert the dates of
+     */
     $scope.saveDigestDates = function(obj) {
         // Clone the object to avoid making changes to the scope variable.
         // This means that field values in the view won't suddenly change
@@ -111,11 +124,13 @@ app.controller("DigestController", function($scope, $http) {
         return temp;
     }
 
+    /*
+     * If digest information exists in LocalStorage (i.e. the user
+     * clicked "Save" before and has not cleared cookies), load it.
+     */
     $scope.loadDigestLocally = function() {
         var temp_text = localStorage.getItem("over_ez_temp");
 
-        // If digest information exists in LocalStorage (i.e. the user
-        // clicked "Save" before and has not cleared cookies), load it
         if (temp_text && temp_text != "ignore") {
             try {
                 let temp_digest = JSON.parse(temp_text);
@@ -131,8 +146,19 @@ app.controller("DigestController", function($scope, $http) {
         }
     }
 
+    // Load whatever's in local storage on page load
     $scope.loadDigestLocally();
 
+    /*
+     * Load digest details from the server.
+     * 
+     * This function sends an event, DigestLoaded, to notify jsdom
+     * of completion for serverside rendering tasks. By listening
+     * for this event, the plugin will know when the HTML is done
+     * generating in order to attach it to an email.
+     *
+     * dateStr: formatted date string (yyyy-MM-dd)
+     */
     $scope.loadDigestRemotely = function(dateStr) {
         $http.get("/get/" + dateStr)
         .then(
@@ -168,6 +194,8 @@ app.controller("DigestController", function($scope, $http) {
      * Saves all digest details to the server (the way the POST request
      * is defined, the server will overwrite a database entry if it has
      * a matching date)
+     *
+     * callback: optional function to run on success (usually publishDigest)
      */
     $scope.saveDigestRemotely = function (callback) {
         var digest = $scope.saveDigestDates($scope.digest);
@@ -192,8 +220,13 @@ app.controller("DigestController", function($scope, $http) {
             );
     }
 
-    $scope.publishDigest = function (date) {
-        $http.post("/render/" + date)
+    /*
+     * Publishes digest via email.
+     *
+     * dateStr: formatted date string (yyyy-MM-dd)
+     */
+    $scope.publishDigest = function (dateStr) {
+        $http.post("/render/" + dateStr)
             .then(
                 function(response){ // success
                     console.log("successfully published digest");
