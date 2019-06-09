@@ -19,24 +19,22 @@ const { JSDOM } = jsdom;
 // from nodemailer example
 
 const nodemailer = require("nodemailer");
-const smtpTransport = require('nodemailer-smtp-transport');
 
 // async..await is not allowed in global scope, must use a wrapper
 async function send(date, html){
 
-  let transporter = nodemailer.createTransport(smtpTransport({
-    service: render.smtpService,
+  let transporter = nodemailer.createTransport({
     host: render.smtpServer,
     auth: {
       user: render.smtpUser,
       pass: render.smtpPassword
     }
-  }));
+  });
 
   // send mail with defined transport object
   let info = await transporter.sendMail({
-    from: render.smtpUser, // sender address
-    to: render.emailRecipient, // list of receivers
+    from: render.emailFrom, // sender address
+    to: render.emailTo, // list of receivers
     subject: "EZ Digest - " + date, // Subject line
     // text: "Hello world?", // plain text body
     html: html // "<b>Hello world?</b>" // html body
