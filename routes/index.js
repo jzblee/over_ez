@@ -2,6 +2,8 @@ const express = require('express');
 const async = require('async');
 const router = express.Router();
 const request = require('request');
+const fs = require('fs');
+const path = require('path');
 
 const ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn;
 const ensureLoggedOut = require('connect-ensure-login').ensureLoggedOut;
@@ -13,6 +15,35 @@ const render = require('../render');
 
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
+
+// from nodemailer example
+
+const nodemailer = require("nodemailer");
+const smtpTransport = require('nodemailer-smtp-transport');
+
+// async..await is not allowed in global scope, must use a wrapper
+async function send(date, html){
+
+  let transporter = nodemailer.createTransport(smtpTransport({
+    service: render.smtpService,
+    host: render.smtpServer,
+    auth: {
+      user: render.smtpUser,
+      pass: render.smtpPassword
+    }
+  }));
+
+  // send mail with defined transport object
+  let info = await transporter.sendMail({
+    from: render.smtpUser, // sender address
+    to: render.emailRecipient, // list of receivers
+    subject: "EZ Digest - " + date, // Subject line
+    // text: "Hello world?", // plain text body
+    html: html // "<b>Hello world?</b>" // html body
+  });
+
+  console.log("Message sent: %s", info.messageId);
+}
 
 // /* GET home page. */
 // router.get('/', function(req, res, next) {
@@ -66,7 +97,7 @@ router.get('/digest', ensureLoggedIn('/'), function(req, res, next) {
   res.render('digest', { title: 'Digest window', standalone: false });
 });
 
-router.get('/render/:date', ensureLoggedIn('/'), function(req, res, next) {
+router.post('/render/:date', ensureLoggedIn('/'), function(req, res, next) {
   let base_url_ = 'http://' + req.headers.host;
   var j = request.jar();
   request.post({url: base_url_ + '/signin/', form:{username:render.username, password: render.password}, jar: j}, function(postErr, postRes, postResBody) {
@@ -82,14 +113,23 @@ router.get('/render/:date', ensureLoggedIn('/'), function(req, res, next) {
         failure = true;
         res.status(504).send('Render request timed out');
       }, 10000);
-      render.window.document.addEventListener('DigestLoaded', function() {
-        if (!failure) {
+      if (!failure) {
+        render.window.document.addEventListener('DigestLoaded', function() {
+          // TODO: customizable stylesheet
+          var mainCss = fs.readFileSync(path.normalize(__dirname + "/../public/stylesheets/digest.css"), 'utf8');
+          var head = render.window.document.createElement('newHead');
+              style = render.window.document.createElement("style");
+              style.type = 'text/css';
+              style.innerHTML = mainCss;
+              head.appendChild(style);
           clearTimeout(timeout);
           setTimeout(function() {
-            res.send('<head><link rel="stylesheet" type="text/css" href="/stylesheets/digest.css"></head><body><div id="digest">' + render.window.document.getElementById('digest').innerHTML + "</div></body>");
+            var html = '<head>' + head.innerHTML + '</head><body><div id="digest">' + render.window.document.getElementById('digest').innerHTML + '</div></body>';
+            send(req.params.date, html);
+            res.status(200).send('OK');
           }, 100);
-        }
-      });
+        });
+      }
     });
   });
 });

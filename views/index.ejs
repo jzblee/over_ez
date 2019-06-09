@@ -37,7 +37,7 @@
               <!-- TODO: DISABLE remote save button if no publication date is set yet-->
               <!-- TODO: replace previous digest on server that shares the same date-->
               <a class="dropdown-item" href="#" ng-click="saveDigestRemotely()">Save to server</a>
-              <a class="dropdown-item disabled" href="#">Save to server and PUBLISH</a>
+              <a class="dropdown-item" href="#" ng-click="saveDigestRemotely(publishDigest)">Save to server and PUBLISH</a>
             </div>
           </li>
           <li class="nav-item">

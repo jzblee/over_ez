@@ -89,6 +89,9 @@ app.controller("DigestController", function($scope, $http) {
     }
 
     $scope.saveDigestDates = function(obj) {
+        // Clone the object to avoid making changes to the scope variable.
+        // This means that field values in the view won't suddenly change
+        // after saving.
         let temp = JSON.parse(JSON.stringify(obj));
         var userTimezoneOffset = new Date().getTimezoneOffset() * 60000;
         temp.date = temp.date ? new Date(new Date(temp.date) - userTimezoneOffset) : null;
@@ -160,17 +163,34 @@ app.controller("DigestController", function($scope, $http) {
      * is defined, the server will overwrite a database entry if it has
      * a matching date)
      */
-    $scope.saveDigestRemotely = function () {
-        $http.post("/save", $scope.saveDigestDates($scope.digest))
+    $scope.saveDigestRemotely = function (callback) {
+        var digest = $scope.saveDigestDates($scope.digest);
+        $http.post("/save", digest)
             .then(
                 function(response){ // success
                     console.log("successfully saved digest to server");
                     localStorage.removeItem("over_ez_temp");
                     $scope.getList();
+                    if (callback) {
+                        callback(digest.date.toISOString().substr(0,10));
+                    }
 
                 }, 
                 function(response){ // failure
                     console.log("couldn't save digest to server");
+                }
+            );
+    }
+
+    $scope.publishDigest = function (date) {
+        $http.post("/render/" + date)
+            .then(
+                function(response){ // success
+                    console.log("successfully published digest");
+
+                }, 
+                function(response){ // failure
+                    console.log("couldn't publish digest");
                 }
             );
     }
