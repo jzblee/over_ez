@@ -121,11 +121,6 @@ html, body {
     color: #f00;
 }
 
-.modal-open .modal {
-    height: 0;
-    overflow: visible;
-}
-
 .modal-dialog {
     margin: 2vh auto;
 }

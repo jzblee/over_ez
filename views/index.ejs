@@ -182,24 +182,12 @@
         <ng-include src="'/digest'"></ng-include>
       </div>
     </div>
-    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" data-backdrop="false" data-keyboard="false">
+    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" data-backdrop="true" data-keyboard="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Success</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="modal fade" id="failureModal" tabindex="-1" role="dialog" data-backdrop="false" data-keyboard="false">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Failed</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close" data-dismiss="modal">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -207,7 +195,20 @@
       </div>
     </div>
 
-    <div class="modal fade" id="publishModal" tabindex="-1" role="dialog" data-keyboard="false">
+    <div class="modal fade" id="failureModal" tabindex="-1" role="dialog" data-backdrop="true" data-keyboard="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Failed</h5>
+            <button type="button" class="close" data-dismiss="modal">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="publishModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
