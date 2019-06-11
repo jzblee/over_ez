@@ -19,12 +19,12 @@ const { JSDOM } = jsdom;
 const nodemailer = require("nodemailer");
 
 /*
- * Wrapper function for sending digest messages.
+ * Send an email message with the given date and HTML content.
  * 
  * date: formatted date string (yyyy-MM-dd)
  * html: full message HTML
  */
-async function send(date, html){
+function send(date, html, next){
 
   let transporter = nodemailer.createTransport({
     host: render.smtpServer,
@@ -34,14 +34,22 @@ async function send(date, html){
     }
   });
 
-  let info = await transporter.sendMail({
+  let mailOptions = {
     from: render.emailFrom,
     to: render.emailTo,
     subject: "EZ Digest - " + date,
     html: html
-  });
+  }
 
-  console.log("Message sent: %s", info.messageId);
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+      next(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+      next(null);
+    }
+  });
 }
 
 router.get('/signin', ensureLoggedOut('/'), function(req,res) {
@@ -91,6 +99,10 @@ router.get('/digest', ensureLoggedIn('/'), function(req, res, next) {
   res.render('digest', { title: 'Digest window', standalone: false });
 });
 
+router.get('/publishEmail', ensureLoggedIn('/'), function(req, res, next) {
+  res.json({emailTo: render.emailTo});
+});
+
 router.post('/render/:date', ensureLoggedIn('/'), function(req, res, next) {
   let base_url_ = 'http://' + req.headers.host;
   // Use a custom request jar here to store the session cookie.
@@ -125,8 +137,13 @@ router.post('/render/:date', ensureLoggedIn('/'), function(req, res, next) {
           setTimeout(function() {
             // setTimeout gives a bit of time for the DOM to update
             var html = '<head>' + head.innerHTML + '</head><body><div id="digest">' + render.window.document.getElementById('digest').innerHTML + '</div></body>';
-            send(req.params.date, html);
-            res.status(200).send('OK');
+            send(req.params.date, html, function(err) {
+              if (err) {
+                res.status(500).send(err);
+              } else {
+                res.status(200).send('OK');
+              }
+            });
           }, 100);
         });
       }

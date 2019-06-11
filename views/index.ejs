@@ -37,7 +37,7 @@
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" ng-click="saveDigestRemotely(publishDigest)" ng-class="{disabled: !digest.date}">Save and publish</a>
+            <a class="nav-link" href="#" ng-click="showPublishModal()" ng-class="{disabled: !digest.date}">Save and publish</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/signout">Sign out</a>
@@ -182,7 +182,7 @@
         <ng-include src="'/digest'"></ng-include>
       </div>
     </div>
-    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" data-backdrop="false">
+    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" data-backdrop="false" data-keyboard="false">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -194,7 +194,7 @@
         </div>
       </div>
     </div>
-    <div class="modal fade" id="failureModal" tabindex="-1" role="dialog" data-backdrop="false">
+    <div class="modal fade" id="failureModal" tabindex="-1" role="dialog" data-backdrop="false" data-keyboard="false">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -202,6 +202,33 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="publishModal" tabindex="-1" role="dialog" data-keyboard="false">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" ng-if="!publishing">Publish this digest?</h5>
+            <h5 class="modal-title" ng-if="publishing">Publishing in progress</h5>
+            <button type="button" class="close" ng-if="!publishing" data-dismiss="modal">
+              <span>&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" ng-if="!publishing">
+            <p>You are about to publish a digest with the date {{digest.date | date:'yyyy-MM-dd'}}.</p>
+            <p>Your digest will be sent to <strong>{{emailTo}}</strong>. <em>There is no undo.</em></p>
+            <p>Contact the Webmaster if this address appears to be incorrect.</p>
+          </div>
+          <div class="modal-body" ng-if="publishing">
+            <p>Your digest is being sent to <strong>{{emailTo}}</strong>.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" ng-if="!publishing" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" ng-if="!publishing" ng-click="saveDigestRemotely(publishDigest)">Save and publish</button>
+            <span ng-if="publishing">Please wait...</span>
           </div>
         </div>
       </div>

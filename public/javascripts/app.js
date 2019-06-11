@@ -226,14 +226,23 @@ app.controller("DigestController", function($scope, $http) {
      * dateStr: formatted date string (yyyy-MM-dd)
      */
     $scope.publishDigest = function (dateStr) {
+        $scope.publishing = true;
         $http.post("/render/" + dateStr)
             .then(
                 function(response){ // success
+                    $("#publishModal").modal("hide");
+                    setTimeout(function() {
+                        $scope.publishing = false;
+                    }, 250);
                     console.log("successfully published digest");
                     $scope.showSuccess();
 
                 }, 
                 function(response){ // failure
+                    $("#publishModal").modal("hide");
+                    setTimeout(function() {
+                        $scope.publishing = false;
+                    }, 250);
                     console.error("couldn't publish digest");
                     $scope.showFailure(response.data);
                 }
@@ -323,19 +332,27 @@ app.controller("DigestController", function($scope, $http) {
         entityArr.splice(index, 1);
     }
 
-    $scope.showSuccess = function() {
+    $scope.showSuccess = function(message) {
         $("#successModal").modal("show");
-        setTimeout(function() {
-          $("#successModal").modal("hide");
-        }, 3000);
     }
 
     $scope.showFailure = function(err) {
         $("#failureModal").modal("show");
-        setTimeout(function() {
-          $("#failureModal").modal("hide");
-        }, 3000);
         console.error(err);
+    }
+
+    $scope.showPublishModal = function() {
+        $http.get("/publishEmail")
+        .then(
+            function(response){ // success
+                $scope.emailTo = response.data.emailTo;
+            }, 
+            function(response){ // failure
+                $scope.showFailure(response.data);
+                console.log("couldn't get publish email address");
+            }
+        );
+        $("#publishModal").modal("show");
     }
 })
 .directive("outputEvent", function() {
