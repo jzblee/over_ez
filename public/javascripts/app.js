@@ -346,13 +346,13 @@ app.controller("DigestController", function($scope, $http) {
         .then(
             function(response){ // success
                 $scope.emailTo = response.data.emailTo;
+                $("#publishModal").modal("show");
             }, 
             function(response){ // failure
                 $scope.showFailure(response.data);
                 console.log("couldn't get publish email address");
             }
         );
-        $("#publishModal").modal("show");
     }
 })
 .directive("outputEvent", function() {
