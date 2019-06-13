@@ -21,7 +21,7 @@ The EZ Digest is a weekly email sent to brothers of the Epsilon Zeta chapter of 
 ```
 5. Make a copy of `config.example.js` and save it as `config.js`, and fill in the information. This file contains information that usually remains the same over the course of a semester, such as officer and meeting details.
 6. Make a copy of `render.example.js` and save it as `render.js`, and fill in the username and password for some account on the website to use for serverside rendering. In addition, specify the SMTP account information for outgoing mail. A dedicated SMTP service such as SendGrid works best. `TODO: account creation is not currently possible directly through the frontend.`
-7. Start the server (ensure the Mongo database is running):
+7. Start the server (make sure that the Mongo database is running):
 ```
 > npm start
 ```
@@ -39,3 +39,9 @@ The EZ Digest is a weekly email sent to brothers of the Epsilon Zeta chapter of 
 - Improve digest editor usage
     - Add quick day-of-week selectors
     - Simplify digest CSS selection
+    - Fix element layout
+- Edit default digest values from the application
+- Add site accounts from the application
+- Add a warning for digests that have already been published
+- Clean up open window
+- Add digest archival (hide from open menu)

@@ -75,26 +75,7 @@
             <h6 class="form-group-title">SPECIAL EVENTS</h6>
             <div id="groupSpecialEvents">
               <p class="eventEntry" ng-repeat="entity in digest.events.special track by $index">
-                <button type="button" class="removePrompt" ng-click="removeItemPrompt(ENTITY_EVENT_SPECIAL, $index, true)" ng-if="!entity._toRemove">Remove this event</button>
-                <span class="removePrompt" ng-if="entity._toRemove"><span class="removePromptQ">Are you sure?</span> | <span class="removePromptA" ng-click="removeItemPrompt(ENTITY_EVENT_SPECIAL, $index, false)">no, cancel</span> | <span class="removePromptA" ng-click="removeItem(ENTITY_EVENT_SPECIAL, $index)">yes, remove</span></span>
-                <label>Event Name: <input class="eventDetails eventName" placeholder="Type the event name here." ng-model="entity.name" /></label>
-                <label>Event Link: <input class="eventDetails eventLink" placeholder="Enter the event signup link here (optional)." ng-model="entity.link" /></label>
-                <label>Event Chairs: <input class="eventDetails eventChairs" placeholder="List all of the event chairs here (optional)." ng-model="entity.chairs" /></label>
-                <label>Start Date: <input class="eventDate eventStartDate" type="date" placeholder="yyyy-mm-dd" ng-model="entity.date_start" /></label>
-                <label>End Date: <input class="eventDate eventEndDate" type="date" placeholder="yyyy-mm-dd" ng-model="entity.date_end" /></label>
-                <!-- <span>Set to...</span>
-                <button type="button" onclick="setEventDateNextDOWOccurence(this, 0)">U</button>
-                <button type="button" onclick="setEventDateNextDOWOccurence(this, 1)">M</button>
-                <button type="button" onclick="setEventDateNextDOWOccurence(this, 2)">T</button>
-                <button type="button" onclick="setEventDateNextDOWOccurence(this, 3)">W</button>
-                <button type="button" onclick="setEventDateNextDOWOccurence(this, 4)">R</button>
-                <button type="button" onclick="setEventDateNextDOWOccurence(this, 5)">F</button>
-                <button type="button" onclick="setEventDateNextDOWOccurence(this, 6)">S</button> -->
-                <br/>
-                <label>Start Time: <input class="eventTime eventStartTime" type="time" placeholder="HH:MM (24 hour format)" ng-model="entity.time_start" /></label>
-                <label>End Time: <input class="eventTime eventEndTime" type="time" placeholder="HH:MM (24 hour format)" ng-model="entity.time_end" /></label>
-                <br/>
-                <label>Event Description: <input class="eventDetails eventDesc" placeholder="Enter the event description (optional)." ng-model="entity.description" /></label>
+                <editor-event type="{{ENTITY_EVENT_SPECIAL}}"></editor-event>
               </p>
             </div>
             <p><button type="button" ng-click="addItem(ENTITY_EVENT_SPECIAL)">Add new event</button></p>
@@ -103,26 +84,7 @@
             <h6 class="form-group-title">UPCOMING SERVICE</h6>
             <div id="groupServiceEvents">
               <p class="eventEntry" ng-repeat="entity in digest.events.service track by $index">
-                <button type="button" class="removePrompt" ng-click="removeItemPrompt(ENTITY_EVENT_SERVICE, $index, true)" ng-if="!entity._toRemove">Remove this event</button>
-                <span class="removePrompt" ng-if="entity._toRemove"><span class="removePromptQ">Are you sure?</span> | <span class="removePromptA" ng-click="removeItemPrompt(ENTITY_EVENT_SERVICE, $index, false)">no, cancel</span> | <span class="removePromptA" ng-click="removeItem(ENTITY_EVENT_SERVICE, $index)">yes, remove</span></span>
-                <label>Event Name: <input class="eventDetails eventName" placeholder="Type the event name here." ng-model="entity.name" /></label>
-                <label>Event Link: <input class="eventDetails eventLink" placeholder="Enter the event signup link here (optional)." ng-model="entity.link" /></label>
-                <label>Event Chairs: <input class="eventDetails eventChairs" placeholder="List all of the event chairs here (optional)." ng-model="entity.chairs" /></label>
-                <label>Start Date: <input class="eventDate eventStartDate" type="date" placeholder="yyyy-mm-dd" ng-model="entity.date_start" /></label>
-                <label>End Date: <input class="eventDate eventEndDate" type="date" placeholder="yyyy-mm-dd" ng-model="entity.date_end" /></label>
-                <!-- <span>Set to...</span>
-                <button type="button" onclick="setEventDateNextDOWOccurence(this, 0)">U</button>
-                <button type="button" onclick="setEventDateNextDOWOccurence(this, 1)">M</button>
-                <button type="button" onclick="setEventDateNextDOWOccurence(this, 2)">T</button>
-                <button type="button" onclick="setEventDateNextDOWOccurence(this, 3)">W</button>
-                <button type="button" onclick="setEventDateNextDOWOccurence(this, 4)">R</button>
-                <button type="button" onclick="setEventDateNextDOWOccurence(this, 5)">F</button>
-                <button type="button" onclick="setEventDateNextDOWOccurence(this, 6)">S</button> -->
-                <br/>
-                <label>Start Time: <input class="eventTime eventStartTime" type="time" placeholder="HH:MM (24 hour format)" ng-model="entity.time_start" /></label>
-                <label>End Time: <input class="eventTime eventEndTime" type="time" placeholder="HH:MM (24 hour format)" ng-model="entity.time_end" /></label>
-                <br/>
-                <label>Event Description: <input class="eventDetails eventDesc" placeholder="Enter the event description (optional)." ng-model="entity.description" /></label>
+                <editor-event type="{{ENTITY_EVENT_SERVICE}}"></editor-event>
               </p>
             </div>
             <p><button type="button" ng-click="addItem(ENTITY_EVENT_SERVICE)">Add new event</button></p>
@@ -133,26 +95,7 @@
             <h6 class="form-group-title">UPCOMING FELLOWSHIP</h6>
             <div id="groupFellowshipEvents">
               <p class="eventEntry" ng-repeat="entity in digest.events.fellowship track by $index">
-                <button type="button" class="removePrompt" ng-click="removeItemPrompt(ENTITY_EVENT_FELLOWSHIP, $index, true)" ng-if="!entity._toRemove">Remove this event</button>
-                <span class="removePrompt" ng-if="entity._toRemove"><span class="removePromptQ">Are you sure?</span> | <span class="removePromptA" ng-click="removeItemPrompt(ENTITY_EVENT_FELLOWSHIP, $index, false)">no, cancel</span> | <span class="removePromptA" ng-click="removeItem(ENTITY_EVENT_FELLOWSHIP, $index)">yes, remove</span></span>
-                <label>Event Name: <input class="eventDetails eventName" placeholder="Type the event name here." ng-model="entity.name" /></label>
-                <label>Event Link: <input class="eventDetails eventLink" placeholder="Enter the event signup link here (optional)." ng-model="entity.link" /></label>
-                <label>Event Chairs: <input class="eventDetails eventChairs" placeholder="List all of the event chairs here (optional)." ng-model="entity.chairs" /></label>
-                <label>Start Date: <input class="eventDate eventStartDate" type="date" placeholder="yyyy-mm-dd" ng-model="entity.date_start" /></label>
-                <label>End Date: <input class="eventDate eventEndDate" type="date" placeholder="yyyy-mm-dd" ng-model="entity.date_end" /></label>
-                <!-- <span>Set to...</span>
-                <button type="button" onclick="setEventDateNextDOWOccurence(this, 0)">U</button>
-                <button type="button" onclick="setEventDateNextDOWOccurence(this, 1)">M</button>
-                <button type="button" onclick="setEventDateNextDOWOccurence(this, 2)">T</button>
-                <button type="button" onclick="setEventDateNextDOWOccurence(this, 3)">W</button>
-                <button type="button" onclick="setEventDateNextDOWOccurence(this, 4)">R</button>
-                <button type="button" onclick="setEventDateNextDOWOccurence(this, 5)">F</button>
-                <button type="button" onclick="setEventDateNextDOWOccurence(this, 6)">S</button> -->
-                <br/>
-                <label>Start Time: <input class="eventTime eventStartTime" type="time" placeholder="HH:MM (24 hour format)" ng-model="entity.time_start" /></label>
-                <label>End Time: <input class="eventTime eventEndTime" type="time" placeholder="HH:MM (24 hour format)" ng-model="entity.time_end" /></label>
-                <br/>
-                <label>Event Description: <input class="eventDetails eventDesc" placeholder="Enter the event description (optional)." ng-model="entity.description" /></label>
+                <editor-event type="{{ENTITY_EVENT_FELLOWSHIP}}"></editor-event>
               </p>
             </div>
             <p><button type="button" ng-click="addItem(ENTITY_EVENT_FELLOWSHIP)">Add new event</button></p>

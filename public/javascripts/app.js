@@ -284,7 +284,7 @@ app.controller("DigestController", function($scope, $http) {
      */
     $scope.removeItemPrompt = function (type, index, displayPrompt) {
         var entityArr = null;
-        switch (type) {
+        switch (parseInt(type)) {
             case $scope.ENTITY_EVENT_SPECIAL:
                 entityArr = $scope.digest.events.special;
                 break;
@@ -313,7 +313,7 @@ app.controller("DigestController", function($scope, $http) {
     $scope.removeItem = function (type, index) {
         var entityArr = null;
 
-        switch (type) {
+        switch (parseInt(type)) {
             case $scope.ENTITY_EVENT_SPECIAL:
                 entityArr = $scope.digest.events.special;
                 break;
@@ -359,6 +359,18 @@ app.controller("DigestController", function($scope, $http) {
     return {
         templateUrl: function(elem, attr) {
             return '/templates/output-event.html';
+        }
+    };
+})
+.directive("editorEvent", function() {
+    return {
+        restrict: 'E',
+        scope: true,
+        link: function(scope, element, attrs) {
+            scope.type = attrs.type;
+        },
+        templateUrl: function(elem, attr) {
+            return '/templates/editor-event.html';
         }
     };
 });

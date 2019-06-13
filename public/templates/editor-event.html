@@ -1,0 +1,12 @@
+<button type="button" class="removePrompt" ng-click="removeItemPrompt(type, $index, true)" ng-if="!entity._toRemove">Remove this event</button>
+<span class="removePrompt" ng-if="entity._toRemove"><span class="removePromptQ">Are you sure?</span> | <span class="removePromptA" ng-click="removeItemPrompt(type, $index, false)">no, cancel</span> | <span class="removePromptA" ng-click="removeItem(type, $index)">yes, remove</span></span>
+<label>Event Name: <input class="eventDetails eventName" placeholder="Type the event name here." ng-model="entity.name" /></label>
+<label>Event Link: <input class="eventDetails eventLink" placeholder="Enter the event signup link here (optional)." ng-model="entity.link" /></label>
+<label>Event Chairs: <input class="eventDetails eventChairs" placeholder="List all of the event chairs here (optional)." ng-model="entity.chairs" /></label>
+<label>Start Date: <input class="eventDate eventStartDate" type="date" placeholder="yyyy-mm-dd" ng-model="entity.date_start" /></label>
+<label>End Date: <input class="eventDate eventEndDate" type="date" placeholder="yyyy-mm-dd" ng-model="entity.date_end" /></label>
+<br/>
+<label>Start Time: <input class="eventTime eventStartTime" type="time" placeholder="HH:MM (24 hour format)" ng-model="entity.time_start" /></label>
+<label>End Time: <input class="eventTime eventEndTime" type="time" placeholder="HH:MM (24 hour format)" ng-model="entity.time_end" /></label>
+<br/>
+<label>Event Description: <input class="eventDetails eventDesc" placeholder="Enter the event description (optional)." ng-model="entity.description" /></label>
