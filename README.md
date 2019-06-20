@@ -39,7 +39,6 @@ The EZ Digest is a weekly email sent to brothers of the Epsilon Zeta chapter of 
 - Improve digest editor usage
     - Add quick day-of-week selectors
     - Simplify digest CSS selection
-    - Fix element layout
 - Edit default digest values from the application
 - Add site accounts from the application
 - Add a warning for digests that have already been published

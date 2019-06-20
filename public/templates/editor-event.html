@@ -1,12 +1,93 @@
 <button type="button" class="removePrompt" ng-click="removeItemPrompt(type, $index, true)" ng-if="!entity._toRemove">Remove this event</button>
 <span class="removePrompt" ng-if="entity._toRemove"><span class="removePromptQ">Are you sure?</span> | <span class="removePromptA" ng-click="removeItemPrompt(type, $index, false)">no, cancel</span> | <span class="removePromptA" ng-click="removeItem(type, $index)">yes, remove</span></span>
-<label>Event Name: <input class="eventDetails eventName" placeholder="Type the event name here." ng-model="entity.name" /></label>
-<label>Event Link: <input class="eventDetails eventLink" placeholder="Enter the event signup link here (optional)." ng-model="entity.link" /></label>
-<label>Event Chairs: <input class="eventDetails eventChairs" placeholder="List all of the event chairs here (optional)." ng-model="entity.chairs" /></label>
-<label>Start Date: <input class="eventDate eventStartDate" type="date" placeholder="yyyy-mm-dd" ng-model="entity.date_start" /></label>
-<label>End Date: <input class="eventDate eventEndDate" type="date" placeholder="yyyy-mm-dd" ng-model="entity.date_end" /></label>
-<br/>
-<label>Start Time: <input class="eventTime eventStartTime" type="time" placeholder="HH:MM (24 hour format)" ng-model="entity.time_start" /></label>
-<label>End Time: <input class="eventTime eventEndTime" type="time" placeholder="HH:MM (24 hour format)" ng-model="entity.time_end" /></label>
-<br/>
-<label>Event Description: <input class="eventDetails eventDesc" placeholder="Enter the event description (optional)." ng-model="entity.description" /></label>
+<div class="form-row">
+  <div class="form-group col-lg-12">
+    <div class="input-group input-group-sm">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Event Name</span>
+      </div>
+      <input class="form-control eventDetails eventName" ng-model="entity.name" />
+    </div>
+  </div>
+</div>
+<div class="form-row">
+  <div class="form-group col-lg-6">
+    <div class="input-group input-group-sm">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Event Link</span>
+      </div>
+      <input class="form-control eventDetails eventLink" ng-model="entity.link" />
+    </div>
+  </div>
+  <div class="form-group col-lg-6">
+    <div class="input-group input-group-sm">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Event Chairs</span>
+      </div>
+      <input class="form-control eventDetails eventChairs" ng-model="entity.chairs" />
+    </div>
+  </div>
+</div>
+<div class="form-row">
+  <div class="form-group col-lg-6">
+    <div class="input-group input-group-sm">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Start Date</span>
+      </div>
+      <input class="form-control eventDate eventStartDate" type="date" placeholder="yyyy-mm-dd" ng-model="entity.date_start" />
+      <!-- <div class="dropdown dow-quick-select input-group-append">
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Set to...
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#" ng-repeat="x in daysOfWeek">{{x.label}}</a>
+        </div>
+      </div> -->
+    </div>
+  </div>
+  <div class="form-group col-lg-6">
+    <div class="input-group input-group-sm">
+      <div class="input-group-prepend">
+        <span class="input-group-text">End Date</span>
+      </div>
+      <input class="form-control eventDate eventEndDate" type="date" placeholder="yyyy-mm-dd" ng-model="entity.date_end" />
+      <!-- <div class="dropdown dow-quick-select input-group-append">
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Set to...
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#" ng-repeat="x in daysOfWeek">{{x.label}}</a>
+        </div>
+      </div> -->
+    </div>
+  </div>
+</div>
+
+<div class="form-row">
+  <div class="form-group col-lg-6">
+    <div class="input-group input-group-sm">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Start Time</span>
+      </div>
+      <input class="form-control eventTime eventStartTime" type="time" placeholder="HH:MM (24 hour format)" ng-model="entity.time_start" />
+    </div>
+  </div>
+  <div class="form-group col-lg-6">
+    <div class="input-group input-group-sm">
+      <div class="input-group-prepend">
+        <span class="input-group-text">End Time</span>
+      </div>
+      <input class="form-control eventTime eventEndTime" type="time" placeholder="HH:MM (24 hour format)" ng-model="entity.time_end" />
+    </div>
+  </div>
+</div>
+<div class="form-row">
+  <div class="form-group col-lg-12">
+    <div class="input-group input-group-sm">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Description</span>
+      </div>
+      <input class="form-control eventDetails eventDesc" ng-model="entity.description" />
+    </div>
+  </div>
+</div>
