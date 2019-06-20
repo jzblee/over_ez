@@ -7,7 +7,7 @@ html, body {
     max-width: 100%;
 }
 .navbar {
-    position: absolute;
+    position: fixed;
     width: 100%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.7);
     z-index: 1000;
@@ -132,11 +132,11 @@ html, body {
 }
 
 @media only screen and (max-width: 991px) {
-  html, body, #editor, #output {
-    overflow-y: initial;
-    height: initial;
-  }
-  #digest {
-      margin: 10px 0 10px 0;
-  }
+    html, body, #editor, #output {
+        overflow-y: initial;
+        height: initial;
+    }
+    #digest {
+        margin: 10px;
+    }
 }
