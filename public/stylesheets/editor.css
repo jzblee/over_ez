@@ -91,9 +91,6 @@ html, body {
 #editor .eventEntry {
     background-color: #e9e9e9;
     padding: 5px;
-}
-
-#editor .eventEntry + #editor .eventEntry {
     margin-bottom: 10px;
 }
 
