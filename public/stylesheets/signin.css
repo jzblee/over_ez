@@ -142,6 +142,8 @@
 }
 .btn-submit:focus {
   outline: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
   border: 1px solid #aaa;
   background-color: #ccc;
 }

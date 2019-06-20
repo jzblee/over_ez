@@ -6,13 +6,13 @@ app.controller("DigestController", function($scope, $http) {
     $scope.ENTITY_COMMITTEE = 3423;
 
     $scope.daysOfWeek = [
-        { index: 0, label: "next Sunday" },
-        { index: 1, label: "next Monday" },
-        { index: 2, label: "next Tuesday" },
-        { index: 3, label: "next Wednesday" },
-        { index: 4, label: "next Thursday" },
-        { index: 5, label: "next Friday" },
-        { index: 6, label: "next Saturday" }
+        { index: 0, label: "...the next Sunday" },
+        { index: 1, label: "...the next Monday" },
+        { index: 2, label: "...the next Tuesday" },
+        { index: 3, label: "...the next Wednesday" },
+        { index: 4, label: "...the next Thursday" },
+        { index: 5, label: "...the next Friday" },
+        { index: 6, label: "...the next Saturday" }
     ]
 
     /*

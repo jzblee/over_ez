@@ -3,11 +3,17 @@ html, body {
     height: 100%;
     overflow: hidden;
 }
+.container {
+    max-width: 100%;
+}
 .navbar {
     position: absolute;
     width: 100%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.7);
     z-index: 1000;
+}
+.dropdown-item.active, .dropdown-item:active {
+    background-color: #002366;
 }
 #editor #digestCSS {
     font-family: Courier, serif;
@@ -18,8 +24,6 @@ html, body {
     font-size: 0.8em;
 }
 #editor {
-    width: 50vw;
-    display: inline-block;
     height: 100vh;
     overflow-y: scroll;
 }
@@ -72,20 +76,15 @@ html, body {
 
 #output {
     padding: 0;
-    width: 40vw;
-    display: inline-block;
     vertical-align: top;
+    display: flex;
+    justify-content: center;
     height: 100vh;
     overflow-y: scroll;
 }
 
 #digest {
     margin: 80px 0 10px 0;
-}
-#outputText {
-    width: inherit;
-    height: 100%;
-    font-family: Courier;
 }
 
 #editor .eventEntry {
@@ -130,4 +129,14 @@ html, body {
 
 #failureModal .modal-header {
     background-color: rgb(255,180,180);
+}
+
+@media only screen and (max-width: 991px) {
+  html, body, #editor, #output {
+    overflow-y: initial;
+    height: initial;
+  }
+  #digest {
+      margin: 10px 0 10px 0;
+  }
 }

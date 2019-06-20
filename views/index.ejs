@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
   <title>Over EZ Digest Creator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="/stylesheets/editor.css">
   </head>
@@ -48,176 +49,178 @@
         </span>
       </div>
     </nav>
-    <div>
-      <div id="editor">
-        <form id="digestForm">
-          <div class="form-group">
-            <h6 class="form-group-title">MAIN DETAILS</h6>
-            <div class="form-row">
-              <div class="form-group col-lg-12">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">Publication Date</span>
-                  </div>
-                  <input type="date" class="form-control" ng-model="digest.date" id="digestDate" placeholder="yyyy-mm-dd" />
-                </div>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-lg-12">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">Sylesheet File</span>
-                  </div>
-                  <input type="text" readonly class="form-control form-control-plaintext" ng-model="digest.cssFile" id="digestCSS" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <h6 class="form-group-title">MESSAGE</h6>
-            <div class="form-row">
-              <div class="col-auto">
-                <div class="input-group mb-2">
-                  <div class="input-group-prepend">
-                    <div class="input-group-text">
-                      <input id="enableMessage" type="checkbox" ng-model="digest.message.enable" />
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6" id="editor">
+          <form id="digestForm">
+            <div class="form-group">
+              <h6 class="form-group-title">MAIN DETAILS</h6>
+              <div class="form-row">
+                <div class="form-group col-lg-12">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Publication Date</span>
                     </div>
+                    <input type="date" class="form-control" ng-model="digest.date" id="digestDate" placeholder="yyyy-mm-dd" />
                   </div>
-                  <div class="input-group-append">
-                    <span class="input-group-text">
-                      <label for="enableMessage">Show a message in the digest</label>
-                    </span>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-lg-12">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Sylesheet File</span>
+                    </div>
+                    <input type="text" readonly class="form-control form-control-plaintext" ng-model="digest.cssFile" id="digestCSS" />
                   </div>
                 </div>
               </div>
             </div>
-            <div>
-              <textarea id="messageBody" class="form-control" ng-model="digest.message.body" placeholder="Your message goes here."></textarea>
-              <input class="form-control signoff" ng-model="digest.message.signoff1" id="signoff1" />
-              <input class="form-control signoff" ng-model="digest.message.signoff2" id="signoff2" placeholder="Your Name" />
-            </div>
-          </div>
-          <div class="form-group">
-            <h6 class="form-group-title">SPECIAL EVENTS</h6>
-            <div id="groupSpecialEvents">
-              <div class="eventEntry" ng-repeat="entity in digest.events.special track by $index">
-                <editor-event type="{{ENTITY_EVENT_SPECIAL}}"></editor-event>
-              </div>
-            </div>
-            <p><button type="button" ng-click="addItem(ENTITY_EVENT_SPECIAL)">Add new event</button></p>
-          </div>
-          <div class="form-group">
-            <h6 class="form-group-title">UPCOMING SERVICE</h6>
-            <div id="groupServiceEvents">
-              <div class="eventEntry" ng-repeat="entity in digest.events.service track by $index">
-                <editor-event type="{{ENTITY_EVENT_SERVICE}}"></editor-event>
-              </div>
-            </div>
-            <p><button type="button" ng-click="addItem(ENTITY_EVENT_SERVICE)">Add new event</button></p>
-            <div class="form-row">
-              <div class="form-group col-lg-6">
-                <div class="input-group input-group-sm">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">SVP Name</span>
-                  </div>
-                  <input class="form-control" ng-model="digest.svp.name" id="svpName" />
-                </div>
-              </div>
-              <div class="form-group col-lg-6">
-                <div class="input-group input-group-sm">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">SVP Email</span>
-                  </div>
-                  <input class="form-control" ng-model="digest.svp.email" id="svpEmail" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <h6 class="form-group-title">UPCOMING FELLOWSHIP</h6>
-            <div id="groupFellowshipEvents">
-              <div class="eventEntry" ng-repeat="entity in digest.events.fellowship track by $index">
-                <editor-event type="{{ENTITY_EVENT_FELLOWSHIP}}"></editor-event>
-              </div>
-            </div>
-            <p><button type="button" ng-click="addItem(ENTITY_EVENT_FELLOWSHIP)">Add new event</button></p>
-            <div class="form-row">
-              <div class="form-group col-lg-6">
-                <div class="input-group input-group-sm">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">FVP Name</span>
-                  </div>
-                  <input class="form-control" ng-model="digest.fvp.name" id="fvpName" />
-                </div>
-              </div>
-              <div class="form-group col-lg-6">
-                <div class="input-group input-group-sm">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">FVP Email</span>
-                  </div>
-                  <input class="form-control" ng-model="digest.fvp.email" id="fvpEmail" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="form-group" id="fieldMeetings">
-            <h6 class="form-group-title">MEETINGS</h6>
-            <div id="groupMeetings">
-              <div class="eventEntry" ng-repeat="entity in digest.committees track by $index">
-                <button type="button" class="removePrompt" ng-click="removeItemPrompt(ENTITY_COMMITTEE, $index, true)" ng-if="!entity._toRemove">Remove this listing</button>
-                <span class="removePrompt" ng-if="entity._toRemove"><span class="removePromptQ">Are you sure?</span> | <span class="removePromptA" ng-click="removeItemPrompt(ENTITY_COMMITTEE, $index, false)">no, cancel</span> | <span class="removePromptA" ng-click="removeItem(ENTITY_COMMITTEE, $index)">yes, remove</span></span>
-                <div class="form-row">
-                  <div class="form-group col-lg-12">
-                    <div class="input-group input-group-sm">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">Group/Committee Name</span>
+            <div class="form-group">
+              <h6 class="form-group-title">MESSAGE</h6>
+              <div class="form-row">
+                <div class="col-auto">
+                  <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">
+                        <input id="enableMessage" type="checkbox" ng-model="digest.message.enable" />
                       </div>
-                      <input class="form-control eventDetails committeeName" ng-model="entity.name" />
                     </div>
-                  </div>
-                </div>
-                <div class="form-row">
-                  <div class="form-group col-lg-12">
-                    <div class="input-group input-group-sm">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">Meeting Date and Time</span>
-                      </div>
-                      <input class="form-control eventDetails committeeTime" ng-model="entity.time" />
-                    </div>
-                  </div>
-                </div>
-                <div class="form-row">
-                  <div class="form-group col-lg-12">
-                    <div class="input-group input-group-sm">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">Meeting Location</span>
-                      </div>
-                      <input class="form-control eventDetails committeeLoc" ng-model="entity.location" />
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+                        <label for="enableMessage">Show a message in the digest</label>
+                      </span>
                     </div>
                   </div>
                 </div>
               </div>
+              <div>
+                <textarea id="messageBody" class="form-control" ng-model="digest.message.body" placeholder="Your message goes here."></textarea>
+                <input class="form-control signoff" ng-model="digest.message.signoff1" id="signoff1" />
+                <input class="form-control signoff" ng-model="digest.message.signoff2" id="signoff2" placeholder="Your Name" />
+              </div>
             </div>
-            <p><button type="button" ng-click="addItem(ENTITY_COMMITTEE)">Add new group/committee</button></p>
-          </div>
-          <div class="form-group" id="fieldMinutes">
-            <h6 class="form-group-title">MINUTES</h6>
-            <div class="form-row">
-              <div class="form-group col-lg-12">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">Meetings Folder URL</span>
+            <div class="form-group">
+              <h6 class="form-group-title">SPECIAL EVENTS</h6>
+              <div id="groupSpecialEvents">
+                <div class="eventEntry" ng-repeat="entity in digest.events.special track by $index">
+                  <editor-event type="{{ENTITY_EVENT_SPECIAL}}"></editor-event>
+                </div>
+              </div>
+              <p><button type="button" ng-click="addItem(ENTITY_EVENT_SPECIAL)">Add new special event</button></p>
+            </div>
+            <div class="form-group">
+              <h6 class="form-group-title">UPCOMING SERVICE</h6>
+              <div id="groupServiceEvents">
+                <div class="eventEntry" ng-repeat="entity in digest.events.service track by $index">
+                  <editor-event type="{{ENTITY_EVENT_SERVICE}}"></editor-event>
+                </div>
+              </div>
+              <p><button type="button" ng-click="addItem(ENTITY_EVENT_SERVICE)">Add new service event</button></p>
+              <div class="form-row">
+                <div class="form-group col-lg-6">
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">SVP Name</span>
+                    </div>
+                    <input class="form-control" ng-model="digest.svp.name" id="svpName" />
                   </div>
-                  <input class="form-control" ng-model="digest.meetingsUrl" id="meetingsURL" />
+                </div>
+                <div class="form-group col-lg-6">
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">SVP Email</span>
+                    </div>
+                    <input class="form-control" ng-model="digest.svp.email" id="svpEmail" />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </form>
-      </div>
-      <div id="output">
-        <ng-include src="'/digest'"></ng-include>
+            <div class="form-group">
+              <h6 class="form-group-title">UPCOMING FELLOWSHIP</h6>
+              <div id="groupFellowshipEvents">
+                <div class="eventEntry" ng-repeat="entity in digest.events.fellowship track by $index">
+                  <editor-event type="{{ENTITY_EVENT_FELLOWSHIP}}"></editor-event>
+                </div>
+              </div>
+              <p><button type="button" ng-click="addItem(ENTITY_EVENT_FELLOWSHIP)">Add new fellowship event</button></p>
+              <div class="form-row">
+                <div class="form-group col-lg-6">
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">FVP Name</span>
+                    </div>
+                    <input class="form-control" ng-model="digest.fvp.name" id="fvpName" />
+                  </div>
+                </div>
+                <div class="form-group col-lg-6">
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">FVP Email</span>
+                    </div>
+                    <input class="form-control" ng-model="digest.fvp.email" id="fvpEmail" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group" id="fieldMeetings">
+              <h6 class="form-group-title">MEETINGS</h6>
+              <div id="groupMeetings">
+                <div class="eventEntry" ng-repeat="entity in digest.committees track by $index">
+                  <button type="button" class="removePrompt" ng-click="removeItemPrompt(ENTITY_COMMITTEE, $index, true)" ng-if="!entity._toRemove">Remove this listing</button>
+                  <span class="removePrompt" ng-if="entity._toRemove"><span class="removePromptQ">Are you sure?</span> | <span class="removePromptA" ng-click="removeItemPrompt(ENTITY_COMMITTEE, $index, false)">no, cancel</span> | <span class="removePromptA" ng-click="removeItem(ENTITY_COMMITTEE, $index)">yes, remove</span></span>
+                  <div class="form-row">
+                    <div class="form-group col-lg-12">
+                      <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">Group/Committee Name</span>
+                        </div>
+                        <input class="form-control eventDetails committeeName" ng-model="entity.name" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-lg-12">
+                      <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">Meeting Date and Time</span>
+                        </div>
+                        <input class="form-control eventDetails committeeTime" ng-model="entity.time" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-lg-12">
+                      <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">Meeting Location</span>
+                        </div>
+                        <input class="form-control eventDetails committeeLoc" ng-model="entity.location" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <p><button type="button" ng-click="addItem(ENTITY_COMMITTEE)">Add new group/committee</button></p>
+            </div>
+            <div class="form-group" id="fieldMinutes">
+              <h6 class="form-group-title">MINUTES</h6>
+              <div class="form-row">
+                <div class="form-group col-lg-12">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Meetings Folder URL</span>
+                    </div>
+                    <input class="form-control" ng-model="digest.meetingsUrl" id="meetingsURL" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-lg-6" id="output">
+          <ng-include src="'/digest'"></ng-include>
+        </div>
       </div>
     </div>
     <div class="modal fade" id="successModal" tabindex="-1" role="dialog" data-backdrop="true" data-keyboard="true">
