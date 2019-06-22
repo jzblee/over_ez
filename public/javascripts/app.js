@@ -89,7 +89,7 @@ app.controller("DigestController", function($scope, $http) {
      * not necessary to support multiple time zones. By adding the
      * current local time offset to UTC when loading digest information
      * and subtracting it when saving digest information, we ensure that
-     * users sees dates and times in Eastern Time wherever they are.
+     * users see dates and times in Eastern Time wherever they are.
      *
      * obj: digest object to convert the dates of
      */
@@ -135,8 +135,8 @@ app.controller("DigestController", function($scope, $http) {
     }
 
     /*
-     * If digest information exists in LocalStorage (i.e. the user
-     * clicked "Save" before and has not cleared cookies), load it.
+     * Load digest information if it exists in LocalStorage (i.e. the user
+     * clicked "Save to my computer" before and has not cleared cookies).
      */
     $scope.loadDigestLocally = function() {
         var temp_text = localStorage.getItem("over_ez_temp");
@@ -287,7 +287,10 @@ app.controller("DigestController", function($scope, $http) {
     /*
      * Shows or hides a prompt to delete some item from the model.
      *
-     * type:          an integer value specifying the type of the targeted item
+     * type:          an string value specifying the type of the targeted item
+     *                (this is a string and not an integer because the incoming
+     *                value was stored in HTML as an attribute - see the editorEvent
+     *                directive)
      * index:         the index of the target item within the array that corresponds
      *                to the the given type
      * displayPrompt: a boolean variable; show the prompt if true, hide if false
@@ -316,7 +319,8 @@ app.controller("DigestController", function($scope, $http) {
     /*
      * Deletes an item from the model (if the user confirms the delete prompt)
      *
-     * type:          an integer value specifying the type of the targeted item
+     * type:          a string value specifying the type of the targeted item (see
+     *                doc for removeItemPrompt for explanation for parsing as integer)
      * index:         the index of the target item within the array that corresponds
      *                to the the given type
      */

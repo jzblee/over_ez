@@ -42,6 +42,12 @@ html, body {
 #editor .form-control:focus {
    border-color: #002366; 
 }
+#editor .form-control-plaintext {
+   border-color: #ced4da; 
+}
+#editor .form-control-plaintext:focus {
+   border-color: #ced4da; 
+}
 #editor textarea {
     resize: vertical;
     min-height: 50px;
