@@ -6,13 +6,13 @@ app.controller("DigestController", function($scope, $http) {
     $scope.ENTITY_COMMITTEE = 3423;
 
     $scope.daysOfWeek = [
-        { index: 0, label: "...the next Sunday" },
-        { index: 1, label: "...the next Monday" },
-        { index: 2, label: "...the next Tuesday" },
-        { index: 3, label: "...the next Wednesday" },
-        { index: 4, label: "...the next Thursday" },
-        { index: 5, label: "...the next Friday" },
-        { index: 6, label: "...the next Saturday" }
+        { value: 0, label: "...the next Sunday" },
+        { value: 1, label: "...the next Monday" },
+        { value: 2, label: "...the next Tuesday" },
+        { value: 3, label: "...the next Wednesday" },
+        { value: 4, label: "...the next Thursday" },
+        { value: 5, label: "...the next Friday" },
+        { value: 6, label: "...the next Saturday" }
     ]
 
     /*
@@ -282,22 +282,19 @@ app.controller("DigestController", function($scope, $http) {
             default:
                 break;
         }
-    } 
+    }
 
     /*
      * Shows or hides a prompt to delete some item from the model.
      *
-     * type:          an string value specifying the type of the targeted item
-     *                (this is a string and not an integer because the incoming
-     *                value was stored in HTML as an attribute - see the editorEvent
-     *                directive)
+     * type:          an integer value specifying the type of the targeted item
      * index:         the index of the target item within the array that corresponds
      *                to the the given type
      * displayPrompt: a boolean variable; show the prompt if true, hide if false
      */
     $scope.removeItemPrompt = function (type, index, displayPrompt) {
         var entityArr = null;
-        switch (parseInt(type)) {
+        switch (type) {
             case $scope.ENTITY_EVENT_SPECIAL:
                 entityArr = $scope.digest.events.special;
                 break;
@@ -319,15 +316,14 @@ app.controller("DigestController", function($scope, $http) {
     /*
      * Deletes an item from the model (if the user confirms the delete prompt)
      *
-     * type:          a string value specifying the type of the targeted item (see
-     *                doc for removeItemPrompt for explanation for parsing as integer)
+     * type:          an integer value specifying the type of the targeted item
      * index:         the index of the target item within the array that corresponds
      *                to the the given type
      */
     $scope.removeItem = function (type, index) {
         var entityArr = null;
 
-        switch (parseInt(type)) {
+        switch (type) {
             case $scope.ENTITY_EVENT_SPECIAL:
                 entityArr = $scope.digest.events.special;
                 break;
@@ -344,6 +340,51 @@ app.controller("DigestController", function($scope, $http) {
                 break;
         }
         entityArr.splice(index, 1);
+    }
+
+    /*
+     * Sets an event's start or end date to some date in the next week.
+     *
+     * type:       an integer value specifying the type of the targeted item
+     * index:      the index of the target item within the array that corresponds
+     *             to the the given type
+     * setEndDate: a boolean variable; show the end date if true, set the start date if false
+     * value:      an integer denoting which day of the week to set the event to
+     */
+    $scope.setEventDate = function (type, index, setEndDate, value) {
+        var entityArr = null;
+        switch (type) {
+            case $scope.ENTITY_EVENT_SPECIAL:
+                entityArr = $scope.digest.events.special;
+                break;
+            case $scope.ENTITY_EVENT_SERVICE:
+                entityArr = $scope.digest.events.service;
+                break;
+            case $scope.ENTITY_EVENT_FELLOWSHIP:
+                entityArr = $scope.digest.events.fellowship;
+                break;
+            case $scope.ENTITY_COMMITTEE:
+                entityArr = $scope.digest.committees;
+                break;
+            default:
+                break;
+        }
+
+        let today = new Date(Date.now());
+
+        let newDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+        // advance 1 day first
+        newDate.setDate(newDate.getDate() + 1);
+
+        while (newDate.getDay() != value) {
+          newDate.setDate(newDate.getDate() + 1);
+        }
+        if (setEndDate) {
+            entityArr[index].date_end = newDate;
+        } else {
+            entityArr[index].date_start = newDate;
+        }
     }
 
     $scope.showSuccess = function(message) {
@@ -381,7 +422,8 @@ app.controller("DigestController", function($scope, $http) {
         restrict: 'E',
         scope: true,
         link: function(scope, element, attrs) {
-            scope.type = attrs.type;
+            scope.type = parseInt(attrs.type);
+            scope.eventIndex = parseInt(attrs.index);
         },
         templateUrl: function(elem, attr) {
             return '/templates/editor-event.html';

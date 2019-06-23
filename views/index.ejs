@@ -104,7 +104,7 @@
               <h6 class="form-group-title">SPECIAL EVENTS</h6>
               <div id="groupSpecialEvents">
                 <div class="eventEntry" ng-repeat="entity in digest.events.special track by $index">
-                  <editor-event type="{{ENTITY_EVENT_SPECIAL}}"></editor-event>
+                  <editor-event type="{{ENTITY_EVENT_SPECIAL}}" index="{{$index}}"></editor-event>
                 </div>
               </div>
               <p><button type="button" ng-click="addItem(ENTITY_EVENT_SPECIAL)">Add new special event</button></p>
@@ -113,7 +113,7 @@
               <h6 class="form-group-title">UPCOMING SERVICE</h6>
               <div id="groupServiceEvents">
                 <div class="eventEntry" ng-repeat="entity in digest.events.service track by $index">
-                  <editor-event type="{{ENTITY_EVENT_SERVICE}}"></editor-event>
+                  <editor-event type="{{ENTITY_EVENT_SERVICE}}" index="{{$index}}"></editor-event>
                 </div>
               </div>
               <p><button type="button" ng-click="addItem(ENTITY_EVENT_SERVICE)">Add new service event</button></p>
@@ -140,7 +140,7 @@
               <h6 class="form-group-title">UPCOMING FELLOWSHIP</h6>
               <div id="groupFellowshipEvents">
                 <div class="eventEntry" ng-repeat="entity in digest.events.fellowship track by $index">
-                  <editor-event type="{{ENTITY_EVENT_FELLOWSHIP}}"></editor-event>
+                  <editor-event type="{{ENTITY_EVENT_FELLOWSHIP}}" index="{{$index}}"></editor-event>
                 </div>
               </div>
               <p><button type="button" ng-click="addItem(ENTITY_EVENT_FELLOWSHIP)">Add new fellowship event</button></p>

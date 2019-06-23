@@ -1,5 +1,5 @@
-<button type="button" class="removePrompt" ng-click="removeItemPrompt(type, $index, true)" ng-if="!entity._toRemove">Remove this event</button>
-<span class="removePrompt" ng-if="entity._toRemove"><span class="removePromptQ">Are you sure?</span> | <span class="removePromptA" ng-click="removeItemPrompt(type, $index, false)">no, cancel</span> | <span class="removePromptA" ng-click="removeItem(type, $index)">yes, remove</span></span>
+<button type="button" class="removePrompt" ng-click="removeItemPrompt(type, eventIndex, true)" ng-if="!entity._toRemove">Remove this event</button>
+<span class="removePrompt" ng-if="entity._toRemove"><span class="removePromptQ">Are you sure?</span> | <span class="removePromptA" ng-click="removeItemPrompt(type, eventIndex, false)">no, cancel</span> | <span class="removePromptA" ng-click="removeItem(type, eventIndex)">yes, remove</span></span>
 <div class="form-row">
   <div class="form-group col-lg-12">
     <div class="input-group input-group-sm">
@@ -32,33 +32,23 @@
   <div class="form-group col-sm-6">
     <div class="input-group input-group-sm">
       <div class="input-group-prepend">
-        <span class="input-group-text">Start Date</span>
+        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown">Start Date</button>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="#" ng-repeat="x in daysOfWeek" ng-click="setEventDate(type, eventIndex, false, x.value)">{{x.label}}</a>
+          </div>
       </div>
       <input class="form-control eventDate eventStartDate" type="date" placeholder="yyyy-mm-dd" ng-model="entity.date_start" />
-      <!-- <div class="dropdown dow-quick-select input-group-append">
-        <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Set to...
-        </button>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="#" ng-repeat="x in daysOfWeek">{{x.label}}</a>
-        </div>
-      </div> -->
     </div>
   </div>
   <div class="form-group col-sm-6">
     <div class="input-group input-group-sm">
       <div class="input-group-prepend">
-        <span class="input-group-text">End Date</span>
+        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown">End Date</button>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="#" ng-repeat="x in daysOfWeek" ng-click="setEventDate(type, eventIndex, true, x.value)">{{x.label}}</a>
+          </div>
       </div>
       <input class="form-control eventDate eventEndDate" type="date" placeholder="yyyy-mm-dd" ng-model="entity.date_end" />
-      <!-- <div class="dropdown dow-quick-select input-group-append">
-        <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Set to...
-        </button>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="#" ng-repeat="x in daysOfWeek">{{x.label}}</a>
-        </div>
-      </div> -->
     </div>
   </div>
 </div>

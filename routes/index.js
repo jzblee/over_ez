@@ -217,8 +217,12 @@ router.post('/save', ensureLoggedIn('/'), function(req, res, next) {
   });
 });
 
-router.get('/*', ensureLoggedIn('/signin'), function(req, res) {
+router.get('/', ensureLoggedIn('/signin'), function(req, res) {
   res.render('index');
+});
+
+router.get('/*', ensureLoggedIn('/signin'), function(req, res) {
+  res.redirect('/');
 });
 
 module.exports = router;
