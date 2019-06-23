@@ -137,6 +137,11 @@ html, body {
     background-color: rgb(255,180,180);
 }
 
+#openDropdown {
+    max-height: 10em;
+    overflow-y: scroll;
+}
+
 @media only screen and (max-width: 991px) {
     html, body, #editor, #output {
         overflow-y: initial;

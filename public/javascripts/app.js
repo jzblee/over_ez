@@ -15,6 +15,10 @@ app.controller("DigestController", function($scope, $http) {
         { value: 6, label: "...the next Saturday" }
     ]
 
+    $scope.page = {
+        showAllInOpen: false
+    }
+
     /*
      * Get a list of digests saved to the server.
      */

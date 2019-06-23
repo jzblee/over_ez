@@ -22,8 +22,11 @@
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
               Open
             </a>
-            <div class="dropdown-menu">
-              <a class="dropdown-item" href="#" ng-repeat="date in server_digest_list" ng-click="loadDigestRemotely(date)">{{date}}</a>
+            <div class="dropdown-menu" id="openDropdown">
+              <a class="dropdown-item" href="#" ng-repeat="date in server_digest_list | limitTo: 2" ng-if="!page.showAllInOpen" ng-click="loadDigestRemotely(date)">{{date}}</a>
+              <a class="dropdown-item" href="#" ng-repeat="date in server_digest_list" ng-if="page.showAllInOpen" ng-click="loadDigestRemotely(date)">{{date}}</a>
+              <a class="dropdown-item-text" href="#" ng-if="!page.showAllInOpen" ng-click="page.showAllInOpen = true" data-toggle="">Show all</a>
+              <a class="dropdown-item-text" href="#" ng-if="page.showAllInOpen" ng-click="page.showAllInOpen = false" data-toggle="">Show most recent only</a>
             </div>
           </li>
           <li class="nav-item dropdown">
@@ -31,7 +34,7 @@
               Save...
             </a>
             <div class="dropdown-menu">
-              <a class="dropdown-item disabled" href="#">Date: <span ng-if="digest.date">{{digest.date | date:'yyyy-MM-dd'}}</span><span ng-if="!digest.date"><strong>NOT SET</strong></span></a>
+              <span class="dropdown-item-text" href="#">Date: <span ng-if="digest.date">{{digest.date | date:'yyyy-MM-dd'}}</span><span ng-if="!digest.date"><strong>NOT SET</strong></span></span>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="#" ng-click="saveDigestLocally()">...to my computer</a>
               <a class="dropdown-item" href="#" ng-click="saveDigestRemotely()" ng-class="{disabled: !digest.date}">...to the server</a>
