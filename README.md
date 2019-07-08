@@ -8,7 +8,7 @@ The EZ Digest is a weekly email sent to brothers of the Epsilon Zeta chapter of 
         - `> git clone https://github.com/jzblee/over_ez.git`
     - Or, click the green button on the top right of the GitHub repo page to download the files.
 2. Install the following tools to proceed:
-    - [Node.js](nodejs.org)
+    - [Node.js](https://nodejs.org)
     - [MongoDB](https://www.mongodb.org/)
 3. Navigate into the directory of the application:
 ```
@@ -42,5 +42,3 @@ The EZ Digest is a weekly email sent to brothers of the Epsilon Zeta chapter of 
 - Edit default digest values from the application
 - Add site accounts from the application
 - Add a warning for digests that have already been published
-- Clean up open window
-- Add digest archival (hide from open menu)

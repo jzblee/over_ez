@@ -22,9 +22,11 @@ const nodemailer = require("nodemailer");
  * Send an email message with the given date and HTML content.
  * 
  * date: formatted date string (yyyy-MM-dd)
+ * text: full message, plaintext
  * html: full message HTML
+ * next: callback function
  */
-function send(date, html, next){
+function send(date, text, html, next){
 
   let transporter = nodemailer.createTransport({
     host: render.smtpServer,
@@ -38,6 +40,7 @@ function send(date, html, next){
     from: render.emailFrom,
     to: render.emailTo,
     subject: "EZ Digest - " + date,
+    text: text,
     html: html
   }
 
@@ -136,8 +139,9 @@ router.post('/render/:date', ensureLoggedIn('/'), function(req, res, next) {
           clearTimeout(timeout);
           setTimeout(function() {
             // setTimeout gives a bit of time for the DOM to update
-            var html = '<head>' + head.innerHTML + '</head><body><div id="digest">' + render.window.document.getElementById('digest').innerHTML + '</div></body>';
-            send(req.params.date, html, function(err) {
+            var text = render.window.document.getElementById('digest').textContent;
+            var html = '<html><head>' + head.innerHTML + '</head><body><div id="digest">' + render.window.document.getElementById('digest').innerHTML + '</div></body></html>';
+            send(req.params.date, text, html, function(err) {
               if (err) {
                 res.status(500).send(err);
               } else {
@@ -218,7 +222,7 @@ router.post('/save', ensureLoggedIn('/'), function(req, res, next) {
 });
 
 router.get('/', ensureLoggedIn('/signin'), function(req, res) {
-  res.render('index');
+  res.render('index', {user: req.user.username});
 });
 
 router.get('/*', ensureLoggedIn('/signin'), function(req, res) {

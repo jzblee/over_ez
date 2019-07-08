@@ -219,7 +219,9 @@ app.controller("DigestController", function($scope, $http) {
                     localStorage.removeItem("over_ez_temp");
                     $scope.getList();
                     if (callback) {
-                        callback(digest.date.toISOString().substr(0,10));
+                        setTimeout(function() {
+                            callback(digest.date.toISOString().substr(0,10));
+                        }, 250);
                     }
                     else {
                         console.log("successfully saved digest to server");
