@@ -98,16 +98,20 @@ app.controller("DigestController", function($scope, $http) {
      * obj: digest object to convert the dates of
      */
     $scope.loadDigestDates = function(obj) {
-        var userTimezoneOffset = new Date().getTimezoneOffset() * 60000;
+        var userTimezoneOffset = new Date(obj ? obj.date : null).getTimezoneOffset() * 60000;
         obj.date = obj.date ? new Date(new Date(obj.date).getTime() + userTimezoneOffset) : null;
         var digestEventGroupKeys = Object.keys(obj.events);
         for (var i = 0; i < digestEventGroupKeys.length; i++) {
             var eventGroup = obj.events[digestEventGroupKeys[i]];
             for (var j = 0; j < eventGroup.length; j++) {
-                eventGroup[j].date_start = eventGroup[j].date_start ? new Date(new Date(eventGroup[j].date_start).getTime() + userTimezoneOffset) : null;
-                eventGroup[j].date_end = eventGroup[j].date_end ? new Date(new Date(eventGroup[j].date_end).getTime() + userTimezoneOffset) : null;
-                eventGroup[j].time_start = eventGroup[j].time_start ? new Date(new Date(eventGroup[j].time_start).getTime() + userTimezoneOffset) : null;
-                eventGroup[j].time_end = eventGroup[j].time_end ? new Date(new Date(eventGroup[j].time_end).getTime() + userTimezoneOffset) : null;
+                userTimezoneOffset = new Date(eventGroup[j].date_start).getTimezoneOffset() * 60000;
+                eventGroup[j].date_start = eventGroup[j].date_start ? new Date(new Date(eventGroup[j].date_start) - userTimezoneOffset) : null;
+                userTimezoneOffset = new Date(eventGroup[j].date_end).getTimezoneOffset() * 60000;
+                eventGroup[j].date_end = eventGroup[j].date_end ? new Date(new Date(eventGroup[j].date_end) - userTimezoneOffset) : null;
+                userTimezoneOffset = new Date(eventGroup[j].time_start).getTimezoneOffset() * 60000;
+                eventGroup[j].time_start = eventGroup[j].time_start ? new Date(new Date(eventGroup[j].time_start) - userTimezoneOffset) : null;
+                userTimezoneOffset = new Date(eventGroup[j].time_end).getTimezoneOffset() * 60000;
+                eventGroup[j].time_end = eventGroup[j].time_end ? new Date(new Date(eventGroup[j].time_end) - userTimezoneOffset) : null;
             }
         }
         return obj;
@@ -123,15 +127,19 @@ app.controller("DigestController", function($scope, $http) {
         // This means that field values in the view won't suddenly change
         // after saving.
         let temp = JSON.parse(JSON.stringify(obj));
-        var userTimezoneOffset = new Date().getTimezoneOffset() * 60000;
+        var userTimezoneOffset = new Date(temp ? temp.date : null).getTimezoneOffset() * 60000;
         temp.date = temp.date ? new Date(new Date(temp.date) - userTimezoneOffset) : null;
         var digestEventGroupKeys = Object.keys(temp.events);
         for (var i = 0; i < digestEventGroupKeys.length; i++) {
             var eventGroup = temp.events[digestEventGroupKeys[i]];
             for (var j = 0; j < eventGroup.length; j++) {
+                userTimezoneOffset = new Date(eventGroup[j].date_start).getTimezoneOffset() * 60000;
                 eventGroup[j].date_start = eventGroup[j].date_start ? new Date(new Date(eventGroup[j].date_start) - userTimezoneOffset) : null;
+                userTimezoneOffset = new Date(eventGroup[j].date_end).getTimezoneOffset() * 60000;
                 eventGroup[j].date_end = eventGroup[j].date_end ? new Date(new Date(eventGroup[j].date_end) - userTimezoneOffset) : null;
+                userTimezoneOffset = new Date(eventGroup[j].time_start).getTimezoneOffset() * 60000;
                 eventGroup[j].time_start = eventGroup[j].time_start ? new Date(new Date(eventGroup[j].time_start) - userTimezoneOffset) : null;
+                userTimezoneOffset = new Date(eventGroup[j].time_end).getTimezoneOffset() * 60000;
                 eventGroup[j].time_end = eventGroup[j].time_end ? new Date(new Date(eventGroup[j].time_end) - userTimezoneOffset) : null;
             }
         }
